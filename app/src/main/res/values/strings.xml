@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">BeneHome</string>
+    <string name="get_started">Get Started</string>
+    <string name="background_img_of_the_home_page">background img of the home page</string>
+
+    <string name="title_activity_house_list">house_list</string>
+    <string name="about_this_place">About this place</string>
+    <string name="bridgeview_heights">Bridgeview Heights</string>
+    <string name="email">Email</string>
+    <string name="this_place_is">this place is....</string>
+    <string name="location">Location</string>
+    <string name="apply_now">Apply Now</string>
+    <string name="call">Call</string>
+    <string name="icon_1">icon 1</string>
+    <string name="house_image">house image</string>
+    <string name="icon_2">icon 2</string>
+    <string name="icon_3">icon 3</string>
+    <string name="benehome">BeneHome</string>
+    <string name="search">Search</string>
+    <string name="about">About</string>
+    <string name="background_of_the_main_menu_string_background_img_of_the_home_page">background of the main menu @string/background_img_of_the_home_page</string>
+    <string name="faq">FAQ</string>
+    <string name="eligibility">Eligibility</string>
+    <string name="back_string_icon_1">back @string/icon_1</string>
+    <string name="house_detail">House Detail</string>
+    <string name="backbutton">backbutton</string>
+    <string name="question_1">Question 1</string>
+    <string name="question_2">Question 2</string>
+    <string name="check">Check</string>
+    <string name="clear">Clear</string>
+    <string name="house_listing">House Listing</string>
+    <string name="back_button_of_house_string_house_listing">back button of house @string/house_listing</string>
+
+</resources>
