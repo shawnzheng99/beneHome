@@ -30,7 +30,7 @@ public class FAQ extends AppCompatActivity {
                 Log.wtf(TAG,"exit btnBack onClick on house detail page");
             }
         });
-        WebView webview = (WebView) findViewById(R.id.webview_about);
+        WebView webview = (WebView) findViewById(R.id.webview_faq);
         webview.setWebChromeClient(new WebChromeClient());
         webview.loadUrl("https://www.bchousing.org/housing-assistance/rental-housing/subsidized-housing");
     }
