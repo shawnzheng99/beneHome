@@ -31,6 +31,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <WebView
+        android:id="@+id/webview-about"
         android:layout_width="395dp"
         android:layout_height="605dp"
         android:layout_marginBottom="6dp"

@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.widget.ImageView;
 
 public class About extends AppCompatActivity {
@@ -17,7 +19,6 @@ public class About extends AppCompatActivity {
         setContentView(R.layout.activity_about);
 
         btnBack = (ImageView) findViewById(R.id.btn_back_about);
-
         btnBack.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -29,5 +30,8 @@ public class About extends AppCompatActivity {
             }
         });
 
+        WebView webview = (WebView) findViewById(R.id.webview_about);
+        webview.setWebChromeClient(new WebChromeClient());
+        webview.loadUrl("https://www.bchousing.org/housing-assistance/rental-housing/subsidized-housing");
     }
 }
