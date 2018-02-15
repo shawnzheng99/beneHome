@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view){
                 Log.wtf(TAG,"enter btnList onclick on main");
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this,House_detail.class);
+                intent.setClass(MainActivity.this,House_list.class);
                 startActivity(intent);
                 Log.wtf(TAG,"exit btnList onClick on mian");
             }

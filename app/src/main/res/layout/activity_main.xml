@@ -5,55 +5,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="zhengc.bcit.ca.benehome.MainActivity">
+    tools:context="zhengc.bcit.ca.benehome.MainActivity"
+    android:background="@drawable/home_page">
 
-    <ImageView
-        android:id="@+id/img_bkgd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="false"
-        android:contentDescription="@string/background_img_of_the_home_page"
-        android:cropToPadding="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/home_page2" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="bottom">
 
-    <Button
-        android:id="@+id/btn_start"
-        style="@android:style/Widget.Material.Button.Inset"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginBottom="48dp"
-        android:layout_marginStart="52dp"
-        android:fontFamily="@font/annie_use_your_telescope"
-        android:text="@string/get_started"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/btn_start"
+            style="@android:style/Widget.Material.Button.Inset"
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/annie_use_your_telescope"
+            android:text="@string/get_started"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/btn_list"
-        style="@android:style/Widget.Material.Button.Inset"
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_marginBottom="48dp"
-        android:layout_marginEnd="52dp"
-        android:elevation="0dp"
-        android:fontFamily="@font/annie_use_your_telescope"
-        android:text="@string/house_listing"
-        android:textColor="@android:color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <Button
+            android:id="@+id/btn_list"
+            style="@android:style/Widget.Material.Button.Inset"
+            android:layout_width="fill_parent"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/annie_use_your_telescope"
+            android:text="@string/house_listing"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/txtTitle_title"
         android:layout_width="wrap_content"
-        android:layout_height="59dp"
-        android:layout_marginTop="60dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="216dp"
+        android:layout_marginTop="56dp"
         android:fontFamily="@font/annie_use_your_telescope"
         android:text="@string/benehome"
         android:textColor="@android:color/black"
@@ -62,6 +52,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/img_bkgd" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
