@@ -31,6 +31,7 @@
         android:layout_marginStart="52dp"
         android:fontFamily="@font/annie_use_your_telescope"
         android:text="@string/get_started"
+        android:background="@drawable/round_fill"
         android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
