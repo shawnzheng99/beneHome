@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.widget.ImageView;
 
 public class FAQ extends AppCompatActivity {
@@ -28,6 +30,8 @@ public class FAQ extends AppCompatActivity {
                 Log.wtf(TAG,"exit btnBack onClick on house detail page");
             }
         });
-
+        WebView webview = (WebView) findViewById(R.id.webview_faq);
+        webview.setWebChromeClient(new WebChromeClient());
+        webview.loadUrl("https://www.bchousing.org/housing-assistance/rental-housing/subsidized-housing");
     }
 }
