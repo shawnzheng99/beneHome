@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClass(MainActivity.this,MainMenu.class);
                 startActivity(intent);
-                Log.wtf(TAG,"exit btnStart onClick on mian");
+                Log.wtf(TAG,"exit btnStart onClick on main");
             }
         });
 
