@@ -30,5 +30,7 @@
     <string name="clear">Clear</string>
     <string name="house_listing">House Listing</string>
     <string name="back_button_of_house_string_house_listing">back button of house @string/house_listing</string>
+    <string name="checked">All checked!</string>
+    <string name="fire">OK</string>
 
 </resources>

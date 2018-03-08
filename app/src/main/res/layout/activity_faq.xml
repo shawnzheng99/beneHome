@@ -10,7 +10,7 @@
         android:id="@+id/btn-back-faq"
         android:layout_width="40dp"
         android:layout_height="25dp"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:contentDescription="back button for faq @string/background_img_of_the_home_page"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,12 +30,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <WebView
-        android:layout_width="395dp"
-        android:layout_height="605dp"
-        android:layout_marginBottom="6dp"
+        android:id="@+id/webview-faq"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="590dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>
