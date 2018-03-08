@@ -11,7 +11,7 @@
         android:layout_width="40dp"
         android:layout_height="25dp"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="10dp"
         android:adjustViewBounds="true"
         android:contentDescription="back button for about page"
         app:layout_constraintStart_toStartOf="parent"
