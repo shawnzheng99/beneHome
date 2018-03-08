@@ -35,7 +35,12 @@ public class House_list extends AppCompatActivity {
             }
         });
 
-        String[] house = {"house obj 1", "house obj 2", "house obj 3"};
+        String[] house = {"Bridgeview Heights", "Cedar Manor", "Connaught Heights Pentecostal Villa",
+                "Crown Manor","Dunwood Place","Fraser River Place Housing Co-op","Hillside Place",
+                "Hunter Heights","Legion Manor","Lions Moody Park Tower", "London Square", "McBride Place",
+                "New Westminster Housing Co-operative", "Queen's Avenue Hsg Co-op","Queen's Park Hsg Co-op",
+                "Riverbend Housing Co-op","Ross Towers","Rotary Tower","Sapperton Terrace Hsg Co-op",
+                "Wesley Manor","Westminster Heights Co-op","Westminster Landing Co-op"};
         ListAdapter lst = new ArrayAdapter<String>(
                 this,
                  android.R.layout.simple_list_item_1,//list styles

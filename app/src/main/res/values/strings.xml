@@ -4,10 +4,11 @@
     <string name="background_img_of_the_home_page">background img of the home page</string>
 
     <string name="title_activity_house_list">house_list</string>
-    <string name="about_this_place">About this place</string>
+    <string name="eligible_clients">Eligible Clients</string>
+    <string name="eligible_type1">Families</string>
     <string name="bridgeview_heights">Bridgeview Heights</string>
     <string name="email">Email</string>
-    <string name="this_place_is">this place is....</string>
+    <string name="this_place_is">511 Thirteenth St New Westminster, BC, V3M 4M1</string>
     <string name="location">Location</string>
     <string name="apply_now">Apply Now</string>
     <string name="call">Call</string>
@@ -32,5 +33,7 @@
     <string name="back_button_of_house_string_house_listing">back button of house @string/house_listing</string>
     <string name="checked">All checked!</string>
     <string name="fire">OK</string>
+    <string name="house_type">House Type</string>
+    <string name="house_type_content1">Subsidized housing (rent geared to income)</string>
 
 </resources>
