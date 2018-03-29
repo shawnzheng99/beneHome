@@ -2,7 +2,7 @@
     <string name="app_name">BeneHome</string>
     <string name="get_started">Get Started</string>
     <string name="background_img_of_the_home_page">background img of the home page</string>
-
+   <!-- <string name="google_map_api_key">AIzaSyDVUcnFa25jHAGyvbfunjQ_snSvFqfxrZs</string>-->
     <string name="title_activity_house_list">house_list</string>
     <string name="eligible_clients">Eligible Clients</string>
     <string name="eligible_type1">Families</string>
@@ -35,5 +35,21 @@
     <string name="fire">OK</string>
     <string name="house_type">House Type</string>
     <string name="house_type_content1">Subsidized housing (rent geared to income)</string>
+    <string name="qestion1">Do you have children or dependents that live with you?</string>
+    <string name="question2">What age is the oldest person in your household?</string>
+    <string-array name="yesNo">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+    <string-array name="age">
+        <item>Under 55</item>
+        <item>Between 55 and 60 years old</item>
+        <item>Over 60 years old</item>
+    </string-array>
+    <string name="title_activity_map_view">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

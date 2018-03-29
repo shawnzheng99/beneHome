@@ -93,6 +93,13 @@
                 android:text="@string/location"
                 android:textSize="24sp" />
 
+            <FrameLayout
+                android:id="@+id/frg-layout-detail"
+                android:layout_width="match_parent"
+                android:layout_height="219dp">
+
+            </FrameLayout>
+
             <TextView
                 android:id="@+id/txt-about"
                 android:layout_width="match_parent"
@@ -184,7 +191,7 @@
         android:layout_width="40dp"
         android:layout_height="25dp"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="10dp"
         android:contentDescription="@string/back_string_icon_1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

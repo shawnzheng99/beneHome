@@ -16,6 +16,10 @@ public class House_detail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hose_detail);
 
+
+
+
+
         btnBack = (ImageView) findViewById(R.id.btn_back_detail);
 
         btnBack.setOnClickListener(new View.OnClickListener(){

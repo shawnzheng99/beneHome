@@ -1,5 +1,6 @@
 package zhengc.bcit.ca.benehome;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,17 +8,23 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.support.v4.app.FragmentManager;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 public class House_list extends AppCompatActivity {
 
     private ImageView btnBack;
+    private Button btn_map;
 
-    private static final String TAG = MainActivity.class.getName();
-
+    private static final String TAG = House_list.class.getName();
+    private static final int ERROR_DIALOG_REQUEST = 9001;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,5 +69,40 @@ public class House_list extends AppCompatActivity {
                 }
         );
 
+
+
+        if(isServiceOk()){
+            init();
+        }
+
+
+    }
+
+    private void init(){
+        btn_map = (Button)findViewById(R.id.btn_map_list);
+        btn_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(House_list.this, MapView.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    public boolean isServiceOk(){
+        Log.d(TAG,"isServiceOK: Checking google service version");
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(House_list.this);
+
+        if(available == ConnectionResult.SUCCESS){
+            //everything is fine
+            Log.d(TAG, "isServiceOk: Google play Service is working");
+        }else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
+            Log.d(TAG,"isServiceOK: Error, can be fixed");
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(House_list.this,available,ERROR_DIALOG_REQUEST);
+            dialog.show();
+        }else{
+            Toast.makeText(this, "you cant make map request",Toast.LENGTH_SHORT).show();
+        }
+        return  false;
     }
 }
