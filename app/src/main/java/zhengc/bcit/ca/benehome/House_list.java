@@ -24,7 +24,6 @@ public class House_list extends AppCompatActivity {
     private Button btn_map;
 
     private static final String TAG = House_list.class.getName();
-    private static final int ERROR_DIALOG_REQUEST = 9001;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +40,18 @@ public class House_list extends AppCompatActivity {
                 Log.wtf(TAG,"exit btnBack onClick on house detail page");
             }
         });
+        btn_map = (Button)findViewById(R.id.btn_map_list);
+        btn_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.wtf(TAG,"map view in");
+                Intent intent = new Intent(House_list.this, MapsActivity.class);
+                startActivity(intent);
+                Log.wtf(TAG,"map view go");
+            }
+        });
+
+
 
         String[] house = {"Bridgeview Heights", "Cedar Manor", "Connaught Heights Pentecostal Villa",
                 "Crown Manor","Dunwood Place","Fraser River Place Housing Co-op","Hillside Place",
@@ -71,38 +82,6 @@ public class House_list extends AppCompatActivity {
 
 
 
-        if(isServiceOk()){
-            init();
-        }
-
-
     }
 
-    private void init(){
-        btn_map = (Button)findViewById(R.id.btn_map_list);
-        btn_map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(House_list.this, MapView.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    public boolean isServiceOk(){
-        Log.d(TAG,"isServiceOK: Checking google service version");
-        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(House_list.this);
-
-        if(available == ConnectionResult.SUCCESS){
-            //everything is fine
-            Log.d(TAG, "isServiceOk: Google play Service is working");
-        }else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
-            Log.d(TAG,"isServiceOK: Error, can be fixed");
-            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(House_list.this,available,ERROR_DIALOG_REQUEST);
-            dialog.show();
-        }else{
-            Toast.makeText(this, "you cant make map request",Toast.LENGTH_SHORT).show();
-        }
-        return  false;
-    }
 }
