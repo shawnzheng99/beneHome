@@ -1,32 +1,26 @@
 package zhengc.bcit.ca.benehome;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
+
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
+
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    LocationManager locationManager;
-
+    ArrayList<LatLng> markers;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,102 +29,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(getApplicationContext(),
-                    "No permission granted", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        // checking if the network is avalible
-        if(locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
-                    0, new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    // get latitude
-                    double lati = location.getLatitude();
-                    // get longtitude
-                    double longti = location.getLongitude();
-                    // instantiate the class, latLng
-                    LatLng latLng = new LatLng(lati,longti);
-                    //Instrantiate the class, Geocoder
-                    Geocoder geocoder = new Geocoder(getApplicationContext());
-                    try {
-                        Toast.makeText(getApplicationContext(),
-                                "entering network provider get location", Toast.LENGTH_SHORT).show();
-                        List<Address> addressList = geocoder.getFromLocation(lati,longti,1);
-                        String str = addressList.get(0).getLocality() + ", ";
-                        str += addressList.get(0).getCountryName();
-                        mMap.addMarker(new MarkerOptions().position(latLng).title(str));
 
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onStatusChanged(String s, int i, Bundle bundle) {
-
-                }
-
-                @Override
-                public void onProviderEnabled(String s) {
-
-                }
-
-                @Override
-                public void onProviderDisabled(String s) {
-
-                }
-            });
-        } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    Toast.makeText(getApplicationContext(),
-                            "entering gps provider", Toast.LENGTH_SHORT).show();
-                    // get latitude
-                    double lati = location.getLatitude();
-                    // get longtitude
-                    double longti = location.getLongitude();
-                    // instantiate the class, latLng
-                    LatLng latLng = new LatLng(lati,longti);
-                    //Instrantiate the class, Geocoder
-                    Geocoder geocoder = new Geocoder(getApplicationContext());
-                    try {
-                        List<Address> addressList = geocoder.getFromLocation(lati,longti,1);
-                        String str = addressList.get(0).getLocality() + ", ";
-                        str += addressList.get(0).getCountryName();
-                        mMap.addMarker(new MarkerOptions().position(latLng).title(str));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                @Override
-                public void onStatusChanged(String s, int i, Bundle bundle) {
-
-                }
-
-                @Override
-                public void onProviderEnabled(String s) {
-
-                }
-
-                @Override
-                public void onProviderDisabled(String s) {
-
-                }
-            });
-        }
-
+        /*------------------markers---------------------------*/
+        setMarkers();
     }
-
+    public void setMarkers(){
+        double x = 49.2009387;
+        double y = -122.93059118539031;
+        markers = new ArrayList<>();
+        for(int i =0; i < 10; ++i){
+            LatLng house = new LatLng(x += 0.01,y-=0.001);
+            markers.add(house);
+        }
+    }
 
     /**
      * Manipulates the map once available.
@@ -145,13 +57,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng( 49.20621684165381, -122.93059118539031);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng house = new LatLng( 49.2009387, -122.93059118539031);
+        mMap.addMarker(new MarkerOptions()
+                .position(house)
+                .title("New Westminister")
+        );
+        zoomToNewWest();
 
-        LatLng house2 = new LatLng(49.20853128037355,-122.92394047061435);
-        mMap.addMarker(new MarkerOptions().position(house2).title("house 2"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(house2));
+        /*------------Marker-------------------*/
+        for(int i =0; i < markers.size(); ++i){
+            mMap.addMarker(new MarkerOptions()
+                    .position(markers.get(i))
+                    .title("markers array list " + i)
+
+            );
+        }
+        /*---------------marker listener---------*/
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent intent = new Intent(MapsActivity.this, House_detail.class);
+                startActivity(intent);
+            }
+        });
     }
-}
+
+    public void zoomToNewWest(){
+        LatLng newWest = new LatLng(49.2009387,-122.9116244);
+        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest,13);
+        mMap.animateCamera((location));
+    }
+
+
+}//class ends
