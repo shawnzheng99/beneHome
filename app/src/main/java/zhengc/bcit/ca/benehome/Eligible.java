@@ -44,7 +44,9 @@ public class Eligible extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClass(Eligible.this, MainMenu.class);
                 startActivity(intent);
-                Log.wtf(TAG, "exit btnBack onClick on eligi");
+                Log.wtf(TAG, "exit btnBack onClick on e" +
+                        "" +
+                        "ligi");
             }
         });
 

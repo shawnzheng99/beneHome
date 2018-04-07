@@ -4,6 +4,8 @@ package zhengc.bcit.ca.benehome;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -15,12 +17,15 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     ArrayList<LatLng> markers;
+    ArrayList<HashMap<String,String>> house;
+    private static final String TAG = MapsActivity.class.getName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,17 +36,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
 
+        setHouse();
+
+
         /*------------------markers---------------------------*/
         setMarkers();
+//        Toast.makeText(MapsActivity.this,
+//                "X 1 "+ house.get(0).get("Location"),
+//                Toast.LENGTH_LONG).show();
+//        Toast.makeText(MapsActivity.this,
+//                "X 2 "+ house.get(1).get("Location"),
+//                Toast.LENGTH_LONG).show();
     }
+
+    private void setHouse() {
+        house = MainActivity.getList();
+
+    }
+
     public void setMarkers(){
-        double x = 49.2009387;
-        double y = -122.93059118539031;
         markers = new ArrayList<>();
-        for(int i =0; i < 10; ++i){
-            LatLng house = new LatLng(x += 0.01,y-=0.001);
-            markers.add(house);
+        for(int i = 0; i < house.size(); ++i){
+            double y = Double.parseDouble(house.get(i).get("lon"));
+            double x = Double.parseDouble(house.get(i).get("lat"));
+            markers.add(new LatLng(x ,y));
         }
+
     }
 
     /**
@@ -57,20 +77,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng house = new LatLng( 49.2009387, -122.93059118539031);
-        mMap.addMarker(new MarkerOptions()
-                .position(house)
-                .title("New Westminister")
-        );
+//        LatLng newWest = new LatLng( 49.2009387, -122.93059118539031);
+//        mMap.addMarker(new MarkerOptions()
+//                .position(newWest)
+//                .title("New Westminister")
+//        );
         zoomToNewWest();
 
         /*------------Marker-------------------*/
-        for(int i =0; i < markers.size(); ++i){
+        for(int i = 0; i < markers.size(); ++i){
             mMap.addMarker(new MarkerOptions()
                     .position(markers.get(i))
-                    .title("markers array list " + i)
+                    .title(house.get(i).get("Name"))
 
             );
+
         }
         /*---------------marker listener---------*/
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -80,6 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 startActivity(intent);
             }
         });
+
     }
 
     public void zoomToNewWest(){
