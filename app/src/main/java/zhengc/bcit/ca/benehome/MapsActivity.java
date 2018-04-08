@@ -25,7 +25,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     ArrayList<LatLng> markers;
     ArrayList<HashMap<String,String>> house;
-    private static final String TAG = MapsActivity.class.getName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,23 +34,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
+        /*--------------set up house list---------*/
         setHouse();
-
-
         /*------------------markers---------------------------*/
         setMarkers();
-//        Toast.makeText(MapsActivity.this,
-//                "X 1 "+ house.get(0).get("Location"),
-//                Toast.LENGTH_LONG).show();
-//        Toast.makeText(MapsActivity.this,
-//                "X 2 "+ house.get(1).get("Location"),
-//                Toast.LENGTH_LONG).show();
     }
 
     private void setHouse() {
         house = MainActivity.getList();
-
     }
 
     public void setMarkers(){
@@ -76,12 +66,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-//        LatLng newWest = new LatLng( 49.2009387, -122.93059118539031);
-//        mMap.addMarker(new MarkerOptions()
-//                .position(newWest)
-//                .title("New Westminister")
-//        );
         zoomToNewWest();
 
         /*------------Marker-------------------*/
@@ -98,6 +82,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onInfoWindowClick(Marker marker) {
                 Intent intent = new Intent(MapsActivity.this, House_detail.class);
+                HashMap<String,String> selectHouse = new HashMap<>();
+
+                // get selected house
+                for(int j = 0; j < house.size();++j) {
+                    if(house.get(j).get("Name").equals(marker.getTitle())){
+                        selectHouse = house.get(j);
+                    }
+                }
+                intent.putExtra("house", selectHouse);
                 startActivity(intent);
             }
         });
@@ -105,7 +98,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void zoomToNewWest(){
-        LatLng newWest = new LatLng(49.2009387,-122.9116244);
+        LatLng newWest = new LatLng(49.21073429331534,-122.92282036503556);
         CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest,13);
         mMap.animateCamera((location));
     }

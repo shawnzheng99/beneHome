@@ -26,7 +26,6 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
     private Button btn_list, btn_start;
     private static final String TAG = MainActivity.class.getName();
-    private static final int ERROR_DIALOG_REQUEST = 9001;
     public static ArrayList<HashMap<String,String>> formlist;
 
     @Override

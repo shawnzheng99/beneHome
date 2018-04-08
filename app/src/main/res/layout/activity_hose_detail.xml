@@ -81,12 +81,6 @@
 
             </FrameLayout>
 
-            <TextView
-                android:id="@+id/txt-about"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/this_place_is" />
-
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="26dp" />

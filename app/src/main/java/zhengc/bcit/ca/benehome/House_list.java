@@ -1,6 +1,5 @@
 package zhengc.bcit.ca.benehome;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,24 +11,68 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
-import android.support.v4.app.FragmentManager;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class House_list extends AppCompatActivity {
 
     private ImageView btnBack;
     private Button btn_map;
-
+    ArrayList<HashMap<String,String>> house;
+    String[] houseName;
     private static final String TAG = House_list.class.getName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_house_list);
 
-        btnBack = (ImageView) findViewById(R.id.btn_back_listing);
+        // set up btns
+        setBtns();
+        // set up house arrayList from josn
+        setHouse();
+        // set house list
+        setList();
+
+    }
+
+    private void setList() {
+        for(int i = 0; i < house.size();++i){
+            houseName[i] = house.get(i).get("Name");
+        }
+
+        ListAdapter lst = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,//list styles
+                houseName);
+        ListView lstView = (ListView) findViewById(R.id.lst_result_listing);
+        lstView.setAdapter(lst);
+        lstView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Intent intent = new Intent(House_list.this,House_detail.class);
+                        HashMap<String,String> selectHouse = new HashMap<>();
+
+                        // get selected house
+                        for(int j = 0; j < house.size();++j) {
+                            if(house.get(i).get("Name").equals(adapterView.getItemAtPosition(i))){
+                                selectHouse = house.get(i);
+                            }
+                        }
+                        intent.putExtra("house", selectHouse);
+                        startActivity(intent);
+                    }
+                }
+        );
+    }
+
+    private void setHouse() {
+        house = MainActivity.getList();
+        houseName = new String[house.size()];
+    }
+
+    private void setBtns() {
+        btnBack = findViewById(R.id.btn_back_listing);
         btnBack.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -40,7 +83,7 @@ public class House_list extends AppCompatActivity {
                 Log.wtf(TAG,"exit btnBack onClick on house detail page");
             }
         });
-        btn_map = (Button)findViewById(R.id.btn_map_list);
+        btn_map = findViewById(R.id.btn_map_list);
         btn_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,38 +93,6 @@ public class House_list extends AppCompatActivity {
                 Log.wtf(TAG,"map view go");
             }
         });
-
-
-
-        String[] house = {"Bridgeview Heights", "Cedar Manor", "Connaught Heights Pentecostal Villa",
-                "Crown Manor","Dunwood Place","Fraser River Place Housing Co-op","Hillside Place",
-                "Hunter Heights","Legion Manor","Lions Moody Park Tower", "London Square", "McBride Place",
-                "New Westminster Housing Co-operative", "Queen's Avenue Hsg Co-op","Queen's Park Hsg Co-op",
-                "Riverbend Housing Co-op","Ross Towers","Rotary Tower","Sapperton Terrace Hsg Co-op",
-                "Wesley Manor","Westminster Heights Co-op","Westminster Landing Co-op"};
-        ListAdapter lst = new ArrayAdapter<String>(
-                this,
-                 android.R.layout.simple_list_item_1,//list styles
-                 house);
-        ListView lstView = (ListView) findViewById(R.id.lst_result_listing);
-        lstView.setAdapter(lst);
-        lstView.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        String house = String.valueOf(adapterView.getItemAtPosition(i));
-                        Toast.makeText(House_list.this,
-                                house,
-                                Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent();
-                        intent.setClass(House_list.this,House_detail.class);
-                        startActivity(intent);
-                    }
-                }
-        );
-
-
-
     }
 
 }
