@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/btn-back-about"
         android:layout_width="40dp"
-        android:layout_height="25dp"
+        android:layout_height="30dp"
         android:layout_marginStart="6dp"
         android:layout_marginTop="10dp"
         android:adjustViewBounds="true"
@@ -25,20 +25,36 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="6dp"
         android:text="About"
-        android:textSize="24sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn-back-about"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <WebView
-        android:id="@+id/webview-about"
-        android:layout_width="395dp"
-        android:layout_height="605dp"
-        android:layout_marginBottom="6dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="340dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="92dp"
+        android:text="Subsidized housing is long-term housing for people who permanently reside in British Columbia. Rental fees are calculated on a rent geared to income basis (30% of household total gross income, subject to minimum rent based on # of people)."
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt-title-about" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="340dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="8dp"
+        android:text="You may be eligible for subsidized housing if you can live independently and meet the household, residency, income and assets criteria. Please read through Am I Eligible section in the FAQ to confirm your eligibility or check your eligibility through eligibility section in the main menu."
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
 
 </android.support.constraint.ConstraintLayout>

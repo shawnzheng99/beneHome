@@ -32,10 +32,13 @@
     <string name="back_button_of_house_string_house_listing">back button of house @string/house_listing</string>
     <string name="checked">All checked!</string>
     <string name="fire">OK</string>
-    <string name="house_type">House Type</string>
+
     <string name="house_type_content1">Subsidized housing (rent geared to income)</string>
-    <string name="qestion1">Do you have children or dependents that live with you?</string>
+    <string name="question1">Do you have children or dependents that live with you?</string>
     <string name="question2">What age is the oldest person in your household?</string>
+    <string name="question3">Do you have spouse?</string>
+    <string name="question4">Do you disabilities or have people with disabilities that live with you?</string>
+    <string name="question5">Do your household income over $50,000 last year, before taxes?</string>
     <string-array name="yesNo">
         <item>Yes</item>
         <item>No</item>
@@ -48,7 +51,7 @@
     <string name="title_activity_map_view">Map</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">google map view</string>
     <string name="title_activity_maps">Map</string>
 
 

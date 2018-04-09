@@ -36,11 +36,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/house_listing"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/searchView"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/lst-result-listing"
@@ -61,11 +65,14 @@
 
     <Button
         android:id="@+id/btn_map_list"
-        android:layout_width="69dp"
-        android:layout_height="41dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="8dp"
-        android:text="Map"
+        style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
+        android:layout_width="99dp"
+        android:layout_height="43dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="4dp"
+        android:text="Map View"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

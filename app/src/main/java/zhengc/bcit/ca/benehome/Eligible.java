@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 public class Eligible extends AppCompatActivity {
 
@@ -21,8 +20,7 @@ public class Eligible extends AppCompatActivity {
     private Button btnCheck;
     final Context context = this;
     private static final String TAG = MainActivity.class.getName();
-    private Spinner anwser1, anwser2;
-    private TextView q1, q2;
+    private Spinner anwser1, anwser2, anwser3, anwser4, anwser5;
 
 
     @Override
@@ -32,11 +30,12 @@ public class Eligible extends AppCompatActivity {
 
         btnBack = (ImageView) findViewById(R.id.btn_back_eligi);
 
-        setQuestion1();
         setSpinner1();
-
-        setQuestion2();
         setSpinner2();
+        setSpinner3();
+        setSpinner4();
+        setSpinner5();
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,9 +43,7 @@ public class Eligible extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClass(Eligible.this, MainMenu.class);
                 startActivity(intent);
-                Log.wtf(TAG, "exit btnBack onClick on e" +
-                        "" +
-                        "ligi");
+                Log.wtf(TAG, "exit btnBack onClick on eligi");
             }
         });
 
@@ -77,15 +74,6 @@ public class Eligible extends AppCompatActivity {
 
     }
 
-
-    private void setQuestion1() {
-        q1 = (TextView) findViewById(R.id.txt_q1_eligi);
-        q1.setText(R.string.qestion1);
-    }
-    private void setQuestion2(){
-        q2 = (TextView) findViewById(R.id.txt_q2_eligi);
-        q2.setText(R.string.question2);
-    }
     private void setSpinner1() {
         anwser1 = (Spinner) findViewById(R.id.spr_ans_eligi);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -97,5 +85,26 @@ public class Eligible extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.age,android.R.layout.simple_spinner_item);
         anwser2.setAdapter(adapter);
+    }
+
+    private void setSpinner3() {
+        anwser3 = (Spinner) findViewById(R.id.spr_ans3_eligi);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this, R.array.yesNo,android.R.layout.simple_spinner_item);
+        anwser3.setAdapter(adapter);
+    }
+
+    private void setSpinner4() {
+        anwser4 = (Spinner) findViewById(R.id.spr_ans4_eligi);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this, R.array.yesNo,android.R.layout.simple_spinner_item);
+        anwser4.setAdapter(adapter);
+    }
+
+    private void setSpinner5() {
+        anwser5 = (Spinner) findViewById(R.id.spr_ans5_eligi);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this, R.array.yesNo,android.R.layout.simple_spinner_item);
+        anwser5.setAdapter(adapter);
     }
 }

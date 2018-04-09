@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
-    private Button btn_list, btn_start;
     private static final String TAG = MainActivity.class.getName();
     public static ArrayList<HashMap<String,String>> formlist;
 
@@ -33,13 +32,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        formlist = new ArrayList<HashMap<String,String>>();
+        formlist = new ArrayList<>();
 
         try {
             JSONObject obj = new JSONObject(loadJSONFromAsset(this));
             JSONArray jsonarray = obj.getJSONArray("features");
-
-
 
             for(int i = 0; i <jsonarray.length();i++){
                 JSONObject obj_inside = jsonarray.getJSONObject(i);
@@ -77,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        btn_list = (Button) findViewById(R.id.btn_list);
-        btn_start = (Button) findViewById(R.id.btn_start);
+        Button btn_list = (Button) findViewById(R.id.btn_list);
+        Button btn_start = (Button) findViewById(R.id.btn_start);
 
         btn_start.setOnClickListener(new View.OnClickListener(){
             @Override

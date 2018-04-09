@@ -32,6 +32,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="6dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:fillViewport="true"
         android:scrollbarStyle="insideOverlay"
@@ -105,7 +107,7 @@
                 android:id="@+id/txtTitle-HouseType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/house_type"
+                android:text="Description"
                 android:textSize="24sp" />
 
             <TextView
@@ -160,7 +162,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-condensed"
         android:text="@string/house_detail"
         android:textColor="@color/black_overlay"
