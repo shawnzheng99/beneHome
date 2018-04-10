@@ -41,7 +41,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void setHouse() {
-        house = MainActivity.getList();
+        house = House_list.getHouseList();
     }
 
     public void setMarkers(){

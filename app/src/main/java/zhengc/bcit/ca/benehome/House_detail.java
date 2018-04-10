@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 
 public class House_detail extends AppCompatActivity {
@@ -26,10 +29,39 @@ public class House_detail extends AppCompatActivity {
         setLocation();
         setEligible();
         setHouseType();
-
+        setPic();
         /*contact*/
         callHouse();
         sendEmail();
+        setApply();
+    }
+
+    private void setApply() {
+        Button apply = findViewById(R.id.btn_applyNow);
+        final Uri uri = Uri.parse(selectedHouse.get("Website"));
+        apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void setPic() {
+        ImageView img = findViewById(R.id.img_house);
+        String houseName = selectedHouse.get("Name").toLowerCase();
+        houseName = houseName.replaceAll(" ","");
+        houseName = houseName.replaceAll("-","");
+        houseName = houseName.replaceAll("'","");
+        try {
+            Class res = R.drawable.class;
+            Field picName = res.getField(houseName);
+            int drawbleId = picName.getInt(null);
+            img.setImageResource(drawbleId);
+        }catch (Exception e){
+            Log.e("Bao Cuo!", "can not find pic");
+        }
     }
 
     private void setselectedHouse() {
@@ -90,12 +122,17 @@ public class House_detail extends AppCompatActivity {
 
     private void setHouseType() {
         TextView houseType = findViewById(R.id.txt_HousingTypeContent);
-        houseType.setText(selectedHouse.get("Description"));
+        int idx = selectedHouse.get("Description").indexOf(".");
+        String des = selectedHouse.get("Description").substring(0,idx+1).toLowerCase();
+        houseType.setText(des);
     }
 
     private void setEligible() {
         TextView eliType = findViewById(R.id.txt_EligibleType);
-        eliType.setText("family, older people");
+        int idx = selectedHouse.get("Description").indexOf("ousing for");
+        String houseFor = selectedHouse.get("Description").substring(idx + 11);
+
+        eliType.setText(houseFor);
     }
 
     private void setName() {

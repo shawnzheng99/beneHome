@@ -41,8 +41,8 @@
     </string-array>
     <string-array name="age">
         <item>Under 55</item>
-        <item>Between 55 and 60 years old</item>
-        <item>Over 60 years old</item>
+        <item>Between 55 and 65 years old</item>
+        <item>Over 65 years old</item>
     </string-array>
     <string name="title_activity_map_view">Map</string>
 

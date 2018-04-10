@@ -18,9 +18,11 @@ public class House_list extends AppCompatActivity {
 
     private ImageView btnBack;
     private Button btn_map;
-    ArrayList<HashMap<String,String>> house;
+    static ArrayList<HashMap<String,String>> house;
     String[] houseName;
     private static final String TAG = House_list.class.getName();
+    private String[] keywords;
+    private int keywords_size = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +32,35 @@ public class House_list extends AppCompatActivity {
         setBtns();
         // set up house arrayList from josn
         setHouse();
+        // filter by keywords
+        if (get_keywords()) {
+            ArrayList<HashMap<String,String>> filtered_house = new ArrayList<>();
+            for (HashMap<String,String> h : house) {
+                if (cheak_have_keyword(h)) {
+                    filtered_house.add(h);
+                }
+            }
+            house = filtered_house;
+            houseName = new String[house.size()];
+        }
         // set house list
         setList();
 
+    }
+    public static ArrayList<HashMap<String,String>>  getHouseList(){
+        return house;
+    }
+    private boolean cheak_have_keyword(HashMap<String,String> ahouse) {
+        for (int i = 0; i < keywords_size; i++) {
+            if (ahouse.get("Description").contains(keywords[i])) {
+                return true;
+            }
+        }
+        if (ahouse.get("Description").contains("all household types")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void setList() {
@@ -95,4 +123,12 @@ public class House_list extends AppCompatActivity {
         });
     }
 
+    private boolean get_keywords() {
+        keywords = getIntent().getStringArrayExtra("keys");
+        keywords_size = getIntent().getIntExtra("key_size", 0);
+        if (keywords_size == 0)
+            return false;
+        else
+            return true;
+    }
 }

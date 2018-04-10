@@ -52,20 +52,82 @@ public class Eligible extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.wtf(TAG, "enter btnStart onclick on main");
+                String answer1 = anwser1.getSelectedItem().toString();
+                String answer2 = anwser2.getSelectedItem().toString();
+                String answer3 = anwser3.getSelectedItem().toString();
+                String answer4 = anwser4.getSelectedItem().toString();
+                String answer5 = anwser5.getSelectedItem().toString();
                 AlertDialog.Builder alertChk = new AlertDialog.Builder(context);
-                alertChk.setTitle("Congratulations");
-                alertChk.setMessage("You are eligible to apply!")
-                        .setCancelable(false)
-                        .setPositiveButton("Continue",new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // if this button is clicked, close
-                                // current activity
-                                //Eligible.this.finish();
-                                Intent intent = new Intent();
-                                intent.setClass(Eligible.this,House_list.class);
-                                startActivity(intent);
-                            }
-                        });
+                if (answer1 == null || answer2 == null || answer3 == null || answer4 == null || answer5 == null) {
+                    alertChk.setTitle("Please check your answer");
+                    alertChk.setMessage("You need answer all questions.")
+                            .setCancelable(false)
+                            .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // if this button is clicked, close
+                                    // current activity
+                                    //Eligible.this.finish();
+                                    Intent intent = new Intent();
+                                    intent.setClass(Eligible.this, Eligible.class);
+                                    startActivity(intent);
+                                }
+                            });
+                } else if (answer5.equals("Yes")) {
+                    alertChk.setTitle("Sorry");
+                    alertChk.setMessage("You are not eligible to apply. Please check FAQ.")
+                            .setCancelable(false)
+                            .setPositiveButton("FAQ",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // if this button is clicked, close
+                                    // current activity
+                                    //Eligible.this.finish();
+                                    Intent intent = new Intent();
+                                    intent.setClass(Eligible.this,FAQ.class);
+                                    startActivity(intent);
+                                }
+                            });
+                } else {
+                    //1: children
+                    //2: 55+, 65+,
+                    //3: signal, couple
+                    //4: disabliaties
+                    String keywords[] = new String[5];
+                    int keywords_size = 0;
+                    if (answer1.equals("Yes")) {
+                        keywords[keywords_size++] = "families with children";
+                    }
+                    if (answer2.equals("Between 55 and 65 years old")) {
+                        keywords[keywords_size++] = "(55+)";
+                    } else if (answer2.equals("Over 65 years old")) {
+                        keywords[keywords_size++] = "(55+)";
+                        keywords[keywords_size++] = "(65+)";
+                    }
+                    if (answer3.equals("Yes")) {
+                        keywords[keywords_size++] = "couples";
+                    } else {
+                        keywords[keywords_size++] = "singles";
+                    }
+                    if (answer4.equals("Yes")) {
+                        keywords[keywords_size++] = "disabilities";
+                    }
+                    final String keys[] = keywords;
+                    final int key_size = keywords_size;
+                    alertChk.setTitle("Congratulations");
+                    alertChk.setMessage("You are eligible to apply!")
+                            .setCancelable(false)
+                            .setPositiveButton("Continue",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // if this button is clicked, close
+                                    // current activity
+                                    //Eligible.this.finish();
+                                    Intent intent = new Intent();
+                                    intent.putExtra("keys", keys);
+                                    intent.putExtra("key_size", key_size);
+                                    intent.setClass(Eligible.this,House_list.class);
+                                    startActivity(intent);
+                                }
+                            });
+                }
                 AlertDialog alertDialog = alertChk.create();
                 alertDialog.show();
                 Log.wtf(TAG, "exit btnStart onClick on mian");
