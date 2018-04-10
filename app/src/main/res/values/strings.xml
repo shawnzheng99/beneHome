@@ -5,9 +5,7 @@
     <string name="title_activity_house_list">house_list</string>
     <string name="eligible_clients">Eligible Clients</string>
     <string name="eligible_type1">Families</string>
-    <string name="bridgeview_heights">Bridgeview Heights</string>
     <string name="email">Email</string>
-    <string name="this_place_is">511 Thirteenth St New Westminster, BC, V3M 4M1</string>
     <string name="location">Location</string>
     <string name="apply_now">Apply Now</string>
     <string name="call">Call</string>
@@ -17,9 +15,7 @@
     <string name="icon_3">icon 3</string>
     <string name="benehome">BeneHome</string>
     <string name="search">Search</string>
-    <string name="about">About</string>
     <string name="background_of_the_main_menu_string_background_img_of_the_home_page">background of the main menu @string/background_img_of_the_home_page</string>
-    <string name="faq">FAQ</string>
     <string name="eligibility">Eligibility</string>
     <string name="back_string_icon_1">back @string/icon_1</string>
     <string name="house_detail">House Detail</string>
@@ -50,9 +46,15 @@
     </string-array>
     <string name="title_activity_map_view">Map</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">google map view</string>
     <string name="title_activity_maps">Map</string>
+    <string name="faq">FAQ</string>
+    <string name="back_button_for_faq_string_background_img_of_the_home_page">back button for faq @string/background_img_of_the_home_page</string>
+    <string name="back_button_for_about_page">back button for about page</string>
+    <string name="about">About</string>
+    <string name="subsidized_housing_is_long_term_housing_for_people_who_permanently_reside_in_british_columbia_rental_fees_are_calculated_on_a_rent_geared_to_income_basis_30_of_household_total_gross_income_subject_to_minimum_rent_based_on_of_people">Subsidized housing is long-term housing for people who permanently reside in British Columbia. Rental fees are calculated on a rent geared to income basis (30% of household total gross income, subject to minimum rent based on # of people).</string>
+    <string name="you_may_be_eligible_for_subsidized_housing_if_you_can_live_independently_and_meet_the_household_residency_income_and_assets_criteria_please_read_through_am_i_eligible_section_in_the_faq_to_confirm_your_eligibility_or_check_your_eligibility_through_eligibility_section_in_the_main_menu">You may be eligible for subsidized housing if you can live independently and meet the household, residency, income and assets criteria. Please read through Am I Eligible section in the FAQ to confirm your eligibility or check your eligibility through eligibility section in the main menu.</string>
+    <string name="map_view">Map View</string>
 
 
 </resources>

@@ -22,9 +22,10 @@
             android:layout_width="fill_parent"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:fontFamily="@font/annie_use_your_telescope"
+            android:fontFamily="sans-serif-condensed"
             android:text="@string/get_started"
             android:textColor="@android:color/black"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -33,9 +34,10 @@
             android:layout_width="fill_parent"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:fontFamily="@font/annie_use_your_telescope"
+            android:fontFamily="sans-serif-condensed"
             android:text="@string/house_listing"
             android:textColor="@android:color/black"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </LinearLayout>
@@ -46,7 +48,7 @@
         android:layout_height="0dp"
         android:layout_marginEnd="216dp"
         android:layout_marginTop="56dp"
-        android:fontFamily="monospace"
+        android:fontFamily="sans-serif-condensed"
         android:text="@string/benehome"
         android:textColor="@android:color/black"
         android:textSize="36sp"

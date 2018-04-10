@@ -74,7 +74,8 @@
             <TextView
                 android:id="@+id/txt_location_detail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="18sp" />
 
             <FrameLayout
                 android:id="@+id/frg-layout-detail"
@@ -97,7 +98,8 @@
             <TextView
                 android:id="@+id/txt-EligibleType"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="18sp" />
 
             <Space
                 android:layout_width="match_parent"
@@ -113,13 +115,15 @@
             <TextView
                 android:id="@+id/txt-HousingTypeContent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btn-applyNow"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
                 android:text="@string/apply_now"
                 android:textStyle="bold"
                 android:typeface="monospace" />
@@ -135,6 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="sans-serif-condensed"
                     android:lineSpacingExtra="8sp"
                     android:text="@string/call"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -147,6 +152,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="sans-serif-condensed"
                     android:text="@string/email"
                     android:textStyle="bold"
                     android:typeface="monospace" />

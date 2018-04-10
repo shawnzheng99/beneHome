@@ -16,9 +16,6 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-/*
-        btnAbout = (Button) findViewById(R.id.btn_about);
-        btnFAQ = (Button) findViewById(R.id.btn_faq);*/
 
         btnEligi = (Button) findViewById(R.id.btn_eligible);
         btnAbout = (Button) findViewById(R.id.btn_about);

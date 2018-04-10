@@ -5,41 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="zhengc.bcit.ca.benehome.FAQ">
+
     <ImageView
         android:id="@+id/btn-back-faq"
         android:layout_width="40dp"
         android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:contentDescription="back button for faq @string/background_img_of_the_home_page"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/back_button_for_faq_string_background_img_of_the_home_page"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_arrow_left" />
+
     <TextView
         android:id="@+id/txt-title-faq"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="6dp"
-        android:text="FAQ"
-        android:textSize="30sp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="@string/faq"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp">
 
-        <ExpandableListView
-            android:id="@+id/lvExp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="112dp"></ExpandableListView>
-    </RelativeLayout>
+    <ExpandableListView
+        android:id="@+id/lvExp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt-title-faq" />
+
 </android.support.constraint.ConstraintLayout>
