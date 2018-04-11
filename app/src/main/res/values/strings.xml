@@ -36,24 +36,26 @@
     <string name="question4">Do you disabilities or have people with disabilities that live with you?</string>
     <string name="question5">Do your household income over $50,000 last year, before taxes?</string>
     <string-array name="yesNo">
+        <item> </item>
         <item>Yes</item>
         <item>No</item>
     </string-array>
     <string-array name="age">
+        <item> </item>
         <item>Under 55</item>
         <item>Between 55 and 65 years old</item>
         <item>Over 65 years old</item>
     </string-array>
     <string name="title_activity_map_view">Map</string>
-
     <string name="hello_blank_fragment">google map view</string>
     <string name="title_activity_maps">Map</string>
     <string name="faq">FAQ</string>
     <string name="back_button_for_faq_string_background_img_of_the_home_page">back button for faq @string/background_img_of_the_home_page</string>
     <string name="back_button_for_about_page">back button for about page</string>
     <string name="about">About</string>
-    <string name="subsidized_housing_is_long_term_housing_for_people_who_permanently_reside_in_british_columbia_rental_fees_are_calculated_on_a_rent_geared_to_income_basis_30_of_household_total_gross_income_subject_to_minimum_rent_based_on_of_people">Subsidized housing is long-term housing for people who permanently reside in British Columbia. Rental fees are calculated on a rent geared to income basis (30% of household total gross income, subject to minimum rent based on # of people).</string>
-    <string name="you_may_be_eligible_for_subsidized_housing_if_you_can_live_independently_and_meet_the_household_residency_income_and_assets_criteria_please_read_through_am_i_eligible_section_in_the_faq_to_confirm_your_eligibility_or_check_your_eligibility_through_eligibility_section_in_the_main_menu">You may be eligible for subsidized housing if you can live independently and meet the household, residency, income and assets criteria. Please read through Am I Eligible section in the FAQ to confirm your eligibility or check your eligibility through eligibility section in the main menu.</string>
+    <string name="subsidized_housing_is_long_term_housing_for_people_who_permanently_reside_in_british_columbia_rental_fees_are_calculated_on_a_rent_geared_to_income_basis_30_of_household_total_gross_income_subject_to_minimum_rent_based_on_of_people">Subsidized housing is long-term housing for people who permanently reside in British Columbia. Rental fees are calculated on a rent geared to income basis
+        (30% of household total gross income, subject to minimum rent based on # of people).You may be eligible for subsidized housing if you can live independently and meet the household, residency, income and assets criteria. Please read through Am I Eligible section in the FAQ to confirm your eligibility or check your
+        eligibility through eligibility section in the main menu.</string>
     <string name="map_view">Map View</string>
 
 

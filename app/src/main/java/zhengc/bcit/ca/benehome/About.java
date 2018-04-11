@@ -16,7 +16,7 @@ public class About extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        btnBack = (ImageView) findViewById(R.id.btn_back_about);
+        btnBack = findViewById(R.id.btn_back_about);
         btnBack.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){

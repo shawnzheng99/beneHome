@@ -34,47 +34,35 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt-title-about">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:text="@string/subsidized_housing_is_long_term_housing_for_people_who_permanently_reside_in_british_columbia_rental_fees_are_calculated_on_a_rent_geared_to_income_basis_30_of_household_total_gross_income_subject_to_minimum_rent_based_on_of_people"
+            android:textAlignment="textStart"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="40dp"
-                android:text="@string/subsidized_housing_is_long_term_housing_for_people_who_permanently_reside_in_british_columbia_rental_fees_are_calculated_on_a_rent_geared_to_income_basis_30_of_household_total_gross_income_subject_to_minimum_rent_based_on_of_people"
-                android:textAlignment="textStart"
-                android:textSize="25sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt-title-about" />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/you_may_be_eligible_for_subsidized_housing_if_you_can_live_independently_and_meet_the_household_residency_income_and_assets_criteria_please_read_through_am_i_eligible_section_in_the_faq_to_confirm_your_eligibility_or_check_your_eligibility_through_eligibility_section_in_the_main_menu"
-                android:textAlignment="textStart"
-                android:textSize="25sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
-        </LinearLayout>
     </ScrollView>
+
+
 
 
 </android.support.constraint.ConstraintLayout>

@@ -47,7 +47,7 @@ public class Eligible extends AppCompatActivity {
             }
         });
 
-        btnCheck = (Button) findViewById(R.id.btn_check_eligi);
+        btnCheck = findViewById(R.id.btn_check_eligi);
         btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,7 +58,8 @@ public class Eligible extends AppCompatActivity {
                 String answer4 = anwser4.getSelectedItem().toString();
                 String answer5 = anwser5.getSelectedItem().toString();
                 AlertDialog.Builder alertChk = new AlertDialog.Builder(context);
-                if (answer1 == null || answer2 == null || answer3 == null || answer4 == null || answer5 == null) {
+                if (answer1.equals("") || answer2.equals("") || answer3.equals("")
+                        || answer4.equals("") || answer5.equals("")) {
                     alertChk.setTitle("Please check your answer");
                     alertChk.setMessage("You need answer all questions.")
                             .setCancelable(false)
@@ -67,9 +68,6 @@ public class Eligible extends AppCompatActivity {
                                     // if this button is clicked, close
                                     // current activity
                                     //Eligible.this.finish();
-                                    Intent intent = new Intent();
-                                    intent.setClass(Eligible.this, Eligible.class);
-                                    startActivity(intent);
                                 }
                             });
                 } else if (answer5.equals("Yes")) {
@@ -134,37 +132,49 @@ public class Eligible extends AppCompatActivity {
             }
         });
 
+        Button clear = findViewById(R.id.btn_cancel_eligi);
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setSpinner1();
+                setSpinner2();
+                setSpinner3();
+                setSpinner4();
+                setSpinner5();
+            }
+        });
+
     }
 
     private void setSpinner1() {
-        anwser1 = (Spinner) findViewById(R.id.spr_ans_eligi);
+        anwser1 = findViewById(R.id.spr_ans_eligi);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.yesNo,android.R.layout.simple_spinner_item);
         anwser1.setAdapter(adapter);
     }
     private void setSpinner2() {
-        anwser2 = (Spinner) findViewById(R.id.spr_ans2_eligi);
+        anwser2 =  findViewById(R.id.spr_ans2_eligi);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.age,android.R.layout.simple_spinner_item);
         anwser2.setAdapter(adapter);
     }
 
     private void setSpinner3() {
-        anwser3 = (Spinner) findViewById(R.id.spr_ans3_eligi);
+        anwser3 =  findViewById(R.id.spr_ans3_eligi);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.yesNo,android.R.layout.simple_spinner_item);
         anwser3.setAdapter(adapter);
     }
 
     private void setSpinner4() {
-        anwser4 = (Spinner) findViewById(R.id.spr_ans4_eligi);
+        anwser4 = findViewById(R.id.spr_ans4_eligi);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.yesNo,android.R.layout.simple_spinner_item);
         anwser4.setAdapter(adapter);
     }
 
     private void setSpinner5() {
-        anwser5 = (Spinner) findViewById(R.id.spr_ans5_eligi);
+        anwser5 = findViewById(R.id.spr_ans5_eligi);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.yesNo,android.R.layout.simple_spinner_item);
         anwser5.setAdapter(adapter);
