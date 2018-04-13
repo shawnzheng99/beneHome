@@ -14,36 +14,32 @@ import java.util.List;
 
 public class FAQ extends AppCompatActivity {
 
-    private ImageView btnBack;
     private static final String TAG = House_detail.class.getName();
-    private ExpandableListView listView;
-    private ExpandableListAdapter listAdapter;
     private List<String> listDataHeader;
-    private HashMap<String,List<String>> listHash;
+    private HashMap<String, List<String>> listHash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_faq);
 
-        btnBack = (ImageView) findViewById(R.id.btn_back_faq);
+        ImageView btnBack = findViewById(R.id.btn_back_faq);
 
-        btnBack.setOnClickListener(new View.OnClickListener(){
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                Log.wtf(TAG,"enter btnBack onclick on house detail page");
+            public void onClick(View view) {
+                Log.wtf(TAG, "enter btnBack onclick on house detail page");
                 Intent intent = new Intent();
-                intent.setClass(FAQ.this,MainMenu.class);
+                intent.setClass(FAQ.this, MainMenu.class);
                 startActivity(intent);
-                Log.wtf(TAG,"exit btnBack onClick on house detail page");
+                Log.wtf(TAG, "exit btnBack onClick on house detail page");
             }
         });
 
-        listView = (ExpandableListView)findViewById(R.id.lvExp);
+        ExpandableListView listView = findViewById(R.id.lvExp);
         initData();
-        listAdapter = new ExpandableListAdapter(this,listDataHeader,listHash);
+        ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listHash);
         listView.setAdapter(listAdapter);
-
 
 
     }
@@ -59,7 +55,6 @@ public class FAQ extends AppCompatActivity {
         listDataHeader.add("5.How much will I pay");
         listDataHeader.add("6.Do I need to provide a landlord reference?");
         listDataHeader.add("7.Can I have a pet?");
-
 
 
         List<String> faq1 = new ArrayList<>();
@@ -103,13 +98,13 @@ public class FAQ extends AppCompatActivity {
         List<String> faq7 = new ArrayList<>();
         faq7.add("Each housing provider has its own pet policy and if they allow pets, there may be restrictions on both the types and number of pets you can have.");
 
-        listHash.put(listDataHeader.get(0),faq1);
-        listHash.put(listDataHeader.get(1),faq2);
-        listHash.put(listDataHeader.get(2),faq3);
-        listHash.put(listDataHeader.get(3),faq4);
-        listHash.put(listDataHeader.get(4),faq5);
-        listHash.put(listDataHeader.get(5),faq6);
-        listHash.put(listDataHeader.get(6),faq7);
+        listHash.put(listDataHeader.get(0), faq1);
+        listHash.put(listDataHeader.get(1), faq2);
+        listHash.put(listDataHeader.get(2), faq3);
+        listHash.put(listDataHeader.get(3), faq4);
+        listHash.put(listDataHeader.get(4), faq5);
+        listHash.put(listDataHeader.get(5), faq6);
+        listHash.put(listDataHeader.get(6), faq7);
 
     }
 }

@@ -25,7 +25,7 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getName();
-    public static ArrayList<HashMap<String,String>> formlist;
+    public static ArrayList<HashMap<String, String>> formlist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             JSONObject obj = new JSONObject(loadJSONFromAsset(this));
             JSONArray jsonarray = obj.getJSONArray("features");
 
-            for(int i = 0; i <jsonarray.length();i++){
+            for (int i = 0; i < jsonarray.length(); i++) {
                 JSONObject obj_inside = jsonarray.getJSONObject(i);
 
                 String Name = obj_inside.getJSONObject("properties").getString("Name");
@@ -53,51 +53,52 @@ public class MainActivity extends AppCompatActivity {
                 String X = obj_inside.getJSONObject("properties").getString("X");
                 String Y = obj_inside.getJSONObject("properties").getString("Y");
 
-                HashMap<String,String> mylist = new HashMap<>();
+                HashMap<String, String> mylist = new HashMap<>();
 
-                mylist.put("Name",Name);
-                mylist.put("Description",Description);
-                mylist.put("Category",Category);
-                mylist.put("Hours",Hours);
-                mylist.put("Location",Location);
-                mylist.put("PC",PC);
-                mylist.put("Phone",Phone);
-                mylist.put("Email",Email);
-                mylist.put("Website",Website);
-                mylist.put("lon",X);
-                mylist.put("lat",Y);
+                mylist.put("Name", Name);
+                mylist.put("Description", Description);
+                mylist.put("Category", Category);
+                mylist.put("Hours", Hours);
+                mylist.put("Location", Location);
+                mylist.put("PC", PC);
+                mylist.put("Phone", Phone);
+                mylist.put("Email", Email);
+                mylist.put("Website", Website);
+                mylist.put("lon", X);
+                mylist.put("lat", Y);
 
                 formlist.add(mylist);
             }
 
-        }catch(JSONException e){
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        Button btn_list = (Button) findViewById(R.id.btn_list);
-        Button btn_start = (Button) findViewById(R.id.btn_start);
+        Button btn_list = findViewById(R.id.btn_list);
+        Button btn_start = findViewById(R.id.btn_start);
 
-        btn_start.setOnClickListener(new View.OnClickListener(){
+        btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                Log.wtf(TAG,"enter btnStart onclick on main");
-                Intent intent = new Intent(MainActivity.this,MainMenu.class);
+            public void onClick(View view) {
+                Log.wtf(TAG, "enter btnStart onclick on main");
+                Intent intent = new Intent(MainActivity.this, MainMenu.class);
                 startActivity(intent);
-                Log.wtf(TAG,"exit btnStart onClick on main");
+                Log.wtf(TAG, "exit btnStart onClick on main");
             }
         });
 
-        btn_list.setOnClickListener(new View.OnClickListener(){
+        btn_list.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                Log.wtf(TAG,"enter btnList onclick on main");
+            public void onClick(View view) {
+                Log.wtf(TAG, "enter btnList onclick on main");
                 Intent intent = new Intent();
-                intent.setClass(MainActivity.this,House_list.class);
+                intent.setClass(MainActivity.this, House_list.class);
                 startActivity(intent);
-                Log.wtf(TAG,"exit btnList onClick on mian");
+                Log.wtf(TAG, "exit btnList onClick on mian");
             }
         });
     }
+
     public String loadJSONFromAsset(Context context) {
         String json = null;
         try {
@@ -113,7 +114,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return json;
     }
-    public static ArrayList<HashMap<String,String>> getList(){
+
+    public static ArrayList<HashMap<String, String>> getList() {
         return formlist;
     }
 }

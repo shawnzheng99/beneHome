@@ -1,6 +1,5 @@
 package zhengc.bcit.ca.benehome;
 
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,20 +15,16 @@ import android.widget.Spinner;
 
 public class Eligible extends AppCompatActivity {
 
-    private ImageView btnBack;
-    private Button btnCheck;
     final Context context = this;
     private static final String TAG = MainActivity.class.getName();
     private Spinner anwser1, anwser2, anwser3, anwser4, anwser5;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eligible);
 
-        btnBack = (ImageView) findViewById(R.id.btn_back_eligi);
-
+        ImageView btnBack = findViewById(R.id.btn_back_eligi);
         setSpinner1();
         setSpinner2();
         setSpinner3();
@@ -47,7 +42,7 @@ public class Eligible extends AppCompatActivity {
             }
         });
 
-        btnCheck = findViewById(R.id.btn_check_eligi);
+        Button btnCheck = findViewById(R.id.btn_check_eligi);
         btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,22 +60,18 @@ public class Eligible extends AppCompatActivity {
                             .setCancelable(false)
                             .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    // if this button is clicked, close
-                                    // current activity
-                                    //Eligible.this.finish();
+                                    // stay current activity, do nothing.
                                 }
                             });
                 } else if (answer5.equals("Yes")) {
                     alertChk.setTitle("Sorry");
                     alertChk.setMessage("You are not eligible to apply. Please check FAQ.")
                             .setCancelable(false)
-                            .setPositiveButton("FAQ",new DialogInterface.OnClickListener() {
+                            .setPositiveButton("FAQ", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    // if this button is clicked, close
-                                    // current activity
-                                    //Eligible.this.finish();
+                                    // go faq section.
                                     Intent intent = new Intent();
-                                    intent.setClass(Eligible.this,FAQ.class);
+                                    intent.setClass(Eligible.this, FAQ.class);
                                     startActivity(intent);
                                 }
                             });
@@ -88,7 +79,7 @@ public class Eligible extends AppCompatActivity {
                     //1: children
                     //2: 55+, 65+,
                     //3: signal, couple
-                    //4: disabliaties
+                    //4: disabilities
                     String keywords[] = new String[5];
                     int keywords_size = 0;
                     if (answer1.equals("Yes")) {
@@ -113,15 +104,13 @@ public class Eligible extends AppCompatActivity {
                     alertChk.setTitle("Congratulations");
                     alertChk.setMessage("You are eligible to apply!")
                             .setCancelable(false)
-                            .setPositiveButton("Continue",new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    // if this button is clicked, close
-                                    // current activity
-                                    //Eligible.this.finish();
+                                    // user input ok, go house list
                                     Intent intent = new Intent();
                                     intent.putExtra("keys", keys);
                                     intent.putExtra("key_size", key_size);
-                                    intent.setClass(Eligible.this,House_list.class);
+                                    intent.setClass(Eligible.this, House_list.class);
                                     startActivity(intent);
                                 }
                             });
@@ -149,34 +138,35 @@ public class Eligible extends AppCompatActivity {
     private void setSpinner1() {
         anwser1 = findViewById(R.id.spr_ans_eligi);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.yesNo,android.R.layout.simple_spinner_item);
+                this, R.array.yesNo, android.R.layout.simple_spinner_item);
         anwser1.setAdapter(adapter);
     }
+
     private void setSpinner2() {
-        anwser2 =  findViewById(R.id.spr_ans2_eligi);
+        anwser2 = findViewById(R.id.spr_ans2_eligi);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.age,android.R.layout.simple_spinner_item);
+                this, R.array.age, android.R.layout.simple_spinner_item);
         anwser2.setAdapter(adapter);
     }
 
     private void setSpinner3() {
-        anwser3 =  findViewById(R.id.spr_ans3_eligi);
+        anwser3 = findViewById(R.id.spr_ans3_eligi);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.yesNo,android.R.layout.simple_spinner_item);
+                this, R.array.yesNo, android.R.layout.simple_spinner_item);
         anwser3.setAdapter(adapter);
     }
 
     private void setSpinner4() {
         anwser4 = findViewById(R.id.spr_ans4_eligi);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.yesNo,android.R.layout.simple_spinner_item);
+                this, R.array.yesNo, android.R.layout.simple_spinner_item);
         anwser4.setAdapter(adapter);
     }
 
     private void setSpinner5() {
         anwser5 = findViewById(R.id.spr_ans5_eligi);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.yesNo,android.R.layout.simple_spinner_item);
+                this, R.array.yesNo, android.R.layout.simple_spinner_item);
         anwser5.setAdapter(adapter);
     }
 }

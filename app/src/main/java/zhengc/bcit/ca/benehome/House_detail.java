@@ -51,15 +51,15 @@ public class House_detail extends AppCompatActivity {
     private void setPic() {
         ImageView img = findViewById(R.id.img_house);
         String houseName = selectedHouse.get("Name").toLowerCase();
-        houseName = houseName.replaceAll(" ","");
-        houseName = houseName.replaceAll("-","");
-        houseName = houseName.replaceAll("'","");
+        houseName = houseName.replaceAll(" ", "");
+        houseName = houseName.replaceAll("-", "");
+        houseName = houseName.replaceAll("'", "");
         try {
             Class res = R.drawable.class;
             Field picName = res.getField(houseName);
             int drawbleId = picName.getInt(null);
             img.setImageResource(drawbleId);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("Bao Cuo!", "can not find pic");
         }
     }
@@ -123,7 +123,7 @@ public class House_detail extends AppCompatActivity {
     private void setHouseType() {
         TextView houseType = findViewById(R.id.txt_HousingTypeContent);
         int idx = selectedHouse.get("Description").indexOf(".");
-        String des = selectedHouse.get("Description").substring(0,idx+1).toLowerCase();
+        String des = selectedHouse.get("Description").substring(0, idx + 1).toLowerCase();
         houseType.setText(des);
     }
 

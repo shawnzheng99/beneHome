@@ -9,7 +9,6 @@ import android.widget.Button;
 
 public class MainMenu extends AppCompatActivity {
 
-    private Button btnSearch,btnAbout, btnFAQ,  btnEligi;
     private static final String TAG = MainActivity.class.getName();
 
     @Override
@@ -17,52 +16,52 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        btnEligi = (Button) findViewById(R.id.btn_eligible);
-        btnAbout = (Button) findViewById(R.id.btn_about);
-        btnSearch = (Button) findViewById(R.id.btn_search);
-        btnFAQ = (Button) findViewById(R.id.btn_faq);
+        Button btnEligi = findViewById(R.id.btn_eligible);
+        Button btnAbout = findViewById(R.id.btn_about);
+        Button btnSearch = findViewById(R.id.btn_search);
+        Button btnFAQ = findViewById(R.id.btn_faq);
         /*btn linster to house list page*/
-        btnSearch.setOnClickListener(new View.OnClickListener(){
+        btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                Log.wtf(TAG,"enter btnStart onclick on main");
+            public void onClick(View view) {
+                Log.wtf(TAG, "enter btnStart onclick on main");
                 Intent intent = new Intent();
-                intent.setClass(MainMenu.this,House_list.class);
+                intent.setClass(MainMenu.this, House_list.class);
                 startActivity(intent);
-                Log.wtf(TAG,"exit btnStart onClick on mian");
+                Log.wtf(TAG, "exit btnStart onClick on mian");
             }
         });
 
         /*btn linster to house list page*/
-        btnEligi.setOnClickListener(new View.OnClickListener(){
+        btnEligi.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                Log.wtf(TAG,"enter btnStart onclick on main");
+            public void onClick(View view) {
+                Log.wtf(TAG, "enter btnStart onclick on main");
                 Intent intent = new Intent();
-                intent.setClass(MainMenu.this,Eligible.class);
+                intent.setClass(MainMenu.this, Eligible.class);
                 startActivity(intent);
-                Log.wtf(TAG,"exit btnStart onClick on mian");
+                Log.wtf(TAG, "exit btnStart onClick on mian");
             }
         });
 
-        btnAbout.setOnClickListener(new View.OnClickListener(){
+        btnAbout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                Log.wtf(TAG,"enter btnStart onclick on main");
+            public void onClick(View view) {
+                Log.wtf(TAG, "enter btnStart onclick on main");
                 Intent intent = new Intent();
-                intent.setClass(MainMenu.this,About.class);
+                intent.setClass(MainMenu.this, About.class);
                 startActivity(intent);
-                Log.wtf(TAG,"exit btnStart onClick on mian");
+                Log.wtf(TAG, "exit btnStart onClick on mian");
             }
         });
-        btnFAQ.setOnClickListener(new View.OnClickListener(){
+        btnFAQ.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                Log.wtf(TAG,"enter btnStart onclick on main");
+            public void onClick(View view) {
+                Log.wtf(TAG, "enter btnStart onclick on main");
                 Intent intent = new Intent();
-                intent.setClass(MainMenu.this,FAQ.class);
+                intent.setClass(MainMenu.this, FAQ.class);
                 startActivity(intent);
-                Log.wtf(TAG,"exit btnStart onClick on mian");
+                Log.wtf(TAG, "exit btnStart onClick on mian");
             }
         });
     }

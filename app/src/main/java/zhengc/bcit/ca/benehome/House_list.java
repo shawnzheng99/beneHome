@@ -11,18 +11,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class House_list extends AppCompatActivity {
 
-    private ImageView btnBack;
-    private Button btn_map;
-    static ArrayList<HashMap<String,String>> house;
+    static ArrayList<HashMap<String, String>> house;
     String[] houseName;
     private static final String TAG = House_list.class.getName();
     private String[] keywords;
     private int keywords_size = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +34,8 @@ public class House_list extends AppCompatActivity {
         setHouse();
         // filter by keywords
         if (get_keywords()) {
-            ArrayList<HashMap<String,String>> filtered_house = new ArrayList<>();
-            for (HashMap<String,String> h : house) {
+            ArrayList<HashMap<String, String>> filtered_house = new ArrayList<>();
+            for (HashMap<String, String> h : house) {
                 if (cheak_have_keyword(h)) {
                     filtered_house.add(h);
                 }
@@ -47,43 +47,41 @@ public class House_list extends AppCompatActivity {
         setList();
 
     }
-    public static ArrayList<HashMap<String,String>>  getHouseList(){
+
+    public static ArrayList<HashMap<String, String>> getHouseList() {
         return house;
     }
-    private boolean cheak_have_keyword(HashMap<String,String> ahouse) {
+
+    private boolean cheak_have_keyword(HashMap<String, String> ahouse) {
         for (int i = 0; i < keywords_size; i++) {
             if (ahouse.get("Description").contains(keywords[i])) {
                 return true;
             }
         }
-        if (ahouse.get("Description").contains("all household types")) {
-            return true;
-        } else {
-            return false;
-        }
+        return ahouse.get("Description").contains("all household types");
     }
 
     private void setList() {
-        for(int i = 0; i < house.size();++i){
+        for (int i = 0; i < house.size(); ++i) {
             houseName[i] = house.get(i).get("Name");
         }
 
-        ListAdapter lst = new ArrayAdapter<String>(
+        ListAdapter lst = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,//list styles
                 houseName);
-        ListView lstView = (ListView) findViewById(R.id.lst_result_listing);
+        ListView lstView = findViewById(R.id.lst_result_listing);
         lstView.setAdapter(lst);
         lstView.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Intent intent = new Intent(House_list.this,House_detail.class);
-                        HashMap<String,String> selectHouse = new HashMap<>();
+                        Intent intent = new Intent(House_list.this, House_detail.class);
+                        HashMap<String, String> selectHouse = new HashMap<>();
 
                         // get selected house
-                        for(int j = 0; j < house.size();++j) {
-                            if(house.get(i).get("Name").equals(adapterView.getItemAtPosition(i))){
+                        for (int j = 0; j < house.size(); ++j) {
+                            if (house.get(i).get("Name").equals(adapterView.getItemAtPosition(i))) {
                                 selectHouse = house.get(i);
                             }
                         }
@@ -100,25 +98,25 @@ public class House_list extends AppCompatActivity {
     }
 
     private void setBtns() {
-        btnBack = findViewById(R.id.btn_back_listing);
-        btnBack.setOnClickListener(new View.OnClickListener(){
+        ImageView btnBack = findViewById(R.id.btn_back_listing);
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
-                Log.wtf(TAG,"enter btnBack onclick on house detail page");
+            public void onClick(View view) {
+                Log.wtf(TAG, "enter btnBack onclick on house detail page");
                 Intent intent = new Intent();
-                intent.setClass(House_list.this,MainMenu.class);
+                intent.setClass(House_list.this, MainMenu.class);
                 startActivity(intent);
-                Log.wtf(TAG,"exit btnBack onClick on house detail page");
+                Log.wtf(TAG, "exit btnBack onClick on house detail page");
             }
         });
-        btn_map = findViewById(R.id.btn_map_list);
+        Button btn_map = findViewById(R.id.btn_map_list);
         btn_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.wtf(TAG,"map view in");
+                Log.wtf(TAG, "map view in");
                 Intent intent = new Intent(House_list.this, MapsActivity.class);
                 startActivity(intent);
-                Log.wtf(TAG,"map view go");
+                Log.wtf(TAG, "map view go");
             }
         });
     }
@@ -126,9 +124,6 @@ public class House_list extends AppCompatActivity {
     private boolean get_keywords() {
         keywords = getIntent().getStringArrayExtra("keys");
         keywords_size = getIntent().getIntExtra("key_size", 0);
-        if (keywords_size == 0)
-            return false;
-        else
-            return true;
+        return keywords_size != 0;
     }
 }
