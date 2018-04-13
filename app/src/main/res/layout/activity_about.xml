@@ -9,11 +9,11 @@
     <ImageView
         android:id="@+id/btn-back-about"
         android:layout_width="40dp"
-        android:layout_height="25dp"
+        android:layout_height="30dp"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="10dp"
         android:adjustViewBounds="true"
-        android:contentDescription="back button for about page"
+        android:contentDescription="@string/back_button_for_about_page"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/icon_arrow_left" />
@@ -24,21 +24,45 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="6dp"
-        android:text="About"
-        android:textSize="24sp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="@string/about"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn-back-about"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <WebView
-        android:id="@+id/webview-about"
-        android:layout_width="395dp"
-        android:layout_height="605dp"
-        android:layout_marginBottom="6dp"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt-title-about">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:text="@string/subsidized_housing_is_long_term_housing_for_people_who_permanently_reside_in_british_columbia_rental_fees_are_calculated_on_a_rent_geared_to_income_basis_30_of_household_total_gross_income_subject_to_minimum_rent_based_on_of_people"
+            android:textAlignment="textStart"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </ScrollView>
+
+
+
 
 </android.support.constraint.ConstraintLayout>
