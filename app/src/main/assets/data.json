@@ -1,0 +1,446 @@
+{
+	"name" : "NONMARKET_AND_COOP_HOUSING",
+	"type" : "FeatureCollection",
+	"features" : [
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.93059118539031, 49.20621684165381 ]
+			},
+			"properties" : {
+				"Name" : "Bridgeview Heights",
+				"Description" : "MUST APPLY THROUGH BC HOUSING either on-line or by mail. Housing for families with children.",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "For BC Housing: Monday-Friday, 8:30am-4:30pm",
+				"Location" : "511 Thirteenth St",
+				"PC" : "V3M 4M1",
+				"Phone" : "(604)433-2218",
+				"Email" : "inquiry@affordablehsg.com",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.93059118539031",
+				"Y" : "49.20621684165381"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.89383322882809, 49.226195768544855 ]
+			},
+			"properties" : {
+				"Name" : "Cedar Manor",
+				"Description" : "MUST APPLY THROUGH CEDAR MANOR - only market rent units available currently.Housing for seniors (55+), persons with disabilities and singles.",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "Monday-Friday, 8:30am-4:30pm",
+				"Location" : "312 Hospital St",
+				"PC" : "V3N 3L4",
+				"Phone" : "(604)299-8288",
+				"Email" : "inquiry@affordablehsg.com",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.89383322882809",
+				"Y" : "49.226195768544855"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.95390804434082, 49.20063352568668 ]
+			},
+			"properties" : {
+				"Name" : "Connaught Heights Pentecostal Villa",
+				"Description" : "MUST APPLY THROUGH CONNAUGHT HEIGHTS PENTECOSTAL SOCIETY by mail. Housing for seniors (55+).",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "",
+				"Location" : "2222 Edinburgh St",
+				"PC" : "V3M 2Y1",
+				"Phone" : "(604)540-1941",
+				"Email" : "",
+				"Website" : "http://www.cglf.ca/storage/Inventory%20of%20Lower%20Mainland%20Christian%20Housing.pdf",
+				"X" : "-122.95390804434082",
+				"Y" : "49.20063352568668"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.92394047061435, 49.20853128037355 ]
+			},
+			"properties" : {
+				"Name" : "Crown Manor",
+				"Description" : "MUST APPLY THROUGH BC HOUSING either on-line or by mail. Housing for seniors (55+), persons with disabilities, singles, and families with children.",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "For BC Housing: Monday-Friday, 8:30am-4:30pm",
+				"Location" : "430 Ninth St",
+				"PC" : "V3M 3W4",
+				"Phone" : "(604)433-2218",
+				"Email" : "icentre@metrovancouver.org",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.92394047061435",
+				"Y" : "49.20853128037355"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.91626808266709, 49.22358201413698 ]
+			},
+			"properties" : {
+				"Name" : "Dunwood Place",
+				"Description" : "MUST APPLY THROUGH THE PRESBYTERIAN SENIOR CITIZENS' HOUSING SOCIETY in person or by mail. Housing for seniors (65+).",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "Monday-Friday, 9:00am-4:00pm",
+				"Location" : "901 Colborne St",
+				"PC" : "V3L 5E9",
+				"Phone" : "(604)521-8636",
+				"Email" : "",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.91626808266709",
+				"Y" : "49.22358201413698"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.90690517548394, 49.21910908153716 ]
+			},
+			"properties" : {
+				"Name" : "Fraser River Place Housing Co-op",
+				"Description" : "MUST APPLY THROUGH FRASER RIVER PLACE HSG CO-OP MEMBERSHIP COMMITTEE by mail. Co-op housing for all household types.",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "",
+				"Location" : "530 Ginger Dr",
+				"PC" : "V3L 5K8",
+				"Phone" : "",
+				"Email" : "",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.90690517548394",
+				"Y" : "49.21910908153716"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.92065708771254, 49.203243302097036 ]
+			},
+			"properties" : {
+				"Name" : "Hillside Place",
+				"Description" : "MUST APPLY THROUGH BC HOUSING either on-line or by mail. Housing for families with children.",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "For BC Housing: Monday-Friday, 8:30am-4:30pm",
+				"Location" : "1025 Queens Ave",
+				"PC" : "V3M 1M4",
+				"Phone" : "(604)433-2218",
+				"Email" : "inquiry@affordablehsg.com",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.92065708771254",
+				"Y" : "49.203243302097036"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.93049882430199, 49.20794555822337 ]
+			},
+			"properties" : {
+				"Name" : "Hunter Heights",
+				"Description" : "MUST APPLY THROUGH FRASERSIDE COMMUNITY SERVICES. Housing for singles and couples.",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "",
+				"Location" : "1115 Sixth Ave",
+				"PC" : "V3M 4J3",
+				"Phone" : "(604)522-3722",
+				"Email" : "jackier@fraserside.bc.ca",
+				"Website" : "http://www.fraserside.bc.ca/social_housing/hunter_heights.htm",
+				"X" : "-122.93049882430199",
+				"Y" : "49.20794555822337"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.91988919701926, 49.21388632616596 ]
+			},
+			"properties" : {
+				"Name" : "Legion Manor",
+				"Description" : "MUST APPLY THROUGH ROYAL CITY LEGION HOUSING SOCIETY by mail. Housing for seniors (55+).",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "",
+				"Location" : "505 Sixth Ave",
+				"PC" : "V3L 5H3",
+				"Phone" : "(604)526-0116",
+				"Email" : "",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.91988919701926",
+				"Y" : "49.21388632616596"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.92282036503556, 49.21073429331534 ]
+			},
+			"properties" : {
+				"Name" : "Lions Moody Park Tower",
+				"Description" : "MUST APPLY THROUGH BC HOUSING either on-line or by mail. Housing for seniors (55+) and persons with disabilities.",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "For BC Housing: Monday-Friday, 8:30am-4:30pm",
+				"Location" : "525 Eighth St",
+				"PC" : "V3M 6H2",
+				"Phone" : "(604)433-2218",
+				"Email" : "",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.92282036503556",
+				"Y" : "49.21073429331534"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.93679294471455, 49.21219376625162 ]
+			},
+			"properties" : {
+				"Name" : "London Square",
+				"Description" : "MUST APPLY THROUGH BC HOUSING either on-line or by mail. Housing for families with children.",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "For BC Housing: Monday-Friday, 8:30am-4:30pm",
+				"Location" : "1206A London St",
+				"PC" : "V3M 5Z6",
+				"Phone" : "(604)433-2218",
+				"Email" : "icentre@metrovancouver.org",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.93679294471455",
+				"Y" : "49.21219376625162"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.9051553782999, 49.218217148262525 ]
+			},
+			"properties" : {
+				"Name" : "McBride Place",
+				"Description" : "MUST APPLY THROUGH BC HOUSING either on-line or by mail. Housing for families with children.",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "For BC Housing: Monday-Friday, 8:30am-4:30pm",
+				"Location" : "431 Ginger Dr",
+				"PC" : "V3L 5L1",
+				"Phone" : "(604)433-2218",
+				"Email" : "icentre@metrovancouver.org",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.9051553782999",
+				"Y" : "49.218217148262525"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.91990737990986, 49.20476523800184 ]
+			},
+			"properties" : {
+				"Name" : "New Westminster Housing Co-operative",
+				"Description" : "MUST APPLY THROUGH NEW WESTMINSTER HOUSING CO-OPERATIVE MEMBERSHIP COMMITTEE by mail or by email. Co-op housing for all household types.",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "",
+				"Location" : "243 Tenth St",
+				"PC" : "V3M 3Y1",
+				"Phone" : "",
+				"Email" : "new.west.coop@gmail.com",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.91990737990986",
+				"Y" : "49.20476523800184"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.91953906943387, 49.20306663099956 ]
+			},
+			"properties" : {
+				"Name" : "Queen's Avenue Hsg Co-op",
+				"Description" : "MUST APPLY THROUGH QUEEN'S AVENUE HOUSING COOPERATIVE by mail or by email. Co-op housing for all household types.",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "",
+				"Location" : "136 Tenth St",
+				"PC" : "V3M 3X8",
+				"Phone" : "",
+				"Email" : "qacoop@gmail.com?£",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.91953906943387",
+				"Y" : "49.20306663099956"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.90470781805703, 49.2171709394927 ]
+			},
+			"properties" : {
+				"Name" : "Queen's Park Hsg Co-op",
+				"Description" : "MUST APPLY THROUGH  QUEEN'S PARK HOUSING CO-OP MEMBERSHIP COMMITTEE by mail. Co-op housing for all household types.",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "",
+				"Location" : "386 Ginger Dr",
+				"PC" : "V3L 5L4",
+				"Phone" : "(604)520-3886",
+				"Email" : "",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.90470781805703",
+				"Y" : "49.2171709394927"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.91659224798757, 49.19860273253524 ]
+			},
+			"properties" : {
+				"Name" : "Riverbend Housing Co-op",
+				"Description" : "MUST APPLY THROUGH RIVERBEND HOUSING CO-OP MEMBERSHIP COMMITTEE by mail or email. Co-op housing for all household types.",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "",
+				"Location" : "1050 Quayside Dr",
+				"PC" : "V3M 6C1",
+				"Phone" : "(604)520-3442",
+				"Email" : "info@riverbendcoop.org",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.91659224798757",
+				"Y" : "49.19860273253524"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.91558436971101, 49.222960887990155 ]
+			},
+			"properties" : {
+				"Name" : "Ross Towers",
+				"Description" : "MUST APPLY THROUGH BC HOUSING by mail or online. Housing for seniors (55+) and persons with disabilities.",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "For BC Housing: Monday-Friday, 8:30am-4:30pm",
+				"Location" : "45 Clute St",
+				"PC" : "V3L 1Z7",
+				"Phone" : "(604)433-2218",
+				"Email" : "",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.91558436971101",
+				"Y" : "49.222960887990155"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.91455428020957, 49.22337076464271 ]
+			},
+			"properties" : {
+				"Name" : "Rotary Tower",
+				"Description" : "MUST APPLY THROUGH BAYSIDE PROPERTY SERVICES LTD - phone to view. Housing for seniors (55+) - couples only.",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "",
+				"Location" : "25 Clute St",
+				"PC" : "V3L 1Z6",
+				"Phone" : "(778)859-0798",
+				"Email" : "",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.91455428020957",
+				"Y" : "49.22337076464271"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.8941694260604, 49.22911036029343 ]
+			},
+			"properties" : {
+				"Name" : "Sapperton Terrace Hsg Co-op",
+				"Description" : "MUST APPLY THROUGH SAPPERTON TERRACE HOUSING CO-OP MEMBERSHIP COMMITTEE by mail. Co-op housing for all household types.",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "",
+				"Location" : "318 Ward St",
+				"PC" : "V3L 5P3",
+				"Phone" : "",
+				"Email" : "",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.8941694260604",
+				"Y" : "49.22911036029343"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.92058223644055, 49.20718222886633 ]
+			},
+			"properties" : {
+				"Name" : "Wesley Manor",
+				"Description" : "MUST APPLY THROUGH WESLEY MANOR SOCIETY - phone Wesley Manor Society for more details. Housing for seniors (55+ years old). ",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "",
+				"Location" : "815 Kennedy St",
+				"PC" : "V3M 1R8",
+				"Phone" : "(604)524-8117",
+				"Email" : "",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.92058223644055",
+				"Y" : "49.20718222886633"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.92010112624469, 49.20382190127359 ]
+			},
+			"properties" : {
+				"Name" : "Westminster Heights Co-op",
+				"Description" : "MUST APPLY THROUGH WESTMINSTER HEIGHTS CO-OP MEMBERSHIP COMMITTEE by mail. Co-op housing for families with children.",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "Monday, 9:30am-11:00am, Thursday, 9:30am-12:30pm",
+				"Location" : "1005 Queens Ave",
+				"PC" : "V3M 1M4",
+				"Phone" : "",
+				"Email" : "",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.92010112624469",
+				"Y" : "49.20382190127359"
+			}
+		},
+		{
+			"type" : "Feature",
+			"geometry" : {
+				"type" : "Point",
+				"coordinates" : [ -122.9144598820122, 49.198971623100604 ]
+			},
+			"properties" : {
+				"Name" : "Westminster Landing Co-op",
+				"Description" : "MUST APPLY THROUGH WESTMINSTER LANDING CO-OP MEMBERSHIP COMMITTEE by mail. Co-op housing for all household types",
+				"Category" : "Non-Market and Co-op Housing",
+				"Hours" : "",
+				"Location" : "13 K de K Crt",
+				"PC" : "V3M 6B6",
+				"Phone" : "(604)521-8338",
+				"Email" : "",
+				"Website" : "http://www.bchousing.org/Options/Subsidized_Housing/Listings",
+				"X" : "-122.9144598820122",
+				"Y" : "49.198971623100604"
+			}
+		}
+	]
+}
