@@ -57,6 +57,16 @@
         (30% of household total gross income, subject to minimum rent based on # of people).You may be eligible for subsidized housing if you can live independently and meet the household, residency, income and assets criteria. Please read through Am I Eligible section in the FAQ to confirm your eligibility or check your
         eligibility through eligibility section in the main menu.</string>
     <string name="map_view">Map View</string>
+    <string name="title_activity_nav">NavActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 
 
 </resources>
