@@ -1,10 +1,14 @@
 package zhengc.bcit.ca.benehome;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,21 +19,21 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class House_list extends AppCompatActivity {
+public class House_list extends Fragment {
 
     static ArrayList<HashMap<String, String>> house;
     String[] houseName;
     private static final String TAG = House_list.class.getName();
     private String[] keywords;
     private int keywords_size = 0;
-
+    View view;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_house_list);
+    }
 
-        // set up btns
-        setBtns();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        view = inflater.inflate(R.layout.activity_house_list,null);
         // set up house arrayList from josn
         setHouse();
         // filter by keywords
@@ -45,7 +49,7 @@ public class House_list extends AppCompatActivity {
         }
         // set house list
         setList();
-
+        return view;
     }
 
     public static ArrayList<HashMap<String, String>> getHouseList() {
@@ -67,16 +71,16 @@ public class House_list extends AppCompatActivity {
         }
 
         ListAdapter lst = new ArrayAdapter<>(
-                this,
+                getActivity(),
                 android.R.layout.simple_list_item_1,//list styles
                 houseName);
-        ListView lstView = findViewById(R.id.lst_result_listing);
+        ListView lstView = view.findViewById(R.id.lst_result_listing);
         lstView.setAdapter(lst);
         lstView.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Intent intent = new Intent(House_list.this, House_detail.class);
+                        Intent intent = new Intent(getActivity(), House_detail.class);
                         HashMap<String, String> selectHouse = new HashMap<>();
 
                         // get selected house
@@ -97,33 +101,9 @@ public class House_list extends AppCompatActivity {
         houseName = new String[house.size()];
     }
 
-    private void setBtns() {
-        ImageView btnBack = findViewById(R.id.btn_back_listing);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.wtf(TAG, "enter btnBack onclick on house detail page");
-                Intent intent = new Intent();
-                intent.setClass(House_list.this, MainMenu.class);
-                startActivity(intent);
-                Log.wtf(TAG, "exit btnBack onClick on house detail page");
-            }
-        });
-        Button btn_map = findViewById(R.id.btn_map_list);
-        btn_map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.wtf(TAG, "map view in");
-                Intent intent = new Intent(House_list.this, MapsActivity.class);
-                startActivity(intent);
-                Log.wtf(TAG, "map view go");
-            }
-        });
-    }
-
     private boolean get_keywords() {
-        keywords = getIntent().getStringArrayExtra("keys");
-        keywords_size = getIntent().getIntExtra("key_size", 0);
+        keywords = getActivity().getIntent().getStringArrayExtra("keys");
+        keywords_size = getActivity().getIntent().getIntExtra("key_size", 0);
         return keywords_size != 0;
     }
 }

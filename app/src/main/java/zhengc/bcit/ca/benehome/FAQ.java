@@ -1,10 +1,13 @@
 package zhengc.bcit.ca.benehome;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 
@@ -12,36 +15,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class FAQ extends AppCompatActivity {
+public class FAQ extends Fragment {
 
     private static final String TAG = House_detail.class.getName();
     private List<String> listDataHeader;
     private HashMap<String, List<String>> listHash;
-
+    View view;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_faq);
+    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        view = inflater.inflate(R.layout.activity_faq,null);
 
-        ImageView btnBack = findViewById(R.id.btn_back_faq);
-
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.wtf(TAG, "enter btnBack onclick on house detail page");
-                Intent intent = new Intent();
-                intent.setClass(FAQ.this, MainMenu.class);
-                startActivity(intent);
-                Log.wtf(TAG, "exit btnBack onClick on house detail page");
-            }
-        });
-
-        ExpandableListView listView = findViewById(R.id.lvExp);
+        ExpandableListView listView = view.findViewById(R.id.lvExp);
         initData();
-        ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, listDataHeader, listHash);
+        ExpandableListAdapter listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listHash);
         listView.setAdapter(listAdapter);
 
-
+        return view;
     }
 
     private void initData() {

@@ -15,7 +15,6 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 
 public class House_detail extends AppCompatActivity {
-    private static final String TAG = House_detail.class.getName();
     HashMap<String, String> selectedHouse;
 
     @Override
@@ -67,7 +66,6 @@ public class House_detail extends AppCompatActivity {
     private void setselectedHouse() {
         selectedHouse = (HashMap<String, String>) getIntent().getSerializableExtra("house");
     }
-
 
     private void sendEmail() {
         Button email = findViewById(R.id.btn_email);

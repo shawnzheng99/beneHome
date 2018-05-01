@@ -1,32 +1,26 @@
 package zhengc.bcit.ca.benehome;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
-public class About extends AppCompatActivity {
+public class About extends Fragment {
 
-    private ImageView btnBack;
     private static final String TAG = House_detail.class.getName();
-
+    View view;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        view = inflater.inflate(R.layout.activity_about,null);
 
-        btnBack = findViewById(R.id.btn_back_about);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.wtf(TAG, "enter btnBack onclick on house detail page");
-                Intent intent = new Intent();
-                intent.setClass(About.this, MainMenu.class);
-                startActivity(intent);
-                Log.wtf(TAG, "exit btnBack onClick on house detail page");
-            }
-        });
+        return view;
     }
 }
