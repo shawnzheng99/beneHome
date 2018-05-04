@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -61,14 +62,12 @@ public class MainActivity extends AppCompatActivity
 
 
     private static final String TAG = MainActivity.class.getName();
-    //public ArrayList<HashMap<String, String>> formlist;
     private GoogleMap mMap;
-    ArrayList<LatLng> markers;
-    ArrayList<HashMap<String, String>> house;
+    private ArrayList<LatLng> markers;
     SupportMapFragment mapFragment;
     private SlidingUpPanelLayout mLayout;
-
-    public ArrayList<HashMap<String, String>> formlist = new ArrayList<>();;
+    private ArrayList<HashMap<String, String>> filtered_house;
+    private ArrayList<HashMap<String, String>> formlist;
     /*firebase*/
     private DatabaseReference databaseReference;
     final private String FIREBASE_DB_ADD = "https://benehome-66efd.firebaseio.com/";
@@ -78,12 +77,15 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        filtered_house = new ArrayList<>();
+        formlist = new ArrayList<>();
         /*--------initilazing db-----------*/
         db = FirebaseDatabase.getInstance(FIREBASE_DB_ADD);
         databaseReference = db.getReference().child("features");
 
         /*loading firebase*/
         loadFirebase();
+        /*slide up*/
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -97,20 +99,18 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        TextView t = (TextView) findViewById(R.id.name);
-        t.setText("hello");
-       hide_slide();
+        hide_slide();
         //------------------------nav oncreate-----------------------------------
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this,MapsActivity.class));
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(MainActivity.this,MapsActivity.class));
+//            }
+//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         getSupportFragmentManager().beginTransaction().hide(mapFragment).commit();
+
         new Thread(new Runnable(){
             @Override
             public void run() {
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity
                         e.printStackTrace();
                     }
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, new House_list()).commitAllowingStateLoss();
+                show_house_list();
             }
 
         }).start();
@@ -148,7 +149,6 @@ public class MainActivity extends AppCompatActivity
     public void loadFirebase() {
         databaseReference.keepSynced(true);
         //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        formlist.clear();
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -208,8 +208,6 @@ public class MainActivity extends AppCompatActivity
 
 
     private void loadFromJson() {
-        formlist = new ArrayList<>();
-
         try {
             JSONObject obj = new JSONObject(loadJSONFromAsset(this));
             JSONArray jsonarray = obj.getJSONArray("features");
@@ -307,8 +305,6 @@ public class MainActivity extends AppCompatActivity
             hide_slide();
         } else if (id == R.id.nav_map) {
             mapFragment.getMapAsync(this);
-            /*--------------set up house list---------*/
-            setHouse();
             /*------------------markers---------------------------*/
             setMarkers();
             showmap();
@@ -348,7 +344,7 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < markers.size(); ++i) {
             mMap.addMarker(new MarkerOptions()
                     .position(markers.get(i))
-                    .title(house.get(i).get("Name"))
+                    .title(formlist.get(i).get("Name"))
 
             );
 
@@ -361,14 +357,14 @@ public class MainActivity extends AppCompatActivity
                 HashMap<String, String> selectHouse = new HashMap<>();
 
                 // get selected house
-                for (int j = 0; j < house.size(); ++j) {
-                    if (house.get(j).get("Name").equals(marker.getTitle())) {
-                        selectHouse = house.get(j);
+                for (int j = 0; j < formlist.size(); ++j) {
+                    if (formlist.get(j).get("Name").equals(marker.getTitle())) {
+                        selectHouse = formlist.get(j);
                     }
                 }
                 intent.putExtra("house", selectHouse);
                 //startActivity(intent);
-                show_slide();
+                show_slide(selectHouse);
             }
         });
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -384,15 +380,12 @@ public class MainActivity extends AppCompatActivity
         CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest, 13);
         mMap.animateCamera((location));
     }
-    private void setHouse() {
-        house = House_list.getHouseList();
-    }
-
+    /*change formlist to filtered_house later*/
     public void setMarkers() {
         markers = new ArrayList<>();
-        for (int i = 0; i < house.size(); ++i) {
-            double y = Double.parseDouble(house.get(i).get("lon"));
-            double x = Double.parseDouble(house.get(i).get("lat"));
+        for (int i = 0; i < formlist.size(); ++i) {
+            double y = Double.parseDouble(formlist.get(i).get("lon"));
+            double x = Double.parseDouble(formlist.get(i).get("lat"));
             markers.add(new LatLng(x, y));
         }
     }
@@ -404,8 +397,16 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
     }
 //-------------------------------map method end---------------------------------------------------
+
+    public void set_filtered_house(ArrayList<HashMap<String,String>> list){
+        filtered_house = list;
+    }
     public void show_house_list(){
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, new House_list()).commitAllowingStateLoss();
+        Fragment house_list_fragment = new House_list();
+        Bundle data = new Bundle();
+        data.putSerializable("data",formlist);
+        house_list_fragment.setArguments(data);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, house_list_fragment).commitAllowingStateLoss();
     }
     public void show_eligibility(){
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new Eligible()).commitAllowingStateLoss();
@@ -419,7 +420,9 @@ public class MainActivity extends AppCompatActivity
     public void hide_slide(){
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
     }
-    public void show_slide(){
+    public void show_slide(HashMap<String,String> house){
+        TextView t = (TextView) findViewById(R.id.name);
+        t.setText(house.get("Name"));
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);;
     }
 }
