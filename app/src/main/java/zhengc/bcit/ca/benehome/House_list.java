@@ -16,6 +16,12 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -26,8 +32,9 @@ public class House_list extends Fragment {
     private static final String TAG = House_list.class.getName();
     private String[] keywords;
     private int keywords_size = 0;
-    private MainActivity mainActivity;
     View view;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +43,8 @@ public class House_list extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.activity_house_list,null);
         // set up house arrayList from josn
-        mainActivity =(MainActivity) getActivity();
         setHouse();
+
         // filter by keywords
         if (get_keywords()) {
             ArrayList<HashMap<String, String>> filtered_house = new ArrayList<>();
@@ -99,7 +106,8 @@ public class House_list extends Fragment {
     }
 
     private void setHouse() {
-        house = mainActivity.getList();
+        house = MainActivity.formlist;
+        //house = MainActivity.getList();
         houseName = new String[house.size()];
     }
 
