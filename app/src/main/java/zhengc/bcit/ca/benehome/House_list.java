@@ -38,14 +38,9 @@ public class House_list extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-    }
-
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        view = inflater.inflate(R.layout.activity_house_list,null);
         // set up house arrayList from josn
+        mainActivity = (MainActivity) getActivity();
         setHouse();
-
         // filter by keywords
         if (get_keywords()) {
             ArrayList<HashMap<String, String>> filtered_house = new ArrayList<>();
@@ -58,7 +53,10 @@ public class House_list extends Fragment {
             houseName = new String[house.size()];
         }
 
-        mainActivity = (MainActivity) getActivity();
+    }
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        view = inflater.inflate(R.layout.activity_house_list,null);
         // set house list
         setList();
         return view;
@@ -109,7 +107,7 @@ public class House_list extends Fragment {
     }
 
     private void setHouse() {
-        house = MainActivity.formlist;
+        house = mainActivity.formlist;
         houseName = new String[house.size()];
     }
 
