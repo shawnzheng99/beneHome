@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity
         databaseReference = db.getReference().child("features");
 
         /*loading firebase*/
-
         loadFirebase();
 
 
@@ -93,7 +92,6 @@ public class MainActivity extends AppCompatActivity
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new House_list()).commitAllowingStateLoss();
     }
-
 
 
     //-------------------------loding firebase data------------------------------------
@@ -158,6 +156,7 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
+
 
     private void loadFromJson() {
         formlist = new ArrayList<>();
@@ -264,8 +263,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    //-------------------------nav method overload end--------------------------------
-    //-----------------------------------JSON file method-----------------------------------------------------------------------------------
+    //-----------------------------------JSON file method--------------------------------
     public String loadJSONFromAsset(Context context) {
         String json = null;
         try {
@@ -282,7 +280,4 @@ public class MainActivity extends AppCompatActivity
         return json;
     }
 
-//    public ArrayList<HashMap<String, String>> getList() {
-//        return formlist;
-//    }
 }

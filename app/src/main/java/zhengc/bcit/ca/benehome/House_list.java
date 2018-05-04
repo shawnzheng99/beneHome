@@ -27,17 +27,18 @@ import java.util.HashMap;
 
 public class House_list extends Fragment {
 
-     ArrayList<HashMap<String, String>> house;
+    static ArrayList<HashMap<String, String>> house;
     String[] houseName;
     private static final String TAG = House_list.class.getName();
     private String[] keywords;
     private int keywords_size = 0;
     View view;
-
+    private MainActivity mainActivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -56,12 +57,14 @@ public class House_list extends Fragment {
             house = filtered_house;
             houseName = new String[house.size()];
         }
+
+        mainActivity = (MainActivity) getActivity();
         // set house list
         setList();
         return view;
     }
 
-    public  ArrayList<HashMap<String, String>> getHouseList() {
+    public static ArrayList<HashMap<String, String>> getHouseList() {
         return house;
     }
 
@@ -107,7 +110,6 @@ public class House_list extends Fragment {
 
     private void setHouse() {
         house = MainActivity.formlist;
-        //house = MainActivity.getList();
         houseName = new String[house.size()];
     }
 
