@@ -26,6 +26,7 @@ public class House_list extends Fragment {
     private static final String TAG = House_list.class.getName();
     private String[] keywords;
     private int keywords_size = 0;
+    private MainActivity mainActivity;
     View view;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class House_list extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.activity_house_list,null);
         // set up house arrayList from josn
+        mainActivity =(MainActivity) getActivity();
         setHouse();
         // filter by keywords
         if (get_keywords()) {
@@ -97,7 +99,7 @@ public class House_list extends Fragment {
     }
 
     private void setHouse() {
-        house = MainActivity.getList();
+        house = mainActivity.getList();
         houseName = new String[house.size()];
     }
 

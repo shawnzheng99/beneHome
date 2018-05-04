@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
 
     private static final String TAG = MainActivity.class.getName();
-    public static ArrayList<HashMap<String, String>> formlist;
+    public ArrayList<HashMap<String, String>> formlist;
     private GoogleMap mMap;
     ArrayList<LatLng> markers;
     ArrayList<HashMap<String, String>> house;
@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity
         return json;
     }
 
-    public static ArrayList<HashMap<String, String>> getList() {
+    public ArrayList<HashMap<String, String>> getList() {
         return formlist;
     }
 //------------------------------map method---------------------------------------------------
@@ -305,4 +305,5 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
     }
 //-------------------------------map method end---------------------------------------------------
+
 }
