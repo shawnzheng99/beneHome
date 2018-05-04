@@ -27,17 +27,14 @@ import java.util.HashMap;
 
 public class House_list extends Fragment {
 
-    ArrayList<HashMap<String, String>> house;
+     ArrayList<HashMap<String, String>> house;
     String[] houseName;
     private static final String TAG = House_list.class.getName();
     private String[] keywords;
     private int keywords_size = 0;
     View view;
 
-    /*firebase*/
-    private DatabaseReference databaseReference;
-    private FirebaseDatabase db;
-    final private  String FIREBASE_DB_ADD = "https://benehome-66efd.firebaseio.com/";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +43,8 @@ public class House_list extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.activity_house_list,null);
         // set up house arrayList from josn
-        //setHouse();
-        /*--------initilazing db-----------*/
-        db = FirebaseDatabase.getInstance(FIREBASE_DB_ADD);
+        setHouse();
 
-        databaseReference = db.getReference().child("features");
-
-
-        loadFirebase();
         // filter by keywords
         if (get_keywords()) {
             ArrayList<HashMap<String, String>> filtered_house = new ArrayList<>();
@@ -69,74 +60,8 @@ public class House_list extends Fragment {
         setList();
         return view;
     }
-    public void loadFirebase() {
-        databaseReference.keepSynced(true);
-        house = new ArrayList<>();
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.wtf(TAG,"---------------onChange--------------");
-                house.clear();
-                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                    String Category = (String) messageSnapshot.child("properties")
-                            .child("Category").getValue();
-                    String Description = (String) messageSnapshot.child("properties")
-                            .child("Description").getValue();
-                    String Email = (String) messageSnapshot.child("properties")
-                            .child("Email").getValue();
-                    String Hours = (String) messageSnapshot.child("properties")
-                            .child("Hours").getValue();
-                    String Location = (String) messageSnapshot.child("properties")
-                            .child("Location").getValue();
-                    String Name = (String) messageSnapshot.child("properties")
-                            .child("Name").getValue();
-                    String PC = (String) messageSnapshot.child("properties")
-                            .child("PC").getValue();
-                    String Phone = (String) messageSnapshot.child("properties")
-                            .child("Phone").getValue();
-                    String Website = (String) messageSnapshot.child("properties")
-                            .child("Website").getValue();
-                    String X = (String) messageSnapshot.child("properties")
-                            .child("X").getValue();
-                    String Y = (String) messageSnapshot.child("properties")
-                            .child("Y").getValue();
-
-                    HashMap<String, String> mylist = new HashMap<>();
-
-                    mylist.put("Name", Name);
-                    mylist.put("Description", Description);
-                    mylist.put("Category", Category);
-                    mylist.put("Hours", Hours);
-                    mylist.put("Location", Location);
-                    mylist.put("PC", PC);
-                    mylist.put("Phone", Phone);
-                    mylist.put("Email", Email);
-                    mylist.put("Website", Website);
-                    mylist.put("lon", X);
-                    mylist.put("lat", Y);
-
-                    house.add(mylist);
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        if(house.isEmpty())
-            Log.wtf(TAG, "empty");
-        HashMap hm = new HashMap<String, String>();
-        hm.put("Name", "house1111");
-        house.add(hm);
-    }
-    public ArrayList<HashMap<String, String>> getHouseList() {
+    public  ArrayList<HashMap<String, String>> getHouseList() {
         return house;
     }
 
@@ -180,10 +105,11 @@ public class House_list extends Fragment {
         );
     }
 
-   // private void setHouse() {
-    //    house = MainActivity.getList();
-    //    houseName = new String[house.size()];
-  //  }
+    private void setHouse() {
+        house = MainActivity.formlist;
+        //house = MainActivity.getList();
+        houseName = new String[house.size()];
+    }
 
     private boolean get_keywords() {
         keywords = getActivity().getIntent().getStringArrayExtra("keys");

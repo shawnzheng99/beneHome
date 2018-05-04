@@ -47,8 +47,11 @@ public class MainActivity extends AppCompatActivity
 
 
     private static final String TAG = MainActivity.class.getName();
-     ArrayList<HashMap<String, String>> formlist;
-
+    static ArrayList<HashMap<String, String>> formlist;
+    /*firebase*/
+    private DatabaseReference databaseReference;
+    private FirebaseDatabase db;
+    final private String FIREBASE_DB_ADD = "https://benehome-66efd.firebaseio.com/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,17 +79,85 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
+        /*--------initilazing db-----------*/
+        db = FirebaseDatabase.getInstance(FIREBASE_DB_ADD);
+        databaseReference = db.getReference().child("features");
+
+        /*loading firebase*/
+
+        loadFirebase();
 
 
-        //if(formlist.isEmpty()){
-        //    Log.wtf(TAG, "empty");
-            //loadFromJson();
-        //}
+        if(formlist.isEmpty())
+            Log.wtf(TAG, "empty");
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new House_list()).commitAllowingStateLoss();
     }
 
 
+
+    //-------------------------loding firebase data------------------------------------
+    public void loadFirebase() {
+        databaseReference.keepSynced(true);
+        formlist = new ArrayList<>();
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.wtf(TAG,"---------------onChange--------------");
+                formlist.clear();
+                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                    String Category = (String) messageSnapshot.child("properties")
+                            .child("Category").getValue();
+                    String Description = (String) messageSnapshot.child("properties")
+                            .child("Description").getValue();
+                    String Email = (String) messageSnapshot.child("properties")
+                            .child("Email").getValue();
+                    String Hours = (String) messageSnapshot.child("properties")
+                            .child("Hours").getValue();
+                    String Location = (String) messageSnapshot.child("properties")
+                            .child("Location").getValue();
+                    String Name = (String) messageSnapshot.child("properties")
+                            .child("Name").getValue();
+                    String PC = (String) messageSnapshot.child("properties")
+                            .child("PC").getValue();
+                    String Phone = (String) messageSnapshot.child("properties")
+                            .child("Phone").getValue();
+                    String Website = (String) messageSnapshot.child("properties")
+                            .child("Website").getValue();
+                    String X = (String) messageSnapshot.child("properties")
+                            .child("X").getValue();
+                    String Y = (String) messageSnapshot.child("properties")
+                            .child("Y").getValue();
+
+                    HashMap<String, String> mylist = new HashMap<>();
+
+                    mylist.put("Name", Name);
+                    mylist.put("Description", Description);
+                    mylist.put("Category", Category);
+                    mylist.put("Hours", Hours);
+                    mylist.put("Location", Location);
+                    mylist.put("PC", PC);
+                    mylist.put("Phone", Phone);
+                    mylist.put("Email", Email);
+                    mylist.put("Website", Website);
+                    mylist.put("lon", X);
+                    mylist.put("lat", Y);
+
+                    formlist.add(mylist);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 
     private void loadFromJson() {
         formlist = new ArrayList<>();
@@ -131,8 +202,8 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
     }
-
     //--------------------------nav method overload-----------------------------------
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -164,7 +235,6 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -193,10 +263,8 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     //-------------------------nav method overload end--------------------------------
-
-
-
     //-----------------------------------JSON file method-----------------------------------------------------------------------------------
     public String loadJSONFromAsset(Context context) {
         String json = null;
@@ -214,7 +282,7 @@ public class MainActivity extends AppCompatActivity
         return json;
     }
 
-    public  ArrayList<HashMap<String, String>> getList() {
-        return formlist;
-    }
+//    public ArrayList<HashMap<String, String>> getList() {
+//        return formlist;
+//    }
 }
