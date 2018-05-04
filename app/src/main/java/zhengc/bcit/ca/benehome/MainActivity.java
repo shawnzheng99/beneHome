@@ -24,6 +24,12 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ViewFlipper;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,11 +40,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
+
     private static final String TAG = MainActivity.class.getName();
-    public static ArrayList<HashMap<String, String>> formlist;
+     ArrayList<HashMap<String, String>> formlist;
 
 
     @Override
@@ -66,6 +75,20 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+
+
+        //if(formlist.isEmpty()){
+        //    Log.wtf(TAG, "empty");
+            //loadFromJson();
+        //}
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, new House_list()).commitAllowingStateLoss();
+    }
+
+
+
+    private void loadFromJson() {
         formlist = new ArrayList<>();
 
         try {
@@ -107,8 +130,8 @@ public class MainActivity extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, new House_list()).commitAllowingStateLoss();
     }
+
     //--------------------------nav method overload-----------------------------------
     @Override
     public void onBackPressed() {
@@ -191,7 +214,7 @@ public class MainActivity extends AppCompatActivity
         return json;
     }
 
-    public static ArrayList<HashMap<String, String>> getList() {
+    public  ArrayList<HashMap<String, String>> getList() {
         return formlist;
     }
 }
