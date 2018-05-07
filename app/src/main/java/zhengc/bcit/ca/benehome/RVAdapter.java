@@ -102,7 +102,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
         placeViewHolder.readMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.show_slide(formlist.get(j));
+                context.slide_expanded(formlist.get(j));
             }
         });
 
