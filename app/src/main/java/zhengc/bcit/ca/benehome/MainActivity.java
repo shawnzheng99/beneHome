@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<HashMap<String, String>> formlist;
     /*firebase*/
     private DatabaseReference databaseReference;
-    final private String FIREBASE_DB_ADD = "https://benehome-66efd.firebaseio.com/";
+//    final private String FIREBASE_DB_ADD = "https://benehome-66efd.firebaseio.com/";
     private FirebaseDatabase db;
 
 
@@ -79,12 +79,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Fragment house_list_fragment = new House_list();
-        Bundle data = new Bundle();
-        data.putSerializable("data",formlist);
-        house_list_fragment.setArguments(data);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, house_list_fragment).commitAllowingStateLoss();
 
         /*check if it is the first time run*/
         final String first_time = "if_first_time";
@@ -103,7 +97,7 @@ public class MainActivity extends AppCompatActivity
         filtered_house = new ArrayList<>();
         formlist = new ArrayList<>();
         /*--------initilazing db-----------*/
-        db = FirebaseDatabase.getInstance(FIREBASE_DB_ADD);
+        db = FirebaseDatabase.getInstance();
         databaseReference = db.getReference().child("features");
 
         /*loading firebase*/
@@ -168,7 +162,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    //-------------------------loding firebase data------------------------------------
+    //-------------------------lording Firebase data------------------------------------
     public void loadFirebase() {
         databaseReference.keepSynced(true);
         //FirebaseDatabase.getInstance().setPersistenceEnabled(true);

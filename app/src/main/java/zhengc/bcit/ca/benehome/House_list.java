@@ -80,7 +80,7 @@ public class House_list extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.activity_house_list,null);
         // set house list
-//        formlist = (ArrayList<HashMap<String,String>>)getArguments().getSerializable("data");
+        formlist = (ArrayList<HashMap<String,String>>)getArguments().getSerializable("data");
         // filter by keywords
 //        if (get_keywords()) {
 //            for (HashMap<String, String> h : formlist) {
@@ -129,25 +129,35 @@ public class House_list extends Fragment {
     }
 
     private void initPlaceData() {
-        try {
-            String jsonDataString = readJsonDataFromFile();
-            JSONArray menuItemsJsonArray = new JSONArray(jsonDataString);
-            for (int i = 0; i < menuItemsJsonArray.length(); ++i) {
-                JSONObject menuItemObject = menuItemsJsonArray.getJSONObject(i);
-                String locationName = menuItemObject.getString("name");
-                String locationImg = menuItemObject.getString("imgId");
-                int locationImgId = getResources().getIdentifier(locationImg,"mipmap",mainActivity.getPackageName());
-                String desc = menuItemObject.getString("address");
+//        try {
+//            String jsonDataString = readJsonDataFromFile();
+//            JSONArray menuItemsJsonArray = new JSONArray(jsonDataString);
+//            for (int i = 0; i < menuItemsJsonArray.length(); ++i) {
+//                JSONObject menuItemObject = menuItemsJsonArray.getJSONObject(i);
+//                String locationName = menuItemObject.getString("name");
+//                String locationImg = menuItemObject.getString("imgId");
+//                int locationImgId = getResources().getIdentifier(locationImg,"mipmap",mainActivity.getPackageName());
+//                String desc = menuItemObject.getString("address");
+//
+//                Place p = new Place(locationName,locationImgId, desc);
+//                placeList.add(p);
 
-                Place p = new Place(locationName,locationImgId, desc);
+            for (int i = 0; i < formlist.size(); ++i) {
+
+                String locationName = formlist.get(i).get("Name");
+//                String locationImg = menuItemObject.getString("imgId");
+//                int locationImgId = getResources().getIdentifier(locationImg,"mipmap",mainActivity.getPackageName());
+                String desc = formlist.get(i).get("Description");
+//
+                Place p = new Place("",R.drawable.slide2, locationName);
                 placeList.add(p);
             }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
 //    public ArrayList<HashMap<String, String>> getHouseList() {

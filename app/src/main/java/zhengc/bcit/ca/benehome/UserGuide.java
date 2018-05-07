@@ -24,20 +24,20 @@ public class UserGuide extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdpter);
 
         //        **********************************************************************************************************
-        //监听ViewPager的跳转状态，当跳转到最后一页时，执行jumpToNext()方法
+        //when swipe left on the last page, execute JumpToNext()
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             /**
-             * 在屏幕滚动过程中不断被调用
+             * swipe
              * @param position
-             * @param positionOffset   是当前页面滑动比例，如果页面向右翻动，这个值不断变大，最后在趋近1的情况后突变为0。如果页面向左翻动，这个值不断变小，最后变为0
-             * @param positionOffsetPixels   是当前页面滑动像素，变化情况和positionOffset一致
+             * @param positionOffset   move offset, 0/1
+             * @param positionOffsetPixels   image move offset
              */
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
 //                Log.v("AAA",isLastPage+"   "+isDragPage+"   "+positionOffsetPixels);
-                if (isLastPage && isDragPage && positionOffsetPixels == 0){   //当前页是最后一页，并且是拖动状态，并且像素偏移量为0
+                if (isLastPage && isDragPage && positionOffsetPixels == 0){
                     if (canJumpPage){
                         canJumpPage = false;
                         JumpToNext();
@@ -46,8 +46,8 @@ public class UserGuide extends AppCompatActivity {
             }
 
             /**
-             * 这个方法有一个参数position，代表哪个页面被选中
-             * @param position    当前页的索引
+             *
+             * @param position    the current page index
              */
             @Override
             public void onPageSelected(int position) {
@@ -56,8 +56,8 @@ public class UserGuide extends AppCompatActivity {
             }
 
             /**
-             * 在手指操作屏幕的时候发生变化
-             * @param state   有三个值：0（END）,1(PRESS) , 2(UP) 。
+             * screen
+             * @param state   0（END）,1(PRESS) , 2(UP) 。
              */
             @Override
             public void onPageScrollStateChanged(int state) {
@@ -70,7 +70,7 @@ public class UserGuide extends AppCompatActivity {
 
 
     /**
-     * viewpager滑动到最后一页做跳转逻辑
+     * Jump to next activity
      */
     private void JumpToNext() {
 
