@@ -100,7 +100,7 @@ public class House_list extends Fragment {
                         }
                         intent.putExtra("house", selectHouse);
                         //startActivity(intent);
-                        mainActivity.show_slide(selectHouse);
+                        mainActivity.slide_expanded(selectHouse);
                     }
                 }
         );

@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -70,17 +71,20 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<HashMap<String, String>> formlist;
     /*firebase*/
     private DatabaseReference databaseReference;
-    final private String FIREBASE_DB_ADD = "https://benehome-66efd.firebaseio.com/";
+    //final private String FIREBASE_DB_ADD = "https://benehome-66efd.firebaseio.com/";
     private FirebaseDatabase db;
+    private ImageButton imageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         filtered_house = new ArrayList<>();
         formlist = new ArrayList<>();
+        imageButton = findViewById(R.id.up_down_button);
         /*--------initilazing db-----------*/
-        db = FirebaseDatabase.getInstance(FIREBASE_DB_ADD);
+        db = FirebaseDatabase.getInstance();
         databaseReference = db.getReference().child("features");
 
         /*loading firebase*/
@@ -91,6 +95,12 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 Log.i(TAG, "onPanelSlide, offset " + slideOffset);
+                if(slideOffset == 1){
+                    imageButton.setBackground(getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_black_24dp));
+                }
+                if(slideOffset == 0){
+                    imageButton.setBackground(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up_black_24dp));
+                }
             }
 
             @Override
@@ -427,9 +437,24 @@ public class MainActivity extends AppCompatActivity
     public void hide_slide(){
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
     }
+    public void slide_expanded(HashMap<String,String> house){
+        TextView t = (TextView) findViewById(R.id.name);
+        t.setText(house.get("Name"));
+        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+    }
     public void show_slide(HashMap<String,String> house){
         TextView t = (TextView) findViewById(R.id.name);
         t.setText(house.get("Name"));
-        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);;
+        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
+    }
+    public void up_down_button_click(View view){
+        if(mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED){
+            mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+            imageButton.setBackground(getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_black_24dp));
+        }else if(mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED){
+            mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            imageButton.setBackground(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up_black_24dp));
+        }
     }
 }
