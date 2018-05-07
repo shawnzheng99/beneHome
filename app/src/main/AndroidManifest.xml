@@ -18,7 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -32,9 +33,9 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-
         <activity android:name=".House_detail" />
-        <!--fragment
+        <!--
+        fragment
         <activity android:name=".House_list" />
         <activity android:name=".Eligible" />
         <activity android:name=".About" />
@@ -52,9 +53,13 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBVTMN0H10Jgnu36jm5zRYXp313d_nMi0E" />
 
-        <activity
+<!--        <activity
             android:name=".MapsActivity"
             android:label="Map" />
+-->
+        <activity
+            android:name=".UserGuide"
+            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
     </application>
 
 </manifest>

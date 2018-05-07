@@ -2,6 +2,7 @@ package zhengc.bcit.ca.benehome;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -77,6 +78,27 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Fragment house_list_fragment = new House_list();
+        Bundle data = new Bundle();
+        data.putSerializable("data",formlist);
+        house_list_fragment.setArguments(data);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, house_list_fragment).commitAllowingStateLoss();
+
+        /*check if it is the first time run*/
+        final String first_time = "if_first_time";
+
+        SharedPreferences settings = getSharedPreferences(first_time, 0);
+
+        if (settings.getBoolean("not_first", true)) {
+            startActivity(new Intent(MainActivity.this, UserGuide.class));
+            SharedPreferences.Editor ed = settings.edit();
+            ed.putBoolean("not_first", false);
+            ed.commit();
+        }
+
+
+
         filtered_house = new ArrayList<>();
         formlist = new ArrayList<>();
         /*--------initilazing db-----------*/
