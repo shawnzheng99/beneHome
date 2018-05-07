@@ -132,11 +132,11 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this,MapsActivity.class));
+//                startActivity(new Intent(MainActivity.this,House_detail.class));
 //            }
 //        });
 
@@ -457,12 +457,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void slide_expanded(HashMap<String,String> house){
-        TextView t = (TextView) findViewById(R.id.name);
+        TextView t =  findViewById(R.id.name);
         t.setText(house.get("Name"));
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
     public void show_slide(HashMap<String,String> house){
-        TextView t = (TextView) findViewById(R.id.name);
+        TextView t = findViewById(R.id.name);
         t.setText(house.get("Name"));
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
