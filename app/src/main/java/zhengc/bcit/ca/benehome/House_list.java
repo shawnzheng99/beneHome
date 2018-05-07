@@ -193,6 +193,7 @@ public class House_list extends Fragment {
 //                        HashMap<String, String> selectHouse = new HashMap<>();
 
                         // get selected house
+
 //                        for (int j = 0; j < houseName.size(); ++j) {
 //                            if (formlist.get(i).get("Name").equals(adapterView.getItemAtPosition(i))) {
 //                                selectHouse = formlist.get(i);
@@ -205,6 +206,7 @@ public class House_list extends Fragment {
 //                }
 //        );
 //    }
+
 
     private boolean get_keywords() {
         keywords = getActivity().getIntent().getStringArrayExtra("keys");

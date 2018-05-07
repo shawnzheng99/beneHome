@@ -84,10 +84,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
             @Override
             public void onClick(View v) {
 
-              //  mRecyclerView.getParent()
-//                Intent intent=new Intent(context,PlaceActivity.class);
-//                intent.putExtra("Place",places.get(j));
-//                context.startActivity(intent);
             }
         });
 
