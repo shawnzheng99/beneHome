@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "633912637454",
+    "firebase_url": "https://benehome-f1049.firebaseio.com",
+    "project_id": "benehome-f1049",
+    "storage_bucket": "benehome-f1049.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:633912637454:android:f2a11b81fdebae18",
+        "android_client_info": {
+          "package_name": "zhengc.bcit.ca.benehome"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "633912637454-rcrbtde3ko6e511nacjmjv1modifsg17.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "zhengc.bcit.ca.benehome",
+            "certificate_hash": "2d20e619fb7295ac59e6f5c615b30bcc201aaaf5"
+          }
+        },
+        {
+          "client_id": "633912637454-dml27a4u6cih6r9r2u4dkmb81juml28n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI1GQ-1Z0W7djQ-LygkTPO-Q1sycOv8VU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "633912637454-dml27a4u6cih6r9r2u4dkmb81juml28n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
