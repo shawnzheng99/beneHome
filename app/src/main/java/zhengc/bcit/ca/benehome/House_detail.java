@@ -1,8 +1,11 @@
 package zhengc.bcit.ca.benehome;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +14,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
@@ -24,11 +37,12 @@ public class House_detail extends AppCompatActivity {
 
         // set up
         setselectedHouse();
+        setPic();
         setName();
         setLocation();
         setEligible();
         setHouseType();
-        setPic();
+
         /*contact*/
         callHouse();
         sendEmail();
@@ -48,19 +62,44 @@ public class House_detail extends AppCompatActivity {
     }
 
     private void setPic() {
-        ImageView img = findViewById(R.id.img_house);
         String houseName = selectedHouse.get("Name").toLowerCase();
         houseName = houseName.replaceAll(" ", "");
         houseName = houseName.replaceAll("-", "");
         houseName = houseName.replaceAll("'", "");
+
+        Log.i("---------House name:", houseName);
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        FirebaseOptions opts = FirebaseApp.getInstance().getOptions();
+        Log.i("---------Bucket name:" , opts.getStorageBucket());
+
+        StorageReference storageReference = storage
+                .getReferenceFromUrl("gs://benehome-f1049.appspot.com/")
+                .child(houseName + ".jpg");
+
         try {
-            Class res = R.drawable.class;
-            Field picName = res.getField(houseName);
-            int drawbleId = picName.getInt(null);
-            img.setImageResource(drawbleId);
-        } catch (Exception e) {
+            final File localFile = File.createTempFile("imag", "jpg");
+            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    ImageView imageView = findViewById(R.id.img_house);
+                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    imageView.setImageBitmap(bitmap);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Toast.makeText(House_detail.this
+                            , "Please check your internet connection."
+                            , Toast.LENGTH_LONG
+                    ).show();
+                }
+            });
+        } catch (IOException e ) {
             Log.e("Bao Cuo!", "can not find pic");
         }
+
     }
 
     private void setselectedHouse() {
