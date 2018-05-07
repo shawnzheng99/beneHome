@@ -2,6 +2,7 @@ package zhengc.bcit.ca.benehome;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -23,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -70,16 +72,35 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<HashMap<String, String>> formlist;
     /*firebase*/
     private DatabaseReference databaseReference;
-    //final private String FIREBASE_DB_ADD = "https://benehome-66efd.firebaseio.com/";
+
     private FirebaseDatabase db;
+    private ImageButton imageButton;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        /*check if it is the first time run*/
+        final String first_time = "if_first_time";
+
+        SharedPreferences settings = getSharedPreferences(first_time, 0);
+
+        if (settings.getBoolean("not_first", true)) {
+            startActivity(new Intent(MainActivity.this, UserGuide.class));
+            SharedPreferences.Editor ed = settings.edit();
+            ed.putBoolean("not_first", false);
+            ed.commit();
+        }
+
+
+
+
         filtered_house = new ArrayList<>();
         formlist = new ArrayList<>();
+        imageButton = findViewById(R.id.up_down_button);
         /*--------initilazing db-----------*/
         db = FirebaseDatabase.getInstance();
         databaseReference = db.getReference().child("features");
@@ -92,6 +113,12 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 Log.i(TAG, "onPanelSlide, offset " + slideOffset);
+                if(slideOffset == 1){
+                    imageButton.setBackground(getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_black_24dp));
+                }
+                if(slideOffset == 0){
+                    imageButton.setBackground(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up_black_24dp));
+                }
             }
 
             @Override
@@ -146,7 +173,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    //-------------------------loding firebase data------------------------------------
+    //-------------------------lording Firebase data------------------------------------
     public void loadFirebase() {
         databaseReference.keepSynced(true);
         //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
@@ -428,21 +455,25 @@ public class MainActivity extends AppCompatActivity
     public void hide_slide(){
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
     }
-    public void show_slide(final HashMap<String,String> house){
-        TextView t = findViewById(R.id.name);
+
+    public void slide_expanded(HashMap<String,String> house){
+        TextView t = (TextView) findViewById(R.id.name);
         t.setText(house.get("Name"));
+        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+    }
+    public void show_slide(HashMap<String,String> house){
+        TextView t = (TextView) findViewById(R.id.name);
+        t.setText(house.get("Name"));
+        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
-        /*jump to house detail page*/
-        t.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, House_detail.class);
-                intent.putExtra("house", house);
-                startActivity(intent);
-            }
-        });
-        //----------------------------------------------
-
-        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);;
+    }
+    public void up_down_button_click(View view){
+        if(mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED){
+            mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+            imageButton.setBackground(getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_black_24dp));
+        }else if(mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED){
+            mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            imageButton.setBackground(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up_black_24dp));
+        }
     }
 }
