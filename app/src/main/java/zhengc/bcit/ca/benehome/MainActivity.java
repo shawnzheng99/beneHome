@@ -59,6 +59,10 @@ import static java.lang.Thread.sleep;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
 
+    /*firebase*/
+    private DatabaseReference databaseReference;
+    private FirebaseDatabase db;
+    final private String FIREBASE_DB_ADD = "https://benehome-66efd.firebaseio.com/";
 
     private static final String TAG = MainActivity.class.getName();
     //public ArrayList<HashMap<String, String>> formlist;
@@ -69,10 +73,7 @@ public class MainActivity extends AppCompatActivity
     private SlidingUpPanelLayout mLayout;
 
     static ArrayList<HashMap<String, String>> formlist;
-    /*firebase*/
-    private DatabaseReference databaseReference;
-    private FirebaseDatabase db;
-    final private String FIREBASE_DB_ADD = "https://benehome-66efd.firebaseio.com/";
+
 
 
     @Override
