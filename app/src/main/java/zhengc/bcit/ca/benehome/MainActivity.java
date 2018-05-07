@@ -2,6 +2,7 @@ package zhengc.bcit.ca.benehome;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<HashMap<String, String>> formlist;
     /*firebase*/
     private DatabaseReference databaseReference;
-    //final private String FIREBASE_DB_ADD = "https://benehome-66efd.firebaseio.com/";
+
     private FirebaseDatabase db;
     private ImageButton imageButton;
 
@@ -80,6 +81,22 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        /*check if it is the first time run*/
+        final String first_time = "if_first_time";
+
+        SharedPreferences settings = getSharedPreferences(first_time, 0);
+
+        if (settings.getBoolean("not_first", true)) {
+            startActivity(new Intent(MainActivity.this, UserGuide.class));
+            SharedPreferences.Editor ed = settings.edit();
+            ed.putBoolean("not_first", false);
+            ed.commit();
+        }
+
+
+
 
         filtered_house = new ArrayList<>();
         formlist = new ArrayList<>();
@@ -156,7 +173,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    //-------------------------loding firebase data------------------------------------
+    //-------------------------lording Firebase data------------------------------------
     public void loadFirebase() {
         databaseReference.keepSynced(true);
         //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
