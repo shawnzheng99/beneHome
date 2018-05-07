@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,16 +15,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
 
     private List<Place> places;
-    private Context context;
+    private MainActivity context;
+    private ArrayList<HashMap<String,String>> formlist;
 
-    RVAdapter(List<Place> places, Context context){
+    RecyclerView mRecyclerView;
+
+    RVAdapter(List<Place> places, MainActivity context, ArrayList formlist){
         this.places = places;
         this.context = context;
+        this.formlist = formlist;
+    }
+
+
+
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+
+        mRecyclerView = recyclerView;
     }
 
     public static class PlaceViewHolder extends RecyclerView.ViewHolder {
@@ -66,6 +83,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
         placeViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+              //  mRecyclerView.getParent()
 //                Intent intent=new Intent(context,PlaceActivity.class);
 //                intent.putExtra("Place",places.get(j));
 //                context.startActivity(intent);
@@ -87,9 +106,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
         placeViewHolder.readMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent=new Intent(context,PlaceActivity.class);
-//                intent.putExtra("Place",places.get(j));
-//                context.startActivity(intent);
+                context.show_slide(formlist.get(j));
             }
         });
 

@@ -96,7 +96,7 @@ public class House_list extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
 
         initPlaceData();
-        adapter = new RVAdapter(placeList, mainActivity);
+        adapter = new RVAdapter(placeList, mainActivity,formlist);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mainActivity);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
