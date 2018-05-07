@@ -61,12 +61,12 @@ import static java.lang.Thread.sleep;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
 
-
     private static final String TAG = MainActivity.class.getName();
     private GoogleMap mMap;
     private ArrayList<LatLng> markers;
     SupportMapFragment mapFragment;
     private SlidingUpPanelLayout mLayout;
+
     private ArrayList<HashMap<String, String>> filtered_house;
     private ArrayList<HashMap<String, String>> formlist;
     /*firebase*/
@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity
     //final private String FIREBASE_DB_ADD = "https://benehome-66efd.firebaseio.com/";
     private FirebaseDatabase db;
     private ImageButton imageButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
