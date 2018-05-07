@@ -61,18 +61,19 @@ import static java.lang.Thread.sleep;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
 
-
     private static final String TAG = MainActivity.class.getName();
     private GoogleMap mMap;
     private ArrayList<LatLng> markers;
     SupportMapFragment mapFragment;
     private SlidingUpPanelLayout mLayout;
+
     private ArrayList<HashMap<String, String>> filtered_house;
     private ArrayList<HashMap<String, String>> formlist;
     /*firebase*/
     private DatabaseReference databaseReference;
     final private String FIREBASE_DB_ADD = "https://benehome-66efd.firebaseio.com/";
     private FirebaseDatabase db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,7 +161,7 @@ public class MainActivity extends AppCompatActivity
                         e.printStackTrace();
                     }
                 }
-                show_house_list();
+                show_pass(new House_list(),formlist);
             }
 
         }).start();
@@ -310,25 +311,26 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_houselist) {
-            show_house_list();
+            //show_house_list();
+            show_pass(new House_list(),formlist);
             hidemap();
-           hide_slide();
+            hide_slide();
         } else if (id == R.id.nav_eligibility) {
-            show_eligibility();
+            show_pass(new Eligible(), null);
             hidemap();
             hide_slide();
         } else if (id == R.id.nav_faq) {
-            show_faq();
+            show_pass(new FAQ(),null);
             hidemap();
             hide_slide();
         } else if (id == R.id.nav_about) {
-            show_about();
+            show_pass(new About(),null);
             hidemap();
             hide_slide();
         } else if (id == R.id.nav_map) {
             mapFragment.getMapAsync(this);
             /*------------------markers---------------------------*/
-            setMarkers();
+            setMarkers(formlist);
             showmap();
         }
         hide_slide();
@@ -375,7 +377,7 @@ public class MainActivity extends AppCompatActivity
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Intent intent = new Intent(MainActivity.this, House_detail.class);
+                //Intent intent = new Intent(MainActivity.this, House_detail.class);
                 HashMap<String, String> selectHouse = new HashMap<>();
 
                 // get selected house
@@ -384,7 +386,7 @@ public class MainActivity extends AppCompatActivity
                         selectHouse = formlist.get(j);
                     }
                 }
-                intent.putExtra("house", selectHouse);
+                //intent.putExtra("house", selectHouse);
                 //startActivity(intent);
                 show_slide(selectHouse);
             }
@@ -403,11 +405,11 @@ public class MainActivity extends AppCompatActivity
         mMap.animateCamera((location));
     }
     /*change formlist to filtered_house later*/
-    public void setMarkers() {
+    public void setMarkers(ArrayList<HashMap<String,String>> list) {
         markers = new ArrayList<>();
-        for (int i = 0; i < formlist.size(); ++i) {
-            double y = Double.parseDouble(formlist.get(i).get("lon"));
-            double x = Double.parseDouble(formlist.get(i).get("lat"));
+        for (int i = 0; i < list.size(); ++i) {
+            double y = Double.parseDouble(list.get(i).get("lon"));
+            double x = Double.parseDouble(list.get(i).get("lat"));
             markers.add(new LatLng(x, y));
         }
     }
@@ -423,22 +425,28 @@ public class MainActivity extends AppCompatActivity
     public void set_filtered_house(ArrayList<HashMap<String,String>> list){
         filtered_house = list;
     }
-    public void show_house_list(){
-        Fragment house_list_fragment = new House_list();
+    public void show_pass(Fragment fragment, ArrayList list){
         Bundle data = new Bundle();
-        data.putSerializable("data",formlist);
-        house_list_fragment.setArguments(data);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, house_list_fragment).commitAllowingStateLoss();
+        data.putSerializable("data",list);
+        fragment.setArguments(data);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commitAllowingStateLoss();
     }
-    public void show_eligibility(){
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, new Eligible()).commitAllowingStateLoss();
-    }
-    public void show_faq(){
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, new FAQ()).commitAllowingStateLoss();
-    }
-    public void show_about(){
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, new About()).commitAllowingStateLoss();
-    }
+//    public void show_house_list(){
+//        Fragment house_list_fragment = new House_list();
+//        Bundle data = new Bundle();
+//        data.putSerializable("data",formlist);
+//        house_list_fragment.setArguments(data);
+//        getSupportFragmentManager().beginTransaction().replace(R.id.container, house_list_fragment).commitAllowingStateLoss();
+//    }
+//    public void show_eligibility(){
+//        getSupportFragmentManager().beginTransaction().replace(R.id.container, new Eligible()).commitAllowingStateLoss();
+//    }
+//    public void show_faq(){
+//        getSupportFragmentManager().beginTransaction().replace(R.id.container, new FAQ()).commitAllowingStateLoss();
+//    }
+//    public void show_about(){
+//        getSupportFragmentManager().beginTransaction().replace(R.id.container, new About()).commitAllowingStateLoss();
+//    }
     public void hide_slide(){
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
     }
