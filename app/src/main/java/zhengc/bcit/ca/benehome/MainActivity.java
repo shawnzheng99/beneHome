@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<HashMap<String, String>> formlist;
     /*firebase*/
     private DatabaseReference databaseReference;
-    final private String FIREBASE_DB_ADD = "https://benehome-66efd.firebaseio.com/";
+    //final private String FIREBASE_DB_ADD = "https://benehome-66efd.firebaseio.com/";
     private FirebaseDatabase db;
 
 
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity
         filtered_house = new ArrayList<>();
         formlist = new ArrayList<>();
         /*--------initilazing db-----------*/
-        db = FirebaseDatabase.getInstance(FIREBASE_DB_ADD);
+        db = FirebaseDatabase.getInstance();
         databaseReference = db.getReference().child("features");
 
         /*loading firebase*/
@@ -428,9 +428,21 @@ public class MainActivity extends AppCompatActivity
     public void hide_slide(){
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
     }
-    public void show_slide(HashMap<String,String> house){
-        TextView t = (TextView) findViewById(R.id.name);
+    public void show_slide(final HashMap<String,String> house){
+        TextView t = findViewById(R.id.name);
         t.setText(house.get("Name"));
+
+        /*jump to house detail page*/
+        t.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, House_detail.class);
+                intent.putExtra("house", house);
+                startActivity(intent);
+            }
+        });
+        //----------------------------------------------
+
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);;
     }
 }
