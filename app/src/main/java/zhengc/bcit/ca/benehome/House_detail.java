@@ -78,8 +78,6 @@ public class House_detail extends AppCompatActivity {
                 .getReferenceFromUrl("gs://benehome-f1049.appspot.com/")
                 .child(houseName + ".jpg");
 
-
-
         try {
             final File localFile = File.createTempFile("imag", "jpg");
             storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
