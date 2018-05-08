@@ -46,7 +46,7 @@
             android:orientation="vertical"
             android:clickable="true"
             android:focusable="true"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="24dp"
             android:id="@+id/dragView">
 
             <ImageButton
@@ -61,17 +61,14 @@
             <TextView
                 android:id="@+id/name"
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:layout_weight="1"
-                android:textSize="14sp"
-                android:paddingLeft="10dp"/>
+                android:layout_height="20dp"
+                android:paddingLeft="10dp"
+                android:textSize="16sp" />
 
-            <ListView
-                android:id="@+id/list"
+            <FrameLayout
+                android:id="@+id/house_detail_container"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-            </ListView>
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
