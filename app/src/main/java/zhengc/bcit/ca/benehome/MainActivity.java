@@ -326,7 +326,7 @@ Log.e("firebase", "onCancelled");
             setMarkers(formlist);
             displaymap();
         } else if(id == R.id.nav_Application_guide){
-            //show_pass(new Appl)
+            show_pass(new Application(),null);
         }
         hide_slide();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

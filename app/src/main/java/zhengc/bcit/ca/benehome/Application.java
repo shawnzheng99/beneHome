@@ -22,8 +22,8 @@ public class Application extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.activity_application,null);
-        btnOnlineApply = view.findViewById(R.id.onlineApply);
-        btnOtherApply = view.findViewById(R.id.otherApply);
+        btnOnlineApply = view.findViewById(R.id.online_Apply_button);
+        btnOtherApply = view.findViewById(R.id.other_Apply_button);
 
         btnOnlineApply.setOnClickListener(new View.OnClickListener() {
             @Override
