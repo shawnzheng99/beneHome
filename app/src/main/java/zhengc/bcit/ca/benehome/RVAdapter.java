@@ -48,7 +48,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
         ImageView news_photo;
         TextView news_title;
         TextView news_desc;
-        Button share;
+        Button map;
         Button readMore;
 
         public PlaceViewHolder(final View itemView) {
@@ -57,7 +57,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
             news_photo = (ImageView) itemView.findViewById(R.id.location_photo);
             news_title = (TextView) itemView.findViewById(R.id.location_name);
             news_desc = (TextView) itemView.findViewById(R.id.location_desc);
-            share = (Button) itemView.findViewById(R.id.btn_share);
+            map = (Button) itemView.findViewById(R.id.btn_map);
             readMore = (Button) itemView.findViewById(R.id.btn_more);
             //Set the TextView background -->opacity
             news_title.setBackgroundColor(Color.argb(20, 0, 0, 0));
@@ -87,22 +87,18 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
             }
         });
 
-        placeViewHolder.share.setOnClickListener(new View.OnClickListener() {
+        placeViewHolder.map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_SUBJECT, "share");
-                intent.putExtra(Intent.EXTRA_TEXT, places.get(j).getDesc());
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(Intent.createChooser(intent, places.get(j).getName()));
+                context.set_item_uncheck(0);
+                context.pass_to_map(places.get(j));
             }
         });
 
         placeViewHolder.readMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.slide_expanded(places.get(j));
+                context.slide_expanded(new House_detail(),places.get(j));
             }
         });
 

@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<LatLng> markers;
     SupportMapFragment mapFragment;
     private SlidingUpPanelLayout mLayout;
-
+    private NavigationView navigationView;
     private ArrayList<Place> filtered_house;
     private ArrayList<Place> formlist;
     /*firebase*/
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         if(formlist.isEmpty())
@@ -193,7 +193,6 @@ public class MainActivity extends AppCompatActivity
             }
 
         }).start();
-
 
     }
 
@@ -233,7 +232,8 @@ public class MainActivity extends AppCompatActivity
                     Place mPlace = new Place(Name, Description, Category,Hours
                             ,Location, PC, Email, Phone, X, Y, Website);
 
-                    mPlace.setPicUrl(loadPic(Name));
+                   // mPlace.setPicUrl(loadPic(Name));
+                    loadPic(Name,mPlace);
                     formlist.add(mPlace);
 
                 }
@@ -247,7 +247,7 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
-    private String loadPic(String houseName) {
+    private void loadPic(String houseName, final Place place) {
         houseName = houseName.toLowerCase();
         houseName = houseName.replaceAll(" ", "");
         houseName = houseName.replaceAll("-", "");
@@ -259,6 +259,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onSuccess(Uri uri) {
                 picUrl = uri.toString();
+                place.setPicUrl(picUrl);
             }
         });
 /*.addOnFailureListener(new OnFailureListener() {
@@ -267,9 +268,6 @@ public class MainActivity extends AppCompatActivity
                 Log.e("Download url", "can't get url");
             }
         })*/
-        return picUrl;
-
-
     }
 
     //--------------------------nav method overload-----------------------------------
@@ -332,15 +330,20 @@ public class MainActivity extends AppCompatActivity
             mapFragment.getMapAsync(this);
             /*------------------markers---------------------------*/
             setMarkers(formlist);
-            showmap();
+            displaymap();
         }
         hide_slide();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
+    public void set_item_check(int i){
+        navigationView.getMenu().getItem(i).setChecked(true);
+    }
+    public void set_item_uncheck(int i){
+        navigationView.getMenu().getItem(i).setChecked(false);
+    }
+    //-------------------------------nav end----------------------------------
     public ArrayList<Place> getList() {
         return formlist;
     }
@@ -386,7 +389,7 @@ public class MainActivity extends AppCompatActivity
     public void zoomToNewWest() {
         LatLng newWest = new LatLng(49.21073429331534, -122.92282036503556);
         CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest, 13);
-        mMap.animateCamera((location));
+        mMap.animateCamera(location);
     }
     /*change formlist to filtered_house later*/
     public void setMarkers(ArrayList<Place> list) {
@@ -401,7 +404,14 @@ public class MainActivity extends AppCompatActivity
     public void hidemap(){
         getSupportFragmentManager().beginTransaction().hide(mapFragment).commit();
     }
-    public void showmap(){
+    public void displaymap(){
+        getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
+    }
+    public void pass_to_map(Place house){
+        LatLng house_mark = new LatLng(Double.parseDouble(house.getLat()), Double.parseDouble(house.getLon()));
+        mapFragment.getMapAsync(this);
+        markers = new ArrayList<>();
+        markers.add(house_mark);
         getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
     }
 //-------------------------------map method end---------------------------------------------------
@@ -419,9 +429,13 @@ public class MainActivity extends AppCompatActivity
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
     }
 
-    public void slide_expanded(Place house){
+    public void slide_expanded(Fragment fragment,Place house){
         TextView t =  findViewById(R.id.name);
         t.setText(house.getName());
+        Bundle data = new Bundle();
+        data.putSerializable("house",house);
+        fragment.setArguments(data);
+        getSupportFragmentManager().beginTransaction().replace(R.id.house_detail_container, fragment).commitAllowingStateLoss();
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
     public void show_slide(Place house){
