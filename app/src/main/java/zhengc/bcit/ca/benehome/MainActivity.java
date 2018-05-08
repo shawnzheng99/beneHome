@@ -59,6 +59,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 
 import org.json.JSONArray;
@@ -89,7 +90,6 @@ public class MainActivity extends AppCompatActivity
     private DatabaseReference databaseReference;
     private FirebaseDatabase db;
     private ImageButton imageButton;
-    private String picUrl;
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
@@ -126,9 +126,7 @@ public class MainActivity extends AppCompatActivity
 
         storageReference = storage.getReferenceFromUrl("gs://benehome-f1049.appspot.com/");
         loadFirebase();
-        for(int i = 0 ; i < formlist.size();++i){
-            Log.e("formlist: ", formlist.get(i).getPicUrl());
-        }
+
         /*----------------------------------------*/
         /*slide up*/
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
@@ -233,7 +231,9 @@ public class MainActivity extends AppCompatActivity
                     Place mPlace = new Place(Name, Description, Category,Hours
                             ,Location, PC, Email, Phone, X, Y, Website);
 
-                    mPlace.setPicUrl(loadPic(Name));
+                    loadPic(Name,mPlace);
+
+
                     formlist.add(mPlace);
 
                 }
@@ -247,31 +247,20 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
-    private String loadPic(String houseName) {
+    private void loadPic(String houseName,final Place mPlace) {
         houseName = houseName.toLowerCase();
         houseName = houseName.replaceAll(" ", "");
         houseName = houseName.replaceAll("-", "");
         houseName = houseName.replaceAll("'", "");
 
-        Log.e("---------House name:", houseName);
-
         storageReference.child(houseName+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                picUrl = uri.toString();
+                mPlace.setPicUrl(uri);
             }
         });
-/*.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("Download url", "can't get url");
-            }
-        })*/
-        return picUrl;
-
 
     }
-
     //--------------------------nav method overload-----------------------------------
 
     @Override

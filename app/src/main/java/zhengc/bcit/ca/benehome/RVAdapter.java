@@ -103,6 +103,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
             @Override
             public void onClick(View v) {
                 context.slide_expanded(places.get(j));
+
             }
         });
 
