@@ -353,6 +353,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.clear();
         zoomToNewWest();
 
         /*------------Marker-------------------*/
@@ -410,10 +411,11 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
     }
     public void pass_to_map(Place house){
-        LatLng house_mark = new LatLng(Double.parseDouble(house.getLat()), Double.parseDouble(house.getLon()));
         mapFragment.getMapAsync(this);
-        markers = new ArrayList<>();
-        markers.add(house_mark);
+        ArrayList<Place> temp = new ArrayList<>();
+        temp.add(house);
+        setMarkers(temp);
+        displaymap();
         getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
     }
 //-------------------------------map method end---------------------------------------------------
