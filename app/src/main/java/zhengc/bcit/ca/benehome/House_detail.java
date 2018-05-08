@@ -21,6 +21,7 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,42 +62,9 @@ public class House_detail extends AppCompatActivity {
 
     private void setPic() {
         ImageView imageView = findViewById(R.id.img_house);
-        imageView.setImageBitmap(selectedHouse.getPic());
+        Picasso.get().load(selectedHouse.getPicUrl()).fit().centerCrop().into(imageView);
 
-//        String houseName = selectedHouse.getName().toLowerCase();
-//        houseName = houseName.replaceAll(" ", "");
-//        houseName = houseName.replaceAll("-", "");
-//        houseName = houseName.replaceAll("'", "");
-//
-//        Log.i("---------House name:", houseName);
-//
-//        FirebaseStorage storage = FirebaseStorage.getInstance();
-//
-//        StorageReference storageReference = storage
-//                .getReferenceFromUrl("gs://benehome-f1049.appspot.com/")
-//                .child(houseName + ".jpg");
-//
-//        try {
-//            final File localFile = File.createTempFile("imag", "jpg");
-//            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                    ImageView imageView = findViewById(R.id.img_house);
-//                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-//                    imageView.setImageBitmap(bitmap);
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception exception) {
-//                    Toast.makeText(House_detail.this
-//                            , "Please check your internet connection."
-//                            , Toast.LENGTH_LONG
-//                    ).show();
-//                }
-//            });
-//        } catch (IOException e ) {
-//            Log.e("Bao Cuo!", "can not find pic");
-//        }
+
 
     }
 

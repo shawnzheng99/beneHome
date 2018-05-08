@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,7 +75,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
     public void onBindViewHolder(RVAdapter.PlaceViewHolder placeViewHolder, int i) {
         final int j=i;
 
-        placeViewHolder.news_photo.setImageBitmap(places.get(i).getPic());
+        Picasso.get().load(places.get(i).getPicUrl()).fit().centerCrop().into(placeViewHolder.news_photo);
         placeViewHolder.news_title.setText(places.get(i).getName());
         placeViewHolder.news_desc.setText(places.get(i).getDesc());
 

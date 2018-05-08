@@ -89,10 +89,9 @@ public class MainActivity extends AppCompatActivity
     private DatabaseReference databaseReference;
     private FirebaseDatabase db;
     private ImageButton imageButton;
-    private Bitmap temp;
+    private String picUrl;
     private FirebaseStorage storage;
     private StorageReference storageReference;
-   // private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,15 +118,17 @@ public class MainActivity extends AppCompatActivity
         formlist = new ArrayList<>();
         imageButton = findViewById(R.id.up_down_button);
         /*--------initilazing firebase-----------*/
-       // mAuth = FirebaseAuth.getInstance();
 
-        db = FirebaseDatabase.getInstance("https://benehome-f1049.firebaseio.com/");
+        //"https://benehome-f1049.firebaseio.com/"
+        db = FirebaseDatabase.getInstance();
         databaseReference = db.getReference().child("features");
         storage = FirebaseStorage.getInstance();
 
-        storageReference = storage.getReferenceFromUrl("gs://benehome-f1049.appspot.com");
+        storageReference = storage.getReferenceFromUrl("gs://benehome-f1049.appspot.com/");
         loadFirebase();
-
+        for(int i = 0 ; i < formlist.size();++i){
+            Log.e("formlist: ", formlist.get(i).getPicUrl());
+        }
         /*----------------------------------------*/
         /*slide up*/
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
@@ -192,6 +193,8 @@ public class MainActivity extends AppCompatActivity
             }
 
         }).start();
+
+
     }
 
     //-------------------------lording Firebase data------------------------------------
@@ -227,11 +230,11 @@ public class MainActivity extends AppCompatActivity
                             .child("Y").getValue();
 
 
-                    Place mylist = new Place(Name, Description, Category,Hours
+                    Place mPlace = new Place(Name, Description, Category,Hours
                             ,Location, PC, Email, Phone, X, Y, Website);
 
-                    mylist.setPic(loadPic(Name));
-                    formlist.add(mylist);
+                    mPlace.setPicUrl(loadPic(Name));
+                    formlist.add(mPlace);
 
                 }
 
@@ -244,7 +247,7 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
-    private Bitmap loadPic(String houseName) {
+    private String loadPic(String houseName) {
         houseName = houseName.toLowerCase();
         houseName = houseName.replaceAll(" ", "");
         houseName = houseName.replaceAll("-", "");
@@ -252,29 +255,21 @@ public class MainActivity extends AppCompatActivity
 
         Log.e("---------House name:", houseName);
 
+        storageReference.child(houseName+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                picUrl = uri.toString();
+            }
+        });
+/*.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("Download url", "can't get url");
+            }
+        })*/
+        return picUrl;
 
-        storageReference.child("/"+houseName + ".jpg");
 
-        try {
-            final File localFile = File.createTempFile("imag", "jpg");
-            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    temp = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    Toast.makeText(MainActivity.this
-                            , "Please check your internet connection."
-                            , Toast.LENGTH_LONG
-                    ).show();
-                }
-            });
-        } catch (IOException e ) {
-            Log.e("Bao Cuo!", "can not find pic");
-        }
-        return temp;
     }
 
     //--------------------------nav method overload-----------------------------------

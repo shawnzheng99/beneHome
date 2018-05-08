@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class Place implements Serializable {
 
     private String name;
-    private Bitmap pic;
+    private String picUrl;
     private String desc;
     private String cate;
     private String hours;
@@ -18,8 +18,6 @@ public class Place implements Serializable {
     private String lon;
     private String lat;
     private String web;
-
-    //private String address;
 
     public Place(String name, String desc,
                  String cate, String hours, String location,
@@ -36,6 +34,7 @@ public class Place implements Serializable {
         this.lon = lon;
         this.lat = lat;
         this.web = web;
+        picUrl = "no url provided";
     }
 
     public Place() {
@@ -53,12 +52,13 @@ public class Place implements Serializable {
         return email;
     }
 
-    public void setPic(Bitmap pic) {
-        this.pic = pic;
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
     }
 
-    public Bitmap getPic() {
-        return pic;
+    public String getPicUrl() {
+
+        return picUrl;
     }
 
     public String getDesc() {
