@@ -33,13 +33,14 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".House_detail" />
+
         <!--
         fragment
         <activity android:name=".House_list" />
         <activity android:name=".Eligible" />
         <activity android:name=".About" />
         <activity android:name=".FAQ" />
+        <activity android:name=".House_detail" />
         -->
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
