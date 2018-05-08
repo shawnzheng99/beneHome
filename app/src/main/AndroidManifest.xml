@@ -54,13 +54,15 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCB7X5Dl_lZy6Llwn4NCkGIbJatarjQpqM" />
 
-<!--        <activity
+        <!--
+            <activity
             android:name=".MapsActivity"
             android:label="Map" />
--->
+        -->
         <activity
             android:name=".UserGuide"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".Filter"></activity>
     </application>
 
 </manifest>
