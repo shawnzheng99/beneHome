@@ -40,6 +40,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -59,6 +60,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 
 import org.json.JSONArray;
@@ -89,7 +91,6 @@ public class MainActivity extends AppCompatActivity
     private DatabaseReference databaseReference;
     private FirebaseDatabase db;
     private ImageButton imageButton;
-    private String picUrl;
     private FirebaseStorage storage;
     private StorageReference storageReference;
 
@@ -126,9 +127,7 @@ public class MainActivity extends AppCompatActivity
 
         storageReference = storage.getReferenceFromUrl("gs://benehome-f1049.appspot.com/");
         loadFirebase();
-        for(int i = 0 ; i < formlist.size();++i){
-            Log.e("formlist: ", formlist.get(i).getPicUrl());
-        }
+
         /*----------------------------------------*/
         /*slide up*/
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
@@ -177,8 +176,8 @@ public class MainActivity extends AppCompatActivity
 //-------------------------------map load and hide it----------------------------------------------------------
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        getSupportFragmentManager().beginTransaction().hide(mapFragment).commit();
-
+      //  getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
+        hidemap();
         new Thread(new Runnable(){
             @Override
             public void run() {
@@ -232,8 +231,8 @@ public class MainActivity extends AppCompatActivity
                     Place mPlace = new Place(Name, Description, Category,Hours
                             ,Location, PC, Email, Phone, X, Y, Website);
 
-                   // mPlace.setPicUrl(loadPic(Name));
                     loadPic(Name,mPlace);
+
                     formlist.add(mPlace);
 
                 }
@@ -247,29 +246,24 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
-    private void loadPic(String houseName, final Place place) {
+
+    private void loadPic(String houseName,final Place mPlace) {
+
         houseName = houseName.toLowerCase();
         houseName = houseName.replaceAll(" ", "");
         houseName = houseName.replaceAll("-", "");
         houseName = houseName.replaceAll("'", "");
 
-        Log.e("---------House name:", houseName);
-
         storageReference.child(houseName+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                picUrl = uri.toString();
-                place.setPicUrl(picUrl);
+
+                mPlace.setPicUrl(uri);
             }
         });
-/*.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("Download url", "can't get url");
-            }
-        })*/
-    }
 
+
+    }
     //--------------------------nav method overload-----------------------------------
 
     @Override
@@ -351,10 +345,9 @@ public class MainActivity extends AppCompatActivity
     }
 //------------------------------map method---------------------------------------------------
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
         mMap.clear();
-        zoomToNewWest();
 
         /*------------Marker-------------------*/
         for (int i = 0; i < markers.size(); ++i) {
@@ -388,11 +381,19 @@ public class MainActivity extends AppCompatActivity
             }
         });
         mMap.getUiSettings().setZoomGesturesEnabled(true);
+        zoomToMarker(markers);
+
     }
-    public void zoomToNewWest() {
-        LatLng newWest = new LatLng(49.21073429331534, -122.92282036503556);
-        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest, 13);
-        mMap.animateCamera(location);
+    public void zoomToMarker(ArrayList<LatLng> markers) {
+        if(markers.size() > 1){
+            LatLng newWest = new LatLng(49.21073429331534, -122.92282036503556);
+            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest, 13);
+            mMap.animateCamera(location);
+        }else{
+            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(markers.get(0), 13);
+            mMap.animateCamera(location);
+        }
+
     }
     /*change formlist to filtered_house later*/
     public void setMarkers(ArrayList<Place> list) {
@@ -402,6 +403,7 @@ public class MainActivity extends AppCompatActivity
             double x = Double.parseDouble(list.get(i).getLat());
             markers.add(new LatLng(x, y));
         }
+
     }
 
     public void hidemap(){
@@ -416,7 +418,6 @@ public class MainActivity extends AppCompatActivity
         temp.add(house);
         setMarkers(temp);
         displaymap();
-        getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
     }
 //-------------------------------map method end---------------------------------------------------
 

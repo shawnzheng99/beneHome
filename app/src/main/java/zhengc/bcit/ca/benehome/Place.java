@@ -1,13 +1,12 @@
 package zhengc.bcit.ca.benehome;
 
-import android.graphics.Bitmap;
-
+import android.net.Uri;
 import java.io.Serializable;
 
 public class Place implements Serializable {
 
     private String name;
-    private String picUrl;
+    private Uri picUrl;
     private String desc;
     private String cate;
     private String hours;
@@ -34,7 +33,7 @@ public class Place implements Serializable {
         this.lon = lon;
         this.lat = lat;
         this.web = web;
-        picUrl = "no url provided";
+
     }
 
     public Place() {
@@ -52,11 +51,11 @@ public class Place implements Serializable {
         return email;
     }
 
-    public void setPicUrl(String picUrl) {
+    public void setPicUrl(Uri picUrl) {
         this.picUrl = picUrl;
     }
 
-    public String getPicUrl() {
+    public Uri getPicUrl() {
 
         return picUrl;
     }
