@@ -88,10 +88,10 @@ public class MainActivity extends AppCompatActivity
 
         SharedPreferences settings = getSharedPreferences(first_time, 0);
 
-        if (settings.getBoolean("not_first", true)) {
+        if (settings.getBoolean("first", true)) {
             startActivity(new Intent(MainActivity.this, UserGuide.class));
             SharedPreferences.Editor ed = settings.edit();
-            ed.putBoolean("not_first", false);
+            ed.putBoolean("first", false);
             ed.commit();
         }
 
