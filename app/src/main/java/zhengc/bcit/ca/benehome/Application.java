@@ -21,7 +21,7 @@ public class Application extends Fragment {
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.activity_eligible,null);
+        view = inflater.inflate(R.layout.activity_application,null);
         btnOnlineApply = view.findViewById(R.id.onlineApply);
         btnOtherApply = view.findViewById(R.id.otherApply);
 
