@@ -92,13 +92,15 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
             public void onClick(View v) {
                 context.set_item_uncheck(0);
                 context.pass_to_map(places.get(j));
+
             }
         });
 
         placeViewHolder.readMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.slide_expanded(new House_detail(),places.get(j));
+
+                context.slide_expanded(new House_detail(), places.get(j));
             }
         });
 
