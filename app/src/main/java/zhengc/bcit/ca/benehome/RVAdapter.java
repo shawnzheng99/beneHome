@@ -92,6 +92,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
             public void onClick(View v) {
                 context.set_item_uncheck(0);
                 context.pass_to_map(places.get(j));
+
             }
         });
 
@@ -99,15 +100,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
             @Override
             public void onClick(View v) {
 
-//                Intent intent = new Intent(context,House_detail.class);
-//
-//                intent.putExtra("house", places.get(5));
-//
-//                context.startActivity(intent);
-
-
-
-                context.slide_expanded(new House_detail(),places.get(j));
+                context.slide_expanded(new House_detail(), places.get(j));
             }
         });
 

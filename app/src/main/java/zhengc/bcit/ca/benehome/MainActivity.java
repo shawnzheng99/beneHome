@@ -40,6 +40,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -175,8 +176,8 @@ public class MainActivity extends AppCompatActivity
 //-------------------------------map load and hide it----------------------------------------------------------
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        getSupportFragmentManager().beginTransaction().hide(mapFragment).commit();
-
+      //  getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
+        hidemap();
         new Thread(new Runnable(){
             @Override
             public void run() {
@@ -342,10 +343,9 @@ public class MainActivity extends AppCompatActivity
     }
 //------------------------------map method---------------------------------------------------
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
-        zoomToNewWest();
-
+        mMap.clear();
         /*------------Marker-------------------*/
         for (int i = 0; i < markers.size(); ++i) {
             mMap.addMarker(new MarkerOptions()
@@ -378,11 +378,19 @@ public class MainActivity extends AppCompatActivity
             }
         });
         mMap.getUiSettings().setZoomGesturesEnabled(true);
+        zoomToMarker(markers);
+
     }
-    public void zoomToNewWest() {
-        LatLng newWest = new LatLng(49.21073429331534, -122.92282036503556);
-        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest, 13);
-        mMap.animateCamera(location);
+    public void zoomToMarker(ArrayList<LatLng> markers) {
+        if(markers.size() > 1){
+            LatLng newWest = new LatLng(49.21073429331534, -122.92282036503556);
+            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest, 13);
+            mMap.animateCamera(location);
+        }else{
+            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(markers.get(0), 13);
+            mMap.animateCamera(location);
+        }
+
     }
     /*change formlist to filtered_house later*/
     public void setMarkers(ArrayList<Place> list) {
@@ -392,6 +400,7 @@ public class MainActivity extends AppCompatActivity
             double x = Double.parseDouble(list.get(i).getLat());
             markers.add(new LatLng(x, y));
         }
+
     }
 
     public void hidemap(){
@@ -401,11 +410,13 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
     }
     public void pass_to_map(Place house){
-        LatLng house_mark = new LatLng(Double.parseDouble(house.getLat()), Double.parseDouble(house.getLon()));
         mapFragment.getMapAsync(this);
-        markers = new ArrayList<>();
-        markers.add(house_mark);
-        getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
+        ArrayList<Place> temp = new ArrayList<>();
+        temp.add(house);
+        setMarkers(temp);
+
+        displaymap();
+
     }
 //-------------------------------map method end---------------------------------------------------
 
