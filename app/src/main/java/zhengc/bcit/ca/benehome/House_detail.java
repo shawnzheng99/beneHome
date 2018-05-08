@@ -24,11 +24,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.HashMap;
 
 public class House_detail extends AppCompatActivity {
-    HashMap<String, String> selectedHouse;
+    Place selectedHouse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +49,7 @@ public class House_detail extends AppCompatActivity {
 
     private void setApply() {
         Button apply = findViewById(R.id.btn_applyNow);
-        final Uri uri = Uri.parse(selectedHouse.get("Website"));
+        final Uri uri = Uri.parse(selectedHouse.getWeb());
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,63 +60,63 @@ public class House_detail extends AppCompatActivity {
     }
 
     private void setPic() {
-        String houseName = selectedHouse.get("Name").toLowerCase();
-        houseName = houseName.replaceAll(" ", "");
-        houseName = houseName.replaceAll("-", "");
-        houseName = houseName.replaceAll("'", "");
+        ImageView imageView = findViewById(R.id.img_house);
+        imageView.setImageBitmap(selectedHouse.getPic());
 
-        Log.i("---------House name:", houseName);
-
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-
-        FirebaseOptions opts = FirebaseApp.getInstance().getOptions();
-        Log.i("---------Bucket name:" , opts.getStorageBucket());
-
-        StorageReference storageReference = storage
-                .getReferenceFromUrl("gs://benehome-f1049.appspot.com/")
-                .child(houseName + ".jpg");
-
-        try {
-            final File localFile = File.createTempFile("imag", "jpg");
-            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    ImageView imageView = findViewById(R.id.img_house);
-                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
-                    imageView.setImageBitmap(bitmap);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    Toast.makeText(House_detail.this
-                            , "Please check your internet connection."
-                            , Toast.LENGTH_LONG
-                    ).show();
-                }
-            });
-        } catch (IOException e ) {
-            Log.e("Bao Cuo!", "can not find pic");
-        }
+//        String houseName = selectedHouse.getName().toLowerCase();
+//        houseName = houseName.replaceAll(" ", "");
+//        houseName = houseName.replaceAll("-", "");
+//        houseName = houseName.replaceAll("'", "");
+//
+//        Log.i("---------House name:", houseName);
+//
+//        FirebaseStorage storage = FirebaseStorage.getInstance();
+//
+//        StorageReference storageReference = storage
+//                .getReferenceFromUrl("gs://benehome-f1049.appspot.com/")
+//                .child(houseName + ".jpg");
+//
+//        try {
+//            final File localFile = File.createTempFile("imag", "jpg");
+//            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                    ImageView imageView = findViewById(R.id.img_house);
+//                    Bitmap bitmap = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+//                    imageView.setImageBitmap(bitmap);
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception exception) {
+//                    Toast.makeText(House_detail.this
+//                            , "Please check your internet connection."
+//                            , Toast.LENGTH_LONG
+//                    ).show();
+//                }
+//            });
+//        } catch (IOException e ) {
+//            Log.e("Bao Cuo!", "can not find pic");
+//        }
 
     }
 
     private void setselectedHouse() {
-        selectedHouse = (HashMap<String, String>) getIntent().getSerializableExtra("house");
+        selectedHouse = (Place) getIntent().getSerializableExtra("house");
     }
 
     private void sendEmail() {
         Button email = findViewById(R.id.btn_email);
 
-        final String address = selectedHouse.get("Email");
+        final String address = selectedHouse.getEmail();
         final String subject = "Booking an appointment for visit house";
         final String body = "Hi there, I'm inserted "
-                + selectedHouse.get("Name")
+                + selectedHouse.getName()
                 + ". \nCan we have an appointment on \n\n\n"
                 + " Thank you";
         email.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!selectedHouse.get("Email").equals("")) {
+                if (!selectedHouse.getEmail().equals("")) {
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("plain/text");
                     intent.putExtra(Intent.EXTRA_EMAIL, new String[]{address});
@@ -138,11 +136,11 @@ public class House_detail extends AppCompatActivity {
 
     private void callHouse() {
         Button call = findViewById(R.id.btn_call);
-        final String phone = selectedHouse.get("Phone");
+        final String phone = selectedHouse.getPhone();
         call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!selectedHouse.get("Phone").equals("")) {
+                if (!selectedHouse.getPhone().equals("")) {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
                     intent.setData(Uri.parse("tel: " + phone));
                     startActivity(intent);
@@ -159,27 +157,27 @@ public class House_detail extends AppCompatActivity {
 
     private void setHouseType() {
         TextView houseType = findViewById(R.id.txt_HousingTypeContent);
-        int idx = selectedHouse.get("Description").indexOf(".");
-        String des = selectedHouse.get("Description").substring(0, idx + 1).toLowerCase();
+        int idx = selectedHouse.getDesc().indexOf(".");
+        String des = selectedHouse.getDesc().substring(0, idx + 1).toLowerCase();
         houseType.setText(des);
     }
 
     private void setEligible() {
         TextView eliType = findViewById(R.id.txt_EligibleType);
-        int idx = selectedHouse.get("Description").indexOf("ousing for");
-        String houseFor = selectedHouse.get("Description").substring(idx + 11);
+        int idx = selectedHouse.getDesc().indexOf("ousing for");
+        String houseFor = selectedHouse.getDesc().substring(idx + 11);
 
         eliType.setText(houseFor);
     }
 
     private void setName() {
         TextView txtName = findViewById(R.id.txtTitle_HoseName);
-        txtName.setText(selectedHouse.get("Name"));
+        txtName.setText(selectedHouse.getName());
     }
 
     private void setLocation() {
         TextView txtLocation = findViewById(R.id.txt_location_detail);
-        txtLocation.setText(selectedHouse.get("Location"));
+        txtLocation.setText(selectedHouse.getLocation());
     }
 
 }

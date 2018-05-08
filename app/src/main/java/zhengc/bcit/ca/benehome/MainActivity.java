@@ -3,7 +3,10 @@ package zhengc.bcit.ca.benehome;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -29,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -39,6 +43,16 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,6 +65,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -68,14 +83,16 @@ public class MainActivity extends AppCompatActivity
     SupportMapFragment mapFragment;
     private SlidingUpPanelLayout mLayout;
 
-    private ArrayList<HashMap<String, String>> filtered_house;
-    private ArrayList<HashMap<String, String>> formlist;
+    private ArrayList<Place> filtered_house;
+    private ArrayList<Place> formlist;
     /*firebase*/
     private DatabaseReference databaseReference;
-
     private FirebaseDatabase db;
     private ImageButton imageButton;
-
+    private Bitmap temp;
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+   // private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,12 +118,17 @@ public class MainActivity extends AppCompatActivity
         filtered_house = new ArrayList<>();
         formlist = new ArrayList<>();
         imageButton = findViewById(R.id.up_down_button);
-        /*--------initilazing db-----------*/
-        db = FirebaseDatabase.getInstance();
-        databaseReference = db.getReference().child("features");
+        /*--------initilazing firebase-----------*/
+       // mAuth = FirebaseAuth.getInstance();
 
-        /*loading firebase*/
+        db = FirebaseDatabase.getInstance("https://benehome-f1049.firebaseio.com/");
+        databaseReference = db.getReference().child("features");
+        storage = FirebaseStorage.getInstance();
+
+        storageReference = storage.getReferenceFromUrl("gs://benehome-f1049.appspot.com");
         loadFirebase();
+
+        /*----------------------------------------*/
         /*slide up*/
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
@@ -172,11 +194,9 @@ public class MainActivity extends AppCompatActivity
         }).start();
     }
 
-
     //-------------------------lording Firebase data------------------------------------
     public void loadFirebase() {
         databaseReference.keepSynced(true);
-        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -206,20 +226,11 @@ public class MainActivity extends AppCompatActivity
                     String Y = (String) messageSnapshot.child("properties")
                             .child("Y").getValue();
 
-                    HashMap<String, String> mylist = new HashMap<>();
 
-                    mylist.put("Name", Name);
-                    mylist.put("Description", Description);
-                    mylist.put("Category", Category);
-                    mylist.put("Hours", Hours);
-                    mylist.put("Location", Location);
-                    mylist.put("PC", PC);
-                    mylist.put("Phone", Phone);
-                    mylist.put("Email", Email);
-                    mylist.put("Website", Website);
-                    mylist.put("lon", X);
-                    mylist.put("lat", Y);
+                    Place mylist = new Place(Name, Description, Category,Hours
+                            ,Location, PC, Email, Phone, X, Y, Website);
 
+                    mylist.setPic(loadPic(Name));
                     formlist.add(mylist);
 
                 }
@@ -233,49 +244,39 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
+    private Bitmap loadPic(String houseName) {
+        houseName = houseName.toLowerCase();
+        houseName = houseName.replaceAll(" ", "");
+        houseName = houseName.replaceAll("-", "");
+        houseName = houseName.replaceAll("'", "");
+
+        Log.e("---------House name:", houseName);
 
 
-    private void loadFromJson() {
+        storageReference.child("/"+houseName + ".jpg");
+
         try {
-            JSONObject obj = new JSONObject(loadJSONFromAsset(this));
-            JSONArray jsonarray = obj.getJSONArray("features");
-
-            for (int i = 0; i < jsonarray.length(); i++) {
-                JSONObject obj_inside = jsonarray.getJSONObject(i);
-
-                String Name = obj_inside.getJSONObject("properties").getString("Name");
-                String Description = obj_inside.getJSONObject("properties").getString("Description");
-                String Category = obj_inside.getJSONObject("properties").getString("Category");
-                String Hours = obj_inside.getJSONObject("properties").getString("Hours");
-                String Location = obj_inside.getJSONObject("properties").getString("Location");
-                String PC = obj_inside.getJSONObject("properties").getString("PC");
-                String Phone = obj_inside.getJSONObject("properties").getString("Phone");
-                String Email = obj_inside.getJSONObject("properties").getString("Email");
-                String Website = obj_inside.getJSONObject("properties").getString("Website");
-                String X = obj_inside.getJSONObject("properties").getString("X");
-                String Y = obj_inside.getJSONObject("properties").getString("Y");
-
-                HashMap<String, String> mylist = new HashMap<>();
-
-                mylist.put("Name", Name);
-                mylist.put("Description", Description);
-                mylist.put("Category", Category);
-                mylist.put("Hours", Hours);
-                mylist.put("Location", Location);
-                mylist.put("PC", PC);
-                mylist.put("Phone", Phone);
-                mylist.put("Email", Email);
-                mylist.put("Website", Website);
-                mylist.put("lon", X);
-                mylist.put("lat", Y);
-
-                formlist.add(mylist);
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
+            final File localFile = File.createTempFile("imag", "jpg");
+            storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    temp = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Toast.makeText(MainActivity.this
+                            , "Please check your internet connection."
+                            , Toast.LENGTH_LONG
+                    ).show();
+                }
+            });
+        } catch (IOException e ) {
+            Log.e("Bao Cuo!", "can not find pic");
         }
+        return temp;
     }
+
     //--------------------------nav method overload-----------------------------------
 
     @Override
@@ -344,23 +345,8 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    //-----------------------------------JSON file method--------------------------------
-    public String loadJSONFromAsset(Context context) {
-        String json = null;
-        try {
-            InputStream is = context.getAssets().open("data.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
-    public ArrayList<HashMap<String, String>> getList() {
+
+    public ArrayList<Place> getList() {
         return formlist;
     }
 //------------------------------map method---------------------------------------------------
@@ -373,7 +359,7 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < markers.size(); ++i) {
             mMap.addMarker(new MarkerOptions()
                     .position(markers.get(i))
-                    .title(formlist.get(i).get("Name"))
+                    .title(formlist.get(i).getName())
 
             );
 
@@ -382,17 +368,15 @@ public class MainActivity extends AppCompatActivity
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                //Intent intent = new Intent(MainActivity.this, House_detail.class);
-                HashMap<String, String> selectHouse = new HashMap<>();
+                Place selectHouse = new Place();
 
                 // get selected house
                 for (int j = 0; j < formlist.size(); ++j) {
-                    if (formlist.get(j).get("Name").equals(marker.getTitle())) {
+                    if (formlist.get(j).getName().equals(marker.getTitle())) {
                         selectHouse = formlist.get(j);
                     }
                 }
-                //intent.putExtra("house", selectHouse);
-                //startActivity(intent);
+
                 show_slide(selectHouse);
             }
         });
@@ -410,11 +394,11 @@ public class MainActivity extends AppCompatActivity
         mMap.animateCamera((location));
     }
     /*change formlist to filtered_house later*/
-    public void setMarkers(ArrayList<HashMap<String,String>> list) {
+    public void setMarkers(ArrayList<Place> list) {
         markers = new ArrayList<>();
         for (int i = 0; i < list.size(); ++i) {
-            double y = Double.parseDouble(list.get(i).get("lon"));
-            double x = Double.parseDouble(list.get(i).get("lat"));
+            double y = Double.parseDouble(list.get(i).getLon());
+            double x = Double.parseDouble(list.get(i).getLat());
             markers.add(new LatLng(x, y));
         }
     }
@@ -427,7 +411,7 @@ public class MainActivity extends AppCompatActivity
     }
 //-------------------------------map method end---------------------------------------------------
 
-    public void set_filtered_house(ArrayList<HashMap<String,String>> list){
+    public void set_filtered_house(ArrayList<Place> list){
         filtered_house = list;
     }
     public void show_pass(Fragment fragment, ArrayList list){
@@ -436,34 +420,18 @@ public class MainActivity extends AppCompatActivity
         fragment.setArguments(data);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commitAllowingStateLoss();
     }
-//    public void show_house_list(){
-//        Fragment house_list_fragment = new House_list();
-//        Bundle data = new Bundle();
-//        data.putSerializable("data",formlist);
-//        house_list_fragment.setArguments(data);
-//        getSupportFragmentManager().beginTransaction().replace(R.id.container, house_list_fragment).commitAllowingStateLoss();
-//    }
-//    public void show_eligibility(){
-//        getSupportFragmentManager().beginTransaction().replace(R.id.container, new Eligible()).commitAllowingStateLoss();
-//    }
-//    public void show_faq(){
-//        getSupportFragmentManager().beginTransaction().replace(R.id.container, new FAQ()).commitAllowingStateLoss();
-//    }
-//    public void show_about(){
-//        getSupportFragmentManager().beginTransaction().replace(R.id.container, new About()).commitAllowingStateLoss();
-//    }
     public void hide_slide(){
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
     }
 
-    public void slide_expanded(HashMap<String,String> house){
+    public void slide_expanded(Place house){
         TextView t =  findViewById(R.id.name);
-        t.setText(house.get("Name"));
+        t.setText(house.getName());
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
-    public void show_slide(HashMap<String,String> house){
+    public void show_slide(Place house){
         TextView t = findViewById(R.id.name);
-        t.setText(house.get("Name"));
+        t.setText(house.getName());
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
     }

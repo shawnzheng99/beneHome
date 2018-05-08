@@ -21,16 +21,14 @@ import java.util.List;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
 
-    private List<Place> places;
     private MainActivity context;
-    private ArrayList<HashMap<String,String>> formlist;
+    private ArrayList<Place> places;
 
     RecyclerView mRecyclerView;
 
-    RVAdapter(List<Place> places, MainActivity context, ArrayList formlist){
-        this.places = places;
+    RVAdapter( MainActivity context, ArrayList formlist){
         this.context = context;
-        this.formlist = formlist;
+        places = formlist;
     }
 
 
@@ -75,8 +73,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
     public void onBindViewHolder(RVAdapter.PlaceViewHolder placeViewHolder, int i) {
         final int j=i;
 
-        placeViewHolder.news_photo.setImageResource(places.get(i).getImgId());
-        placeViewHolder.news_title.setText(places.get(i).getaName());
+        placeViewHolder.news_photo.setImageBitmap(places.get(i).getPic());
+        placeViewHolder.news_title.setText(places.get(i).getName());
         placeViewHolder.news_desc.setText(places.get(i).getDesc());
 
         //set the on clilk listener to the btn_share btn_readMore(cardView)
@@ -95,14 +93,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
                 intent.putExtra(Intent.EXTRA_SUBJECT, "share");
                 intent.putExtra(Intent.EXTRA_TEXT, places.get(j).getDesc());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(Intent.createChooser(intent, places.get(j).getaName()));
+                context.startActivity(Intent.createChooser(intent, places.get(j).getName()));
             }
         });
 
         placeViewHolder.readMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.slide_expanded(formlist.get(j));
+                context.slide_expanded(places.get(j));
             }
         });
 
