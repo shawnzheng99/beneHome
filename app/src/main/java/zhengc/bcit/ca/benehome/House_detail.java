@@ -6,9 +6,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,15 +28,19 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
-public class House_detail extends AppCompatActivity {
+public class House_detail extends Fragment {
     Place selectedHouse;
-
+    View view;
+    private MainActivity mainActivity;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hose_detail);
-
+        mainActivity = (MainActivity) getActivity();
+    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        view = inflater.inflate(R.layout.activity_hose_detail,null);
         // set up
         setselectedHouse();
         setPic();
@@ -46,10 +53,12 @@ public class House_detail extends AppCompatActivity {
         callHouse();
         sendEmail();
         setApply();
+
+        return view;
     }
 
     private void setApply() {
-        Button apply = findViewById(R.id.btn_applyNow);
+        Button apply = view.findViewById(R.id.btn_applyNow);
         final Uri uri = Uri.parse(selectedHouse.getWeb());
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,17 +70,17 @@ public class House_detail extends AppCompatActivity {
     }
 
     private void setPic() {
-        ImageView imageView = findViewById(R.id.img_house);
+        ImageView imageView = view.findViewById(R.id.img_house);
         Picasso.get().load(selectedHouse.getPicUrl()).fit().centerCrop().into(imageView);
 
     }
 
     private void setselectedHouse() {
-        selectedHouse = (Place) getIntent().getSerializableExtra("house");
+        selectedHouse = (Place) getArguments().getSerializable("house");
     }
 
     private void sendEmail() {
-        Button email = findViewById(R.id.btn_email);
+        Button email = view.findViewById(R.id.btn_email);
 
         final String address = selectedHouse.getEmail();
         final String subject = "Booking an appointment for visit house";
@@ -90,7 +99,7 @@ public class House_detail extends AppCompatActivity {
                     intent.putExtra(Intent.EXTRA_TEXT, body);
                     startActivity(Intent.createChooser(intent, ""));
                 } else {
-                    Toast.makeText(House_detail.this
+                    Toast.makeText(getActivity()
                             , "Email address for this house is not provided."
                             , Toast.LENGTH_LONG
                     ).show();
@@ -101,7 +110,7 @@ public class House_detail extends AppCompatActivity {
     }
 
     private void callHouse() {
-        Button call = findViewById(R.id.btn_call);
+        Button call = view.findViewById(R.id.btn_call);
         final String phone = selectedHouse.getPhone();
         call.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +120,7 @@ public class House_detail extends AppCompatActivity {
                     intent.setData(Uri.parse("tel: " + phone));
                     startActivity(intent);
                 } else {
-                    Toast.makeText(House_detail.this
+                    Toast.makeText(getActivity()
                             , "Phone number for this house is not provided."
                             , Toast.LENGTH_LONG
                     ).show();
@@ -122,14 +131,14 @@ public class House_detail extends AppCompatActivity {
     }
 
     private void setHouseType() {
-        TextView houseType = findViewById(R.id.txt_HousingTypeContent);
+        TextView houseType = view.findViewById(R.id.txt_HousingTypeContent);
         int idx = selectedHouse.getDesc().indexOf(".");
         String des = selectedHouse.getDesc().substring(0, idx + 1).toLowerCase();
         houseType.setText(des);
     }
 
     private void setEligible() {
-        TextView eliType = findViewById(R.id.txt_EligibleType);
+        TextView eliType = view.findViewById(R.id.txt_EligibleType);
         int idx = selectedHouse.getDesc().indexOf("ousing for");
         String houseFor = selectedHouse.getDesc().substring(idx + 11);
 
@@ -137,12 +146,12 @@ public class House_detail extends AppCompatActivity {
     }
 
     private void setName() {
-        TextView txtName = findViewById(R.id.txtTitle_HoseName);
+        TextView txtName = view.findViewById(R.id.txtTitle_HoseName);
         txtName.setText(selectedHouse.getName());
     }
 
     private void setLocation() {
-        TextView txtLocation = findViewById(R.id.txt_location_detail);
+        TextView txtLocation = view.findViewById(R.id.txt_location_detail);
         txtLocation.setText(selectedHouse.getLocation());
     }
 
