@@ -149,7 +149,7 @@ public class House_list extends Fragment {
 //                int locationImgId = getResources().getIdentifier(locationImg,"mipmap",mainActivity.getPackageName());
                 String desc = formlist.get(i).get("Description");
 //
-                Place p = new Place("",R.drawable.slide2, locationName);
+                Place p = new Place("",R.drawable.slide3, locationName);
                 placeList.add(p);
             }
 
