@@ -104,6 +104,14 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
             public void onClick(View v) {
                 context.slide_expanded(places.get(j));
 
+                Intent intent = new Intent(context,House_detail.class);
+
+                intent.putExtra("house", places.get(5));
+
+                context.startActivity(intent);
+
+
+
             }
         });
 

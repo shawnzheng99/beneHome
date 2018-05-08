@@ -1,8 +1,6 @@
 package zhengc.bcit.ca.benehome;
 
-import android.graphics.Bitmap;
 import android.net.Uri;
-
 import java.io.Serializable;
 
 public class Place implements Serializable {

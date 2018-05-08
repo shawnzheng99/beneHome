@@ -64,8 +64,6 @@ public class House_detail extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.img_house);
         Picasso.get().load(selectedHouse.getPicUrl()).fit().centerCrop().into(imageView);
 
-
-
     }
 
     private void setselectedHouse() {
