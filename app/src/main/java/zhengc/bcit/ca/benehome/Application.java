@@ -14,10 +14,11 @@ public class Application extends Fragment {
     Button btnOnlineApply;
     Button btnOtherApply;
     View view;
-
+    private MainActivity mainActivity;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mainActivity = (MainActivity) getActivity();
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -38,8 +39,7 @@ public class Application extends Fragment {
         btnOtherApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Intent documentCheck = new Intent(ApplicationGuidePage.this, DocumentCheckList.class);
-              //  startActivity(documentCheck);
+                mainActivity.show_pass(new Document(),null);
             }
         });
         return view;
