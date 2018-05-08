@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = MainActivity.class.getName();
     private GoogleMap mMap;
-    private ArrayList<LatLng> markers;
+    private ArrayList<Place> markers;
     SupportMapFragment mapFragment;
     private SlidingUpPanelLayout mLayout;
     private NavigationView navigationView;
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity
         /*--------initilazing firebase-----------*/
 
         //"https://benehome-f1049.firebaseio.com/"
-        db = FirebaseDatabase.getInstance();
+        db = FirebaseDatabase.getInstance("https://benehome-f1049.firebaseio.com/");
         databaseReference = db.getReference().child("features");
         storage = FirebaseStorage.getInstance();
 
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity
             }
 
         }).start();
-
+        set_item_check(0);
     }
 
     //-------------------------lording Firebase data------------------------------------
@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+Log.e("firebase", "onCancelled");
             }
         });
 
@@ -351,9 +351,10 @@ public class MainActivity extends AppCompatActivity
 
         /*------------Marker-------------------*/
         for (int i = 0; i < markers.size(); ++i) {
+            LatLng temp = new LatLng(Double.parseDouble(markers.get(i).getLat()),Double.parseDouble(markers.get(i).getLon()));
             mMap.addMarker(new MarkerOptions()
-                    .position(markers.get(i))
-                    .title(formlist.get(i).getName())
+                    .position(temp)
+                    .title(markers.get(i).getName())
 
             );
 
@@ -384,13 +385,14 @@ public class MainActivity extends AppCompatActivity
         zoomToMarker(markers);
 
     }
-    public void zoomToMarker(ArrayList<LatLng> markers) {
+    public void zoomToMarker(ArrayList<Place> markers) {
         if(markers.size() > 1){
             LatLng newWest = new LatLng(49.21073429331534, -122.92282036503556);
             CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest, 13);
             mMap.animateCamera(location);
         }else{
-            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(markers.get(0), 13);
+            LatLng temp = new LatLng(Double.parseDouble(markers.get(0).getLat()),Double.parseDouble(markers.get(0).getLon()));
+            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(temp, 15);
             mMap.animateCamera(location);
         }
 
@@ -398,12 +400,7 @@ public class MainActivity extends AppCompatActivity
     /*change formlist to filtered_house later*/
     public void setMarkers(ArrayList<Place> list) {
         markers = new ArrayList<>();
-        for (int i = 0; i < list.size(); ++i) {
-            double y = Double.parseDouble(list.get(i).getLon());
-            double x = Double.parseDouble(list.get(i).getLat());
-            markers.add(new LatLng(x, y));
-        }
-
+        markers = list;
     }
 
     public void hidemap(){
