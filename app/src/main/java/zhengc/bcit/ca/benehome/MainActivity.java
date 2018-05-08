@@ -3,7 +3,10 @@ package zhengc.bcit.ca.benehome;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -29,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -36,21 +40,34 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -64,18 +81,18 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = MainActivity.class.getName();
     private GoogleMap mMap;
-    private ArrayList<LatLng> markers;
+    private ArrayList<Place> markers;
     SupportMapFragment mapFragment;
     private SlidingUpPanelLayout mLayout;
-
-    private ArrayList<HashMap<String, String>> filtered_house;
-    private ArrayList<HashMap<String, String>> formlist;
+    private NavigationView navigationView;
+    private ArrayList<Place> filtered_house;
+    private ArrayList<Place> formlist;
     /*firebase*/
     private DatabaseReference databaseReference;
-
     private FirebaseDatabase db;
     private ImageButton imageButton;
-
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,12 +118,17 @@ public class MainActivity extends AppCompatActivity
         filtered_house = new ArrayList<>();
         formlist = new ArrayList<>();
         imageButton = findViewById(R.id.up_down_button);
-        /*--------initilazing db-----------*/
-        db = FirebaseDatabase.getInstance();
-        databaseReference = db.getReference().child("features");
+        /*--------initilazing firebase-----------*/
 
-        /*loading firebase*/
+        //"https://benehome-f1049.firebaseio.com/"
+        db = FirebaseDatabase.getInstance("https://benehome-f1049.firebaseio.com/");
+        databaseReference = db.getReference().child("features");
+        storage = FirebaseStorage.getInstance();
+
+        storageReference = storage.getReferenceFromUrl("gs://benehome-f1049.appspot.com/");
         loadFirebase();
+
+        /*----------------------------------------*/
         /*slide up*/
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
@@ -146,7 +168,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         if(formlist.isEmpty())
@@ -154,8 +176,8 @@ public class MainActivity extends AppCompatActivity
 //-------------------------------map load and hide it----------------------------------------------------------
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        getSupportFragmentManager().beginTransaction().hide(mapFragment).commit();
-
+      //  getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
+        hidemap();
         new Thread(new Runnable(){
             @Override
             public void run() {
@@ -170,13 +192,12 @@ public class MainActivity extends AppCompatActivity
             }
 
         }).start();
+        set_item_check(0);
     }
-
 
     //-------------------------lording Firebase data------------------------------------
     public void loadFirebase() {
         databaseReference.keepSynced(true);
-        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -206,21 +227,13 @@ public class MainActivity extends AppCompatActivity
                     String Y = (String) messageSnapshot.child("properties")
                             .child("Y").getValue();
 
-                    HashMap<String, String> mylist = new HashMap<>();
 
-                    mylist.put("Name", Name);
-                    mylist.put("Description", Description);
-                    mylist.put("Category", Category);
-                    mylist.put("Hours", Hours);
-                    mylist.put("Location", Location);
-                    mylist.put("PC", PC);
-                    mylist.put("Phone", Phone);
-                    mylist.put("Email", Email);
-                    mylist.put("Website", Website);
-                    mylist.put("lon", X);
-                    mylist.put("lat", Y);
+                    Place mPlace = new Place(Name, Description, Category,Hours
+                            ,Location, PC, Email, Phone, X, Y, Website);
 
-                    formlist.add(mylist);
+                    loadPic(Name,mPlace);
+
+                    formlist.add(mPlace);
 
                 }
 
@@ -228,53 +241,28 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+Log.e("firebase", "onCancelled");
             }
         });
 
     }
 
+    private void loadPic(String houseName,final Place mPlace) {
 
-    private void loadFromJson() {
-        try {
-            JSONObject obj = new JSONObject(loadJSONFromAsset(this));
-            JSONArray jsonarray = obj.getJSONArray("features");
+        houseName = houseName.toLowerCase();
+        houseName = houseName.replaceAll(" ", "");
+        houseName = houseName.replaceAll("-", "");
+        houseName = houseName.replaceAll("'", "");
 
-            for (int i = 0; i < jsonarray.length(); i++) {
-                JSONObject obj_inside = jsonarray.getJSONObject(i);
+        storageReference.child(houseName+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
 
-                String Name = obj_inside.getJSONObject("properties").getString("Name");
-                String Description = obj_inside.getJSONObject("properties").getString("Description");
-                String Category = obj_inside.getJSONObject("properties").getString("Category");
-                String Hours = obj_inside.getJSONObject("properties").getString("Hours");
-                String Location = obj_inside.getJSONObject("properties").getString("Location");
-                String PC = obj_inside.getJSONObject("properties").getString("PC");
-                String Phone = obj_inside.getJSONObject("properties").getString("Phone");
-                String Email = obj_inside.getJSONObject("properties").getString("Email");
-                String Website = obj_inside.getJSONObject("properties").getString("Website");
-                String X = obj_inside.getJSONObject("properties").getString("X");
-                String Y = obj_inside.getJSONObject("properties").getString("Y");
-
-                HashMap<String, String> mylist = new HashMap<>();
-
-                mylist.put("Name", Name);
-                mylist.put("Description", Description);
-                mylist.put("Category", Category);
-                mylist.put("Hours", Hours);
-                mylist.put("Location", Location);
-                mylist.put("PC", PC);
-                mylist.put("Phone", Phone);
-                mylist.put("Email", Email);
-                mylist.put("Website", Website);
-                mylist.put("lon", X);
-                mylist.put("lat", Y);
-
-                formlist.add(mylist);
+                mPlace.setPicUrl(uri);
             }
+        });
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
     }
     //--------------------------nav method overload-----------------------------------
 
@@ -336,44 +324,37 @@ public class MainActivity extends AppCompatActivity
             mapFragment.getMapAsync(this);
             /*------------------markers---------------------------*/
             setMarkers(formlist);
-            showmap();
+            displaymap();
+        } else if(id == R.id.nav_Application_guide){
+            //show_pass(new Appl)
         }
         hide_slide();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    //-----------------------------------JSON file method--------------------------------
-    public String loadJSONFromAsset(Context context) {
-        String json = null;
-        try {
-            InputStream is = context.getAssets().open("data.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
+    public void set_item_check(int i){
+        navigationView.getMenu().getItem(i).setChecked(true);
     }
-    public ArrayList<HashMap<String, String>> getList() {
+    public void set_item_uncheck(int i){
+        navigationView.getMenu().getItem(i).setChecked(false);
+    }
+    //-------------------------------nav end----------------------------------
+    public ArrayList<Place> getList() {
         return formlist;
     }
 //------------------------------map method---------------------------------------------------
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
-        zoomToNewWest();
+        mMap.clear();
 
         /*------------Marker-------------------*/
         for (int i = 0; i < markers.size(); ++i) {
+            LatLng temp = new LatLng(Double.parseDouble(markers.get(i).getLat()),Double.parseDouble(markers.get(i).getLon()));
             mMap.addMarker(new MarkerOptions()
-                    .position(markers.get(i))
-                    .title(formlist.get(i).get("Name"))
+                    .position(temp)
+                    .title(markers.get(i).getName())
 
             );
 
@@ -382,17 +363,15 @@ public class MainActivity extends AppCompatActivity
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                //Intent intent = new Intent(MainActivity.this, House_detail.class);
-                HashMap<String, String> selectHouse = new HashMap<>();
+                Place selectHouse = new Place();
 
                 // get selected house
                 for (int j = 0; j < formlist.size(); ++j) {
-                    if (formlist.get(j).get("Name").equals(marker.getTitle())) {
+                    if (formlist.get(j).getName().equals(marker.getTitle())) {
                         selectHouse = formlist.get(j);
                     }
                 }
-                //intent.putExtra("house", selectHouse);
-                //startActivity(intent);
+
                 show_slide(selectHouse);
             }
         });
@@ -403,31 +382,43 @@ public class MainActivity extends AppCompatActivity
             }
         });
         mMap.getUiSettings().setZoomGesturesEnabled(true);
+        zoomToMarker(markers);
+
     }
-    public void zoomToNewWest() {
-        LatLng newWest = new LatLng(49.21073429331534, -122.92282036503556);
-        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest, 13);
-        mMap.animateCamera((location));
+    public void zoomToMarker(ArrayList<Place> markers) {
+        if(markers.size() > 1){
+            LatLng newWest = new LatLng(49.21073429331534, -122.92282036503556);
+            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest, 13);
+            mMap.animateCamera(location);
+        }else{
+            LatLng temp = new LatLng(Double.parseDouble(markers.get(0).getLat()),Double.parseDouble(markers.get(0).getLon()));
+            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(temp, 15);
+            mMap.animateCamera(location);
+        }
+
     }
     /*change formlist to filtered_house later*/
-    public void setMarkers(ArrayList<HashMap<String,String>> list) {
+    public void setMarkers(ArrayList<Place> list) {
         markers = new ArrayList<>();
-        for (int i = 0; i < list.size(); ++i) {
-            double y = Double.parseDouble(list.get(i).get("lon"));
-            double x = Double.parseDouble(list.get(i).get("lat"));
-            markers.add(new LatLng(x, y));
-        }
+        markers = list;
     }
 
     public void hidemap(){
         getSupportFragmentManager().beginTransaction().hide(mapFragment).commit();
     }
-    public void showmap(){
+    public void displaymap(){
         getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
+    }
+    public void pass_to_map(Place house){
+        mapFragment.getMapAsync(this);
+        ArrayList<Place> temp = new ArrayList<>();
+        temp.add(house);
+        setMarkers(temp);
+        displaymap();
     }
 //-------------------------------map method end---------------------------------------------------
 
-    public void set_filtered_house(ArrayList<HashMap<String,String>> list){
+    public void set_filtered_house(ArrayList<Place> list){
         filtered_house = list;
     }
     public void show_pass(Fragment fragment, ArrayList list){
@@ -436,34 +427,22 @@ public class MainActivity extends AppCompatActivity
         fragment.setArguments(data);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commitAllowingStateLoss();
     }
-//    public void show_house_list(){
-//        Fragment house_list_fragment = new House_list();
-//        Bundle data = new Bundle();
-//        data.putSerializable("data",formlist);
-//        house_list_fragment.setArguments(data);
-//        getSupportFragmentManager().beginTransaction().replace(R.id.container, house_list_fragment).commitAllowingStateLoss();
-//    }
-//    public void show_eligibility(){
-//        getSupportFragmentManager().beginTransaction().replace(R.id.container, new Eligible()).commitAllowingStateLoss();
-//    }
-//    public void show_faq(){
-//        getSupportFragmentManager().beginTransaction().replace(R.id.container, new FAQ()).commitAllowingStateLoss();
-//    }
-//    public void show_about(){
-//        getSupportFragmentManager().beginTransaction().replace(R.id.container, new About()).commitAllowingStateLoss();
-//    }
     public void hide_slide(){
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
     }
 
-    public void slide_expanded(HashMap<String,String> house){
+    public void slide_expanded(Fragment fragment,Place house){
         TextView t =  findViewById(R.id.name);
-        t.setText(house.get("Name"));
+        t.setText(house.getName());
+        Bundle data = new Bundle();
+        data.putSerializable("house",house);
+        fragment.setArguments(data);
+        getSupportFragmentManager().beginTransaction().replace(R.id.house_detail_container, fragment).commitAllowingStateLoss();
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
-    public void show_slide(HashMap<String,String> house){
+    public void show_slide(Place house){
         TextView t = findViewById(R.id.name);
-        t.setText(house.get("Name"));
+        t.setText(house.getName());
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
     }
