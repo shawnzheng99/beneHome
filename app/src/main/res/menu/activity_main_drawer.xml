@@ -29,9 +29,9 @@
     <item android:title="Setting">
         <menu>
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_Application_guide"
                 android:icon="@drawable/ic_menu_manage"
-                android:title="Language" />
+                android:title="Application Guide" />
         </menu>
     </item>
 
