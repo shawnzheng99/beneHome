@@ -183,14 +183,14 @@ public class MainActivity extends AppCompatActivity
         new Thread(new Runnable(){
             @Override
             public void run() {
-                while(formlist.isEmpty()){
+                while(filtered_house.isEmpty()){
                     try {
                         sleep(1);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                show_pass(new House_list(),formlist,null);
+                show_pass(new House_list(),filtered_house,null);
             }
 
         }).start();
@@ -236,6 +236,7 @@ public class MainActivity extends AppCompatActivity
                     loadPic(Name,mPlace);
 
                     formlist.add(mPlace);
+                    filtered_house = formlist;
 
                 }
 
@@ -340,12 +341,20 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment f = getSupportFragmentManager ().findFragmentById(R.id.container);
-        if (id == R.id.nav_houselist) {
+        if (id == R.id.nav_filter) {
+            if (f instanceof Eligible) {
+                getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
+            } else {
+                show_pass(new Filter(), null, null);
+                hidemap();
+                hide_slide();
+            }
+        } else if (id == R.id.nav_houselist) {
             if(f instanceof House_list){
                 getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
             }else{
                 //show_house_list();
-                show_pass(new House_list(),formlist,null);
+                show_pass(new House_list(),filtered_house,null);
                 hidemap();
                 hide_slide();
             }
@@ -377,7 +386,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_map) {
             mapFragment.getMapAsync(this);
             /*------------------markers---------------------------*/
-            setMarkers(formlist);
+            setMarkers(filtered_house);
             displaymap();
         } else if(id == R.id.nav_Application_guide){
             if(f instanceof Application){
@@ -488,6 +497,7 @@ public class MainActivity extends AppCompatActivity
     public void show_pass(Fragment fragment, ArrayList list, Place house){
         Bundle data = new Bundle();
         data.putSerializable("data",list);
+        data.putSerializable("all_house",formlist);
         data.putSerializable("house", house);
         fragment.setArguments(data);
         getSupportFragmentManager().beginTransaction().

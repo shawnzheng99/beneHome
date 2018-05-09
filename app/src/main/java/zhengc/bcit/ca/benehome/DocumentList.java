@@ -25,7 +25,7 @@ public class DocumentList extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.activity_document,null);
 
-        final ExpandableListView listView = view.findViewById(R.id.lvList);
+        final ExpandableListView listView = view.findViewById(R.id.listExp);
         initData();
         ExpandableListAdapter listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listHash);
         listView.setAdapter(listAdapter);

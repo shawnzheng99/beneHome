@@ -9,8 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.ArrayList;
+
 public class Filter extends Fragment implements View.OnClickListener {
 
+    private MainActivity mainActivity;
     private Button btn_q1_1, btn_q1_2, btn_q1_3;
     private Button btn_q2_2, btn_q2_3, btn_q2_4;
     private Button btn_q3_1, btn_q3_2, btn_q3_3;
@@ -35,7 +38,7 @@ public class Filter extends Fragment implements View.OnClickListener {
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.activity_filter,null);
-
+        mainActivity = (MainActivity)getActivity();
         init();
 
         return view;
@@ -148,11 +151,21 @@ public class Filter extends Fragment implements View.OnClickListener {
                 keywords[3] = keyword_no;
                 break;
             case R.id.btn_next:
-                Fragment fragment = new House_list();
-                Bundle data = new Bundle();
-                data.putStringArray("keywords",keywords);
-                fragment.setArguments(data);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commitAllowingStateLoss();
+                ArrayList<Place> alllist = mainActivity.getList();
+                ArrayList<Place> list = new ArrayList<Place>();
+                if (keywords[0] == keyword0 && keywords[1] == keyword0 && keywords[2] == keyword0 && keywords[3] == keyword0) {
+                    list = alllist;
+                } else {
+                    for (Place house : alllist) {
+                        if (house.getDesc().contains(keywords[0]) || house.getDesc().contains(keywords[1])
+                                || house.getDesc().contains(keywords[2]) || house.getDesc().contains(keywords[3])
+                                || house.getDesc().contains("all household types")) {
+                            list.add(house);
+                        }
+                    }
+                }
+                mainActivity.set_filtered_house(list);
+                mainActivity.show_pass(new House_list(),list,null);
             default:
                 break;
         }
