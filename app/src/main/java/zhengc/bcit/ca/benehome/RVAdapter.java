@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -20,6 +22,8 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static java.lang.Thread.sleep;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
 
@@ -74,7 +78,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
     @Override
     public void onBindViewHolder(RVAdapter.PlaceViewHolder placeViewHolder, int i) {
         final int j=i;
-
         Picasso.get().load(places.get(i).getPicUrl()).fit().centerCrop().into(placeViewHolder.news_photo);
         placeViewHolder.news_title.setText(places.get(i).getName());
         placeViewHolder.news_desc.setText(places.get(i).getDesc());
@@ -99,8 +102,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
         placeViewHolder.readMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                context.show_pass(new House_detail(), null, places.get(j));
 
-                context.slide_expanded(new House_detail(), places.get(j));
             }
         });
 
