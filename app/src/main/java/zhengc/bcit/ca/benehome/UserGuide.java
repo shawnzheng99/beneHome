@@ -4,10 +4,16 @@ import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 public class UserGuide extends AppCompatActivity {
 
     ViewPager viewPager;
+    ImageView cycle1;
+    ImageView cycle2;
+    ImageView cycle3;
+
+    private ImageView[] tips;
 
     private boolean isLastPage = false;
     private boolean isDragPage = false;
@@ -17,6 +23,10 @@ public class UserGuide extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_guide);
+
+        cycle1 = findViewById(R.id.cycle1);
+        cycle2 = findViewById(R.id.cycle2);
+        cycle3 = findViewById(R.id.cycle3);
 
         viewPager = (ViewPager) findViewById(R.id.ViewPager);
         ViewPagerAdpter viewPagerAdpter = new ViewPagerAdpter(this);
@@ -52,6 +62,24 @@ public class UserGuide extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 isLastPage = position == 2;
+
+                if (position == 0) {
+                    cycle1.setImageResource(R.drawable.circle_selected);
+                    cycle2.setImageResource(R.drawable.circle_unselected);
+                    cycle3.setImageResource(R.drawable.circle_unselected);
+                }
+
+                if (position == 1) {
+                    cycle1.setImageResource(R.drawable.circle_unselected);
+                    cycle2.setImageResource(R.drawable.circle_selected);
+                    cycle3.setImageResource(R.drawable.circle_unselected);
+                }
+
+                if (position == 2) {
+                    cycle1.setImageResource(R.drawable.circle_unselected);
+                    cycle2.setImageResource(R.drawable.circle_unselected);
+                    cycle3.setImageResource(R.drawable.circle_selected);
+                }
 
             }
 
