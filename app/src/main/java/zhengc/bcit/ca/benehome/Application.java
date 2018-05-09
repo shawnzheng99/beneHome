@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.support.v4.app.FragmentTransaction;
 
 
 public class Application extends Fragment {
@@ -38,8 +39,7 @@ public class Application extends Fragment {
         btnOtherApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Intent documentCheck = new Intent(ApplicationGuidePage.this, DocumentCheckList.class);
-              //  startActivity(documentCheck);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, new DocumentList()).commitAllowingStateLoss();
             }
         });
         return view;
