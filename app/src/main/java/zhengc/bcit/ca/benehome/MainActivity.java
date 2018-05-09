@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity
     private ImageButton imageButton;
     private FirebaseStorage storage;
     private StorageReference storageReference;
+    DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity
         filtered_house = new ArrayList<>();
         formlist = new ArrayList<>();
         imageButton = findViewById(R.id.up_down_button);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         /*--------initilazing firebase-----------*/
 
         //"https://benehome-f1049.firebaseio.com/"
@@ -165,8 +167,16 @@ public class MainActivity extends AppCompatActivity
 //        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                Log.e("Drawer","open");
+                super.onDrawerOpened(drawerView);
+                if(mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED){
+                    mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+                }
+            }
+        };
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -269,7 +279,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         Fragment f = getSupportFragmentManager ().findFragmentById(R.id.container);
         FrameLayout container = findViewById(R.id.container);
 
@@ -329,9 +338,9 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Log.e("close","close");
             return true;
         }
-        //if(id == R.id.homeAsUp)
         return super.onOptionsItemSelected(item);
     }
     @SuppressWarnings("StatementWithEmptyBody")
@@ -428,7 +437,6 @@ public class MainActivity extends AppCompatActivity
                         selectHouse = formlist.get(j);
                     }
                 }
-
                 show_slide(new House_detail(),selectHouse);
             }
         });
