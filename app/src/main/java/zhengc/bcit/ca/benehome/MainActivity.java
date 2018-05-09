@@ -179,6 +179,7 @@ public class MainActivity extends AppCompatActivity
                 .findFragmentById(R.id.map);
         getSupportFragmentManager().beginTransaction().hide(mapFragment).commit();
 
+
         new Thread(new Runnable(){
             @Override
             public void run() {
@@ -193,6 +194,8 @@ public class MainActivity extends AppCompatActivity
             }
 
         }).start();
+
+
 
     }
 
