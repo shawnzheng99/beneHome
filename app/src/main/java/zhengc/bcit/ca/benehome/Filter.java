@@ -1,12 +1,15 @@
 package zhengc.bcit.ca.benehome;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
-public class Filter extends AppCompatActivity implements View.OnClickListener {
+public class Filter extends Fragment implements View.OnClickListener {
 
     private Button btn_q1_1, btn_q1_2, btn_q1_3;
     private Button btn_q2_2, btn_q2_3, btn_q2_4;
@@ -25,31 +28,33 @@ public class Filter extends AppCompatActivity implements View.OnClickListener {
     final private String keyword4_1 = "disabilities";
     private String keywords[] = new String[4];
 
+    View view;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
+    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        view = inflater.inflate(R.layout.activity_filter,null);
 
         init();
 
-
-        final String keys[] = keywords;
+        return view;
     }
 
     private void init() {
-        btn_q1_1 = findViewById(R.id.btn_q1_1);
-        btn_q1_2 = findViewById(R.id.btn_q1_2);
-        btn_q1_3 = findViewById(R.id.btn_q1_3);
-        btn_q2_2 = findViewById(R.id.btn_q2_2);
-        btn_q2_3 = findViewById(R.id.btn_q2_3);
-        btn_q2_4 = findViewById(R.id.btn_q2_4);
-        btn_q3_1 = findViewById(R.id.btn_q3_1);
-        btn_q3_2 = findViewById(R.id.btn_q3_2);
-        btn_q3_3 = findViewById(R.id.btn_q3_3);
-        btn_q4_1 = findViewById(R.id.btn_q4_1);
-        btn_q4_2 = findViewById(R.id.btn_q4_2);
-        btn_q4_3 = findViewById(R.id.btn_q4_3);
-        btn_next = findViewById(R.id.btn_next);
+        btn_q1_1 = view.findViewById(R.id.btn_q1_1);
+        btn_q1_2 = view.findViewById(R.id.btn_q1_2);
+        btn_q1_3 = view.findViewById(R.id.btn_q1_3);
+        btn_q2_2 = view.findViewById(R.id.btn_q2_2);
+        btn_q2_3 = view.findViewById(R.id.btn_q2_3);
+        btn_q2_4 = view.findViewById(R.id.btn_q2_4);
+        btn_q3_1 = view.findViewById(R.id.btn_q3_1);
+        btn_q3_2 = view.findViewById(R.id.btn_q3_2);
+        btn_q3_3 = view.findViewById(R.id.btn_q3_3);
+        btn_q4_1 = view.findViewById(R.id.btn_q4_1);
+        btn_q4_2 = view.findViewById(R.id.btn_q4_2);
+        btn_q4_3 = view.findViewById(R.id.btn_q4_3);
+        btn_next = view.findViewById(R.id.btn_next);
         for (int i = 0; i < 4; i++) {
             keywords[i] = keyword0;
         }
@@ -143,10 +148,11 @@ public class Filter extends AppCompatActivity implements View.OnClickListener {
                 keywords[3] = keyword_no;
                 break;
             case R.id.btn_next:
-                Intent intent = new Intent();
-                intent.putExtra("keywords", keywords);
-                intent.setClass(Filter.this, House_list.class);
-                startActivity(intent);
+                Fragment fragment = new House_list();
+                Bundle data = new Bundle();
+                data.putStringArray("keywords",keywords);
+                fragment.setArguments(data);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commitAllowingStateLoss();
             default:
                 break;
         }

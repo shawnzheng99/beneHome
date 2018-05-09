@@ -309,7 +309,7 @@ Log.e("firebase", "onCancelled");
             hidemap();
             hide_slide();
         } else if (id == R.id.nav_eligibility) {
-            show_pass(new Eligible(), null);
+            show_pass(new Filter(), null);
             hidemap();
             hide_slide();
         } else if (id == R.id.nav_faq) {
