@@ -83,5 +83,4 @@ public class House_list extends Fragment {
 
         return view;
     }
-
 }

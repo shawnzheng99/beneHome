@@ -27,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -131,6 +132,7 @@ public class MainActivity extends AppCompatActivity
         /*----------------------------------------*/
         /*slide up*/
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        hide_slide();
         mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
@@ -145,11 +147,11 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-                Log.i(TAG, "onPanelStateChanged " + newState);
+                Log.i(TAG, "new state " + newState);
+                Log.i(TAG, "previous state " + previousState);
+
             }
         });
-
-        hide_slide();
         //------------------------nav oncreate-----------------------------------
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -188,7 +190,7 @@ public class MainActivity extends AppCompatActivity
                         e.printStackTrace();
                     }
                 }
-                show_pass(new House_list(),formlist);
+                show_pass(new House_list(),formlist,null);
             }
 
         }).start();
@@ -241,7 +243,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-Log.e("firebase", "onCancelled");
+
             }
         });
 
@@ -257,7 +259,6 @@ Log.e("firebase", "onCancelled");
         storageReference.child(houseName+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-
                 mPlace.setPicUrl(uri);
             }
         });
@@ -269,10 +270,46 @@ Log.e("firebase", "onCancelled");
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        Fragment f = getSupportFragmentManager ().findFragmentById(R.id.container);
+        FrameLayout container = findViewById(R.id.container);
+
+        if(mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED ||
+                (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)){
+            mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            Log.e("slide","back");
+        }else if(drawer.isDrawerOpen(GravityCompat.START)){
+            drawer.closeDrawer(GravityCompat.START);
+            Log.e("drawer","back");
+            return;
+        }
+        else if(mapFragment.getUserVisibleHint()){
+            hidemap();
+            set_item_uncheck(1);
+            Log.e("map","back");
+        }else if(f instanceof House_detail){
             super.onBackPressed();
-        } else {
-            drawer.openDrawer(GravityCompat.START);
+            Log.e("detail","back");
+        }else if(f instanceof House_list){
+            moveTaskToBack(true);
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
+            Log.e("home","back");
+        }else{
+            super.onBackPressed();
+            //overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+            Log.e("super","back");
+        }
+        if(f instanceof House_list){
+            set_item_check(0);
+        }else if(f instanceof Eligible){
+            set_item_check(2);
+        }else if(f instanceof FAQ){
+            set_item_check(3);
+        }else if(f instanceof About){
+            set_item_check(4);
+        }else if(f instanceof Application){
+            set_item_check(5);
+            //navigationView.getMenu().getItem(6).getItem(0).setChecked(true);
         }
     }
 
@@ -294,7 +331,7 @@ Log.e("firebase", "onCancelled");
         if (id == R.id.action_settings) {
             return true;
         }
-
+        //if(id == R.id.homeAsUp)
         return super.onOptionsItemSelected(item);
     }
     @SuppressWarnings("StatementWithEmptyBody")
@@ -302,31 +339,52 @@ Log.e("firebase", "onCancelled");
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        Fragment f = getSupportFragmentManager ().findFragmentById(R.id.container);
         if (id == R.id.nav_houselist) {
-            //show_house_list();
-            show_pass(new House_list(),formlist);
-            hidemap();
-            hide_slide();
+            if(f instanceof House_list){
+                getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
+            }else{
+                //show_house_list();
+                show_pass(new House_list(),formlist,null);
+                hidemap();
+                hide_slide();
+            }
         } else if (id == R.id.nav_eligibility) {
-            show_pass(new Filter(), null);
-            hidemap();
-            hide_slide();
+
+            if(f instanceof Eligible){
+                getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
+            }else{
+                show_pass(new Eligible(), null,null);
+                hidemap();
+                hide_slide();
+            }
         } else if (id == R.id.nav_faq) {
-            show_pass(new FAQ(),null);
-            hidemap();
-            hide_slide();
+            if(f instanceof FAQ){
+                getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
+            }else{
+                show_pass(new FAQ(),null,null);
+                hidemap();
+                hide_slide();
+            }
         } else if (id == R.id.nav_about) {
-            show_pass(new About(),null);
-            hidemap();
-            hide_slide();
+            if(f instanceof About){
+                getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
+            }else{
+                show_pass(new About(),null,null);
+                hidemap();
+                hide_slide();
+            }
         } else if (id == R.id.nav_map) {
             mapFragment.getMapAsync(this);
             /*------------------markers---------------------------*/
             setMarkers(formlist);
             displaymap();
         } else if(id == R.id.nav_Application_guide){
-            //show_pass(new Appl)
+            if(f instanceof Application){
+                getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
+            }else{
+                show_pass(new Application(),null,null);
+            }
         }
         hide_slide();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -372,7 +430,7 @@ Log.e("firebase", "onCancelled");
                     }
                 }
 
-                show_slide(selectHouse);
+                show_slide(new House_detail(),selectHouse);
             }
         });
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -404,10 +462,16 @@ Log.e("firebase", "onCancelled");
     }
 
     public void hidemap(){
-        getSupportFragmentManager().beginTransaction().hide(mapFragment).commit();
+        mapFragment.setUserVisibleHint(false);
+        getSupportFragmentManager().beginTransaction().
+                setCustomAnimations(R.anim.slide_in_up,R.anim.pop_out,R.anim.pop_in,R.anim.pop_out).
+                hide(mapFragment).commit();
     }
     public void displaymap(){
-        getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
+        mapFragment.setUserVisibleHint(true);
+        getSupportFragmentManager().beginTransaction().
+                setCustomAnimations(R.anim.slide_in_up,R.anim.pop_out,R.anim.pop_in,R.anim.pop_out).
+                show(mapFragment).commit();
     }
     public void pass_to_map(Place house){
         mapFragment.getMapAsync(this);
@@ -421,11 +485,16 @@ Log.e("firebase", "onCancelled");
     public void set_filtered_house(ArrayList<Place> list){
         filtered_house = list;
     }
-    public void show_pass(Fragment fragment, ArrayList list){
+    public void show_pass(Fragment fragment, ArrayList list, Place house){
         Bundle data = new Bundle();
         data.putSerializable("data",list);
+        data.putSerializable("house", house);
         fragment.setArguments(data);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().
+                setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
+                replace(R.id.container, fragment).
+                addToBackStack(null).
+                commitAllowingStateLoss();
     }
     public void hide_slide(){
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
@@ -437,14 +506,17 @@ Log.e("firebase", "onCancelled");
         Bundle data = new Bundle();
         data.putSerializable("house",house);
         fragment.setArguments(data);
-        getSupportFragmentManager().beginTransaction().replace(R.id.house_detail_container, fragment).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().replace(R.id.house_detail_container, fragment).addToBackStack(null).commitAllowingStateLoss();
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
-    public void show_slide(Place house){
+    public void show_slide(Fragment fragment, Place house){
         TextView t = findViewById(R.id.name);
         t.setText(house.getName());
+        Bundle data = new Bundle();
+        data.putSerializable("house",house);
+        fragment.setArguments(data);
+        getSupportFragmentManager().beginTransaction().replace(R.id.house_detail_container, fragment).addToBackStack(null).commitAllowingStateLoss();
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-
     }
     public void up_down_button_click(View view){
         if(mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED){
@@ -455,4 +527,5 @@ Log.e("firebase", "onCancelled");
             imageButton.setBackground(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up_black_24dp));
         }
     }
+
 }

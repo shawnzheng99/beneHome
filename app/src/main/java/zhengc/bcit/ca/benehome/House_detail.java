@@ -42,8 +42,10 @@ public class House_detail extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.activity_hose_detail,null);
         // set up
-        setselectedHouse();
-        setPic();
+        selectedHouse = (Place) getArguments().getSerializable("house");
+        ImageView imageView = view.findViewById(R.id.img_house);
+        Picasso.get().load(selectedHouse.getPicUrl()).fit().centerCrop().into(imageView);
+
         setName();
         setLocation();
         setEligible();
@@ -69,15 +71,6 @@ public class House_detail extends Fragment {
         });
     }
 
-    private void setPic() {
-        ImageView imageView = view.findViewById(R.id.img_house);
-        Picasso.get().load(selectedHouse.getPicUrl()).fit().centerCrop().into(imageView);
-
-    }
-
-    private void setselectedHouse() {
-        selectedHouse = (Place) getArguments().getSerializable("house");
-    }
 
     private void sendEmail() {
         Button email = view.findViewById(R.id.btn_email);

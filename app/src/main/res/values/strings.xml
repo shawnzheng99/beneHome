@@ -71,6 +71,25 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">beneHome@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="apply_online">Apply to The Housing Registry</string>
+    <string name="apply_online1">The Housing Registry is a centralized database, managed by BC Housing,
+        of applicants in search of subsidized housing. The Registry allows your single application form to be
+        considered for available units managed by BC Housing and a number of non-profit and co-operative housing
+        providers that have chosen to use The Housing Registry database. You can apply online using the button below.
+    </string>
+    <string name="other_apply">Apply to Non-profit and Co-op Housing Providers</string>
+    <string name="other_apply1">Not all non-profit societies and co-operatives use The Housing Registry as their
+        applicant database, so to increase your chances of securing subsidized housing, we recommend that you apply
+        directly to these non-profit societies and co-operatives.
+    </string>
+
+    <string name="checklist">Please note that you are required to submit copies of supporting documents with your Declaration.
+    You can check the document list using the button below</string>
+
+
+    <string name="application_guide1">Please know that not all subsidized houses use The Hosuing Registry as their application database.
+        You apply directly to some subsidized houses with housing provider. Please check the how to apply at the house detail page regarding house application.
+  </string>
 
 
 </resources>
