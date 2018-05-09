@@ -28,10 +28,21 @@ public class FAQ extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.activity_faq,null);
 
-        ExpandableListView listView = view.findViewById(R.id.lvExp);
+        final ExpandableListView listView = view.findViewById(R.id.lvExp);
         initData();
         ExpandableListAdapter listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader, listHash);
         listView.setAdapter(listAdapter);
+
+        listView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            int previousGroup = -1;
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                if(groupPosition != previousGroup)
+                    listView.collapseGroup(previousGroup);
+                previousGroup = groupPosition;
+            }
+        });
 
         return view;
     }

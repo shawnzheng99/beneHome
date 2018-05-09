@@ -24,15 +24,10 @@
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_about_24dp"
             android:title="About" />
+        <item
+            android:id="@+id/nav_Application_guide"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Application Guide" />
     </group>
-
-    <item android:title="Setting">
-        <menu>
-            <item
-                android:id="@+id/nav_Application_guide"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="Application Guide" />
-        </menu>
-    </item>
 
 </menu>

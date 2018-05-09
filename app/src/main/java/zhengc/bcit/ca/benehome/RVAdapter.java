@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -77,31 +79,18 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
     @Override
     public void onBindViewHolder(final RVAdapter.PlaceViewHolder placeViewHolder, final int i) {
         final int j=i;
-//        new Thread(new Runnable(){
-//            @Override
-//            public void run() {
-//                int trying = 0;
-//                while(trying < 50000){
-//                    try {
-//                        context.show_pass(context.getFragmentManager(),places);
-//                        trying ++;
-//                        sleep(1);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//
-//        }).start();
+
         Picasso.get().load(places.get(i).getPicUrl()).placeholder(R.drawable.animated_rotate_drawable).fit().centerCrop().into(placeViewHolder.news_photo);
+
         placeViewHolder.news_title.setText(places.get(i).getName());
         placeViewHolder.news_desc.setText(places.get(i).getDesc());
 
-        //set the on clilk listener to the btn_share btn_readMore(cardView)
+        //set the on clilk listener to the cardView
         placeViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 context.slide_expanded(new House_detail(),places.get(j));
+
             }
         });
 
