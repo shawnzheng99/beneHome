@@ -43,11 +43,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class House_list extends Fragment {
+public class House_list extends Fragment{
 
     ArrayList<Place> formlist;
     ArrayList<Place> filtered_house = new ArrayList<>();
@@ -58,8 +59,7 @@ public class House_list extends Fragment {
     private MainActivity mainActivity;
 
     // recycleView
-    private RecyclerView recyclerView;
-    private RVAdapter adapter;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,6 +69,8 @@ public class House_list extends Fragment {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        RecyclerView recyclerView;
+        RVAdapter adapter;
         view = inflater.inflate(R.layout.activity_house_list,null);
         // set house list
         formlist = (ArrayList<Place>)getArguments().getSerializable("data");

@@ -32,7 +32,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
 
     RecyclerView mRecyclerView;
 
-    RVAdapter( MainActivity context, ArrayList formlist){
+    RVAdapter( MainActivity context, ArrayList<Place> formlist){
         this.context = context;
         places = formlist;
 
