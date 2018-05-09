@@ -308,6 +308,7 @@ public class MainActivity extends AppCompatActivity
             //overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
             Log.e("super","back");
         }
+        f = getSupportFragmentManager ().findFragmentById(R.id.container);
         if(f instanceof House_list){
             set_item_check(0);
         }else if(f instanceof Eligible){
