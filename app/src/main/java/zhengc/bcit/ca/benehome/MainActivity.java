@@ -303,22 +303,18 @@ public class MainActivity extends AppCompatActivity
             show_pass(new Filter(), null, null);
             hidemap();
             hide_slide();
-            this.setTitle("Filter");
         } else if (id == R.id.nav_houselist) {
             show_pass(new House_list(),filtered_house,null);
             hidemap();
             hide_slide();
-            this.setTitle("House List");
         } else if (id == R.id.nav_eligibility) {
             show_pass(new Eligible(), null,null);
             hidemap();
             hide_slide();
-            this.setTitle("Eligibility");
         } else if (id == R.id.nav_faq) {
             show_pass(new FAQ(),null,null);
             hidemap();
             hide_slide();
-            this.setTitle("FAQ");
         } else if (id == R.id.nav_about) {
             show_pass(new About(),null,null);
             hidemap();
@@ -328,12 +324,10 @@ public class MainActivity extends AppCompatActivity
             /*------------------markers---------------------------*/
             setMarkers(filtered_house);
             displaymap();
-            this.setTitle("Map");
         } else if(id == R.id.nav_Application_guide){
            show_pass(new Application(),null,null);
             hidemap();
             hide_slide();
-            this.setTitle("Application");
         }
         hide_slide();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -406,7 +400,7 @@ public class MainActivity extends AppCompatActivity
 
     }
     public void zoomToMarker(ArrayList<Place> markers) {
-        if(markers.size() > 1){
+        if(markers.size() > 1 || markers.size()==0){
             LatLng newWest = new LatLng(49.21073429331534, -122.92282036503556);
             CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest, 13);
             mMap.animateCamera(location);
@@ -434,6 +428,7 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().
                 setCustomAnimations(R.anim.slide_in_up,R.anim.pop_out,R.anim.pop_in,R.anim.pop_out).
                 show(mapFragment).commit();
+        this.setTitle("Map");
     }
     public void pass_to_map(Place house){
         mapFragment.getMapAsync(this);
@@ -458,6 +453,20 @@ public class MainActivity extends AppCompatActivity
                 replace(R.id.container, fragment).
                 addToBackStack(null).
                 commitAllowingStateLoss();
+        if(fragment instanceof House_list){
+            this.setTitle("House list");
+        }else if(fragment instanceof Eligible){
+            this.setTitle("Eligible");
+        }else if(fragment instanceof FAQ){
+            this.setTitle("FAQ");
+        }else if(fragment instanceof About){
+            this.setTitle("About");
+        }else if(fragment instanceof Application){
+            this.setTitle("Application");
+        }else if(fragment instanceof Filter){
+            this.setTitle("Filter");
+        }
+
     }
     public void hide_slide(){
         if(mapFragment!=null){
