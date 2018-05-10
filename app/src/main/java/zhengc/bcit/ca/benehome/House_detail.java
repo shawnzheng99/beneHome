@@ -1,6 +1,7 @@
 package zhengc.bcit.ca.benehome;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -10,12 +11,15 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,10 +34,20 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class House_detail extends Fragment {
+public class House_detail extends Fragment implements ViewSwitcher.ViewFactory, View.OnTouchListener {
     Place selectedHouse;
     View view;
     private MainActivity mainActivity;
+
+    ImageSwitcher switcher;
+    ImageView imageView;
+    float initialX;
+    private Cursor cursor;
+    private  int columnIndex, position = 0;
+    private int currentPosition = 0;
+    private float downX;
+    int [] images = {R.drawable.slide1,R.drawable.slide2,R.drawable.slide3};
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,9 +56,16 @@ public class House_detail extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.activity_hose_detail,null);
         // set up
+
         selectedHouse = (Place) getArguments().getSerializable("house");
-        ImageView imageView = view.findViewById(R.id.img_house);
-        Picasso.get().load(selectedHouse.getUrl()).fit().centerCrop().into(imageView);
+        switcher = view.findViewById(R.id.imageSwitcher);
+        imageView = view.findViewById(R.id.img_house);
+
+
+
+
+
+//        Picasso.get().load(selectedHouse.getUrl()).fit().centerCrop().into(imageView);
 
         setName();
         setLocation();
@@ -58,6 +79,8 @@ public class House_detail extends Fragment {
 
         return view;
     }
+
+
 
     private void setApply() {
         Button apply = view.findViewById(R.id.btn_applyNow);
@@ -148,4 +171,48 @@ public class House_detail extends Fragment {
         txtLocation.setText(selectedHouse.getLocation());
     }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:{
+                //手指按下的X坐标
+                downX = event.getX();
+                break;
+            }
+            case MotionEvent.ACTION_UP:{
+                float lastX = event.getX();
+                //抬起的时候的X坐标大于按下的时候就显示上一张图片
+                if(lastX > downX){
+                    if(currentPosition > 0){
+                        //设置动画，这里的动画比较简单，不明白的去网上看看相关内容
+                        currentPosition --;
+                        imageView.setImageResource(images[currentPosition % images.length]);
+
+                    }else{
+                        Toast.makeText(mainActivity, "first page", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                if(lastX < downX){
+                    if(currentPosition < images.length - 1){
+
+                        currentPosition ++ ;
+                        imageView.setImageResource(images[currentPosition]);
+                    }else{
+                        Toast.makeText(mainActivity, "last page", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            break;
+        }
+
+        return true;
+
+    }
+
+    @Override
+    public View makeView() {
+        return null;
+    }
 }
