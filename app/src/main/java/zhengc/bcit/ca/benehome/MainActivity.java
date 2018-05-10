@@ -381,6 +381,20 @@ public class MainActivity extends AppCompatActivity
                 show_slide(new House_detail(),selectHouse);
             }
         });
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Place selectHouse = new Place();
+                // get selected house
+                for (int j = 0; j < formlist.size(); ++j) {
+                    if (formlist.get(j).getName().equals(marker.getTitle())) {
+                        selectHouse = formlist.get(j);
+                    }
+                }
+                show_slide(new House_detail(),selectHouse);
+                return false;
+            }
+        });
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) { 
