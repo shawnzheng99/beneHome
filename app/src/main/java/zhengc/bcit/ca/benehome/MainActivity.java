@@ -2,6 +2,7 @@ package zhengc.bcit.ca.benehome;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -25,7 +26,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -52,9 +57,11 @@ public class MainActivity extends AppCompatActivity
     /*firebase*/
     private DatabaseReference databaseReference;
     private ImageButton imageButton;
-    //private FirebaseStorage storage;
-    private StorageReference storageReference;
+    //auth
+    FirebaseAuth mAuth;
+    FirebaseUser user;
     DrawerLayout drawer;
+    Fragment f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,26 +77,35 @@ public class MainActivity extends AppCompatActivity
         if (settings.getBoolean("first", true)) {
             startActivity(new Intent(MainActivity.this, UserGuide.class));
             SharedPreferences.Editor ed = settings.edit();
-            ed.putBoolean("not_first", false);
+
+            ed.putBoolean("first", false);
             ed.commit();
             //ed.apply();   Compared to commit(), apply() won't change the file synchronously.
+
         }
 
 
+        //firebase auth
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        if (user != null) {
+            // do your stuff
+        } else {
+            signInAnonymously();
+        }
 
 
         filtered_house = new ArrayList<>();
         formlist = new ArrayList<>();
         imageButton = findViewById(R.id.up_down_button);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        f = getSupportFragmentManager ().findFragmentById(R.id.container);
         /*--------initilazing firebase-----------*/
 
         //"https://benehome-f1049.firebaseio.com/"
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://benehome-f1049.firebaseio.com/");
         databaseReference = db.getReference().child("features");
-        FirebaseStorage storage = FirebaseStorage.getInstance();
 
-        storageReference = storage.getReferenceFromUrl("gs://benehome-f1049.appspot.com/");
         loadFirebase();
 
         /*----------------------------------------*/
@@ -118,7 +134,6 @@ public class MainActivity extends AppCompatActivity
         //------------------------nav oncreate-----------------------------------
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -153,23 +168,19 @@ public class MainActivity extends AppCompatActivity
       //  getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
         hidemap();
 
-        new Thread(new Runnable(){
-            @Override
-            public void run() {
-                while(formlist.isEmpty()){
-                    try {
-                        sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                show_pass(new House_list(),formlist,null);
+
+    }
+
+    private void signInAnonymously() {
+        mAuth.signInAnonymously().addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
+            @Override public void onSuccess(AuthResult authResult) {
+                Log.e("TAG", "sinInOK");
             }
-
-        }).start();
-
-        set_item_check(0);
-
+        }) .addOnFailureListener(this, new OnFailureListener() {
+            @Override public void onFailure(@NonNull Exception exception) {
+                Log.e("TAG", "signInAnonymously:FAILURE", exception);
+            }
+        });
     }
 
     //-------------------------lording Firebase data------------------------------------
@@ -181,39 +192,12 @@ public class MainActivity extends AppCompatActivity
                 Log.wtf(TAG,"---------------onChange--------------");
                 formlist.clear();
                 for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                    String Category = (String) messageSnapshot.child("properties")
-                            .child("Category").getValue();
-                    String Description = (String) messageSnapshot.child("properties")
-                            .child("Description").getValue();
-                    String Email = (String) messageSnapshot.child("properties")
-                            .child("Email").getValue();
-                    String Hours = (String) messageSnapshot.child("properties")
-                            .child("Hours").getValue();
-                    String Location = (String) messageSnapshot.child("properties")
-                            .child("Location").getValue();
-                    String Name = (String) messageSnapshot.child("properties")
-                            .child("Name").getValue();
-                    String PC = (String) messageSnapshot.child("properties")
-                            .child("PC").getValue();
-                    String Phone = (String) messageSnapshot.child("properties")
-                            .child("Phone").getValue();
-                    String Website = (String) messageSnapshot.child("properties")
-                            .child("Website").getValue();
-                    String X = (String) messageSnapshot.child("properties")
-                            .child("X").getValue();
-                    String Y = (String) messageSnapshot.child("properties")
-                            .child("Y").getValue();
-
-
-                    Place mPlace = new Place(Name, Description, Category,Hours
-                            ,Location, PC, Email, Phone, X, Y, Website);
-
-                    loadPic(Name,mPlace);
-
+                    Place mPlace = messageSnapshot.child("properties").getValue(Place.class);
                     formlist.add(mPlace);
-
+                    filtered_house = formlist;
                 }
-
+                show_pass(new House_list(),filtered_house,null);
+                set_item_check(1);
             }
 
             @Override
@@ -224,22 +208,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void loadPic(String houseName,final Place mPlace) {
-
-        houseName = houseName.toLowerCase();
-        houseName = houseName.replaceAll(" ", "");
-        houseName = houseName.replaceAll("-", "");
-        houseName = houseName.replaceAll("'", "");
-
-        storageReference.child(houseName+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                mPlace.setPicUrl(uri);
-            }
-        });
-
-
-    }
     //--------------------------nav method overload-----------------------------------
 
     @Override
@@ -275,16 +243,23 @@ public class MainActivity extends AppCompatActivity
         }
         f = getSupportFragmentManager ().findFragmentById(R.id.container);
         if(f instanceof House_list){
-            set_item_check(0);
+            set_item_check(1);
+            this.setTitle("House list");
         }else if(f instanceof Eligible){
-            set_item_check(2);
-        }else if(f instanceof FAQ){
             set_item_check(3);
-        }else if(f instanceof About){
+            this.setTitle("Eligible");
+        }else if(f instanceof FAQ){
             set_item_check(4);
-        }else if(f instanceof Application){
+            this.setTitle("FAQ");
+        }else if(f instanceof About){
             set_item_check(5);
-            //navigationView.getMenu().getItem(6).getItem(0).setChecked(true);
+            this.setTitle("About");
+        }else if(f instanceof Application){
+            set_item_check(6);
+            this.setTitle("Application");
+        }else if(f instanceof Filter){
+            set_item_check(0);
+            this.setTitle("Filter");
         }
     }
 
@@ -314,51 +289,41 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Fragment f = getSupportFragmentManager ().findFragmentById(R.id.container);
-        if (id == R.id.nav_houselist) {
-            if(f instanceof House_list){
-                getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
-            }else{
-                //show_house_list();
-                show_pass(new House_list(),formlist,null);
-                hidemap();
-                hide_slide();
-            }
+        if (id == R.id.nav_filter) {
+            show_pass(new Filter(), null, null);
+            hidemap();
+            hide_slide();
+            this.setTitle("Filter");
+        } else if (id == R.id.nav_houselist) {
+            show_pass(new House_list(),filtered_house,null);
+            hidemap();
+            hide_slide();
+            this.setTitle("House List");
         } else if (id == R.id.nav_eligibility) {
-            if(f instanceof Eligible){
-                getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
-            }else{
-                show_pass(new Eligible(), null,null);
-                hidemap();
-                hide_slide();
-            }
+            show_pass(new Eligible(), null,null);
+            hidemap();
+            hide_slide();
+            this.setTitle("Eligibility");
         } else if (id == R.id.nav_faq) {
-            if(f instanceof FAQ){
-                getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
-            }else{
-                show_pass(new FAQ(),null,null);
-                hidemap();
-                hide_slide();
-            }
+            show_pass(new FAQ(),null,null);
+            hidemap();
+            hide_slide();
+            this.setTitle("FAQ");
         } else if (id == R.id.nav_about) {
-            if(f instanceof About){
-                getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
-            }else{
-                show_pass(new About(),null,null);
-                hidemap();
-                hide_slide();
-            }
+            show_pass(new About(),null,null);
+            hidemap();
+            hide_slide();
         } else if (id == R.id.nav_map) {
             mapFragment.getMapAsync(this);
             /*------------------markers---------------------------*/
-            setMarkers(formlist);
+            setMarkers(filtered_house);
             displaymap();
+            this.setTitle("Map");
         } else if(id == R.id.nav_Application_guide){
-            if(f instanceof Application){
-                getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
-            }else{
-                show_pass(new Application(),null,null);
-            }
+           show_pass(new Application(),null,null);
+            hidemap();
+            hide_slide();
+            this.setTitle("Application");
         }
         hide_slide();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -383,7 +348,7 @@ public class MainActivity extends AppCompatActivity
 
         /*------------Marker-------------------*/
         for (int i = 0; i < markers.size(); ++i) {
-            LatLng temp = new LatLng(Double.parseDouble(markers.get(i).getLat()),Double.parseDouble(markers.get(i).getLon()));
+            LatLng temp = new LatLng(Double.parseDouble(markers.get(i).getY()),Double.parseDouble(markers.get(i).getX()));
             mMap.addMarker(new MarkerOptions()
                     .position(temp)
                     .title(markers.get(i).getName())
@@ -422,8 +387,8 @@ public class MainActivity extends AppCompatActivity
             CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest, 13);
             mMap.animateCamera(location);
         }else{
-            LatLng temp = new LatLng(Double.parseDouble(markers.get(0).getLat()),Double.parseDouble(markers.get(0).getLon()));
-            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(temp, 15);
+            LatLng temp = new LatLng(Double.parseDouble(markers.get(0).getY()),Double.parseDouble(markers.get(0).getX()));
+            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(temp, 20);
             mMap.animateCamera(location);
         }
 
@@ -461,6 +426,7 @@ public class MainActivity extends AppCompatActivity
     public void show_pass(Fragment fragment, ArrayList list, Place house){
         Bundle data = new Bundle();
         data.putSerializable("data",list);
+        data.putSerializable("all_house",formlist);
         data.putSerializable("house", house);
         fragment.setArguments(data);
         getSupportFragmentManager().beginTransaction().
@@ -470,6 +436,12 @@ public class MainActivity extends AppCompatActivity
                 commitAllowingStateLoss();
     }
     public void hide_slide(){
+        if(mapFragment!=null){
+            if(mapFragment.getUserVisibleHint() && mMap != null){
+                mMap.setPadding(0,0,0,0);
+            }
+        }
+
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
     }
 
@@ -483,6 +455,11 @@ public class MainActivity extends AppCompatActivity
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
     public void show_slide(Fragment fragment, Place house){
+        if(mapFragment!=null){
+            if(mapFragment.getUserVisibleHint() && mMap != null){
+                mMap.setPadding(0,0,0,138);
+            }
+        }
         TextView t = findViewById(R.id.name);
         t.setText(house.getName());
         Bundle data = new Bundle();

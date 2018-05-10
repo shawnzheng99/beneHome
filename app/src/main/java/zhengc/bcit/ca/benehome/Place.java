@@ -1,6 +1,5 @@
 package zhengc.bcit.ca.benehome;
 
-import android.net.Uri;
 import java.io.Serializable;
 
 /**
@@ -8,90 +7,131 @@ import java.io.Serializable;
  */
 public class Place implements Serializable {
 
-    private String name;
-    private Uri picUrl;
-    private String desc;
-    private String cate;
-    private String hours;
-    private String location;
-    private String pc;
-    private String email;
-    private String phone;
-    private String lon;
-    private String lat;
-    private String web;
+    private String Name;
+    private String Url;
+    private String Description;
+    private String Category;
+    private String Hours;
+    private String Location;
+    private String PC;
+    private String Email;
+    private String Phone;
+    private String Y;
+    private String X;
+    private String Website;
 
-    public Place(String name, String desc,
-                 String cate, String hours, String location,
-                 String pc, String email, String phone, String lon,
-                 String lat, String web) {
-        this.name = name;
-        this.desc = desc;
-        this.cate = cate;
-        this.hours = hours;
-        this.email = email;
-        this.location = location;
-        this.pc = pc;
-        this.phone = phone;
-        this.lon = lon;
-        this.lat = lat;
-        this.web = web;
-
+    public Place(String name, String url, String description, String category, String hours, String location, String PC, String email, String phone, String y, String x, String website) {
+        Name = name;
+        Url = url;
+        Description = description;
+        Category = category;
+        Hours = hours;
+        Location = location;
+        this.PC = PC;
+        Email = email;
+        Phone = phone;
+        Y = y;
+        X = x;
+        Website = website;
     }
 
-    public Place() {
+    public void setName(String name) {
+        Name = name;
     }
 
-    public String getWeb(){
-        return web;
+    public void setUrl(String url) {
+        Url = url;
     }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public void setCategory(String category) {
+        Category = category;
+    }
+
+    public void setHours(String hours) {
+        Hours = hours;
+    }
+
+    public void setLocation(String location) {
+        Location = location;
+    }
+
+    public void setPC(String PC) {
+        this.PC = PC;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
+    }
+
+    public void setPhone(String phone) {
+        Phone = phone;
+    }
+
+    public void setY(String y) {
+        Y = y;
+    }
+
+    public void setX(String x) {
+        X = x;
+    }
+
+    public void setWebsite(String website) {
+        Website = website;
+    }
+
     public String getName() {
-
-        return name;
+        return Name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUrl() {
+        return Url;
     }
 
-    public void setPicUrl(Uri picUrl) {
-        this.picUrl = picUrl;
+    public String getDescription() {
+        return Description;
     }
 
-    public Uri getPicUrl() {
-
-        return picUrl;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public String getCate() {
-        return cate;
+    public String getCategory() {
+        return Category;
     }
 
     public String getHours() {
-        return hours;
+        return Hours;
     }
 
     public String getLocation() {
-        return location;
+        return Location;
     }
 
-    public String getPc() {
-        return pc;
+    public String getPC() {
+        return PC;
+    }
+
+    public String getEmail() {
+        return Email;
     }
 
     public String getPhone() {
-        return phone;
+        return Phone;
     }
 
-    public String getLon() {
-        return lon;
+    public String getY() {
+        return Y;
     }
 
-    public String getLat() {
-        return lat;
+    public String getX() {
+        return X;
+    }
+
+    public String getWebsite() {
+        return Website;
+    }
+
+    public Place() {
+
     }
 }

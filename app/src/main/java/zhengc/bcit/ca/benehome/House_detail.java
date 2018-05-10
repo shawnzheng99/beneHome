@@ -44,7 +44,7 @@ public class House_detail extends Fragment {
         // set up
         selectedHouse = (Place) getArguments().getSerializable("house");
         ImageView imageView = view.findViewById(R.id.img_house);
-        Picasso.get().load(selectedHouse.getPicUrl()).fit().centerCrop().into(imageView);
+        Picasso.get().load(selectedHouse.getUrl()).fit().centerCrop().into(imageView);
 
         setName();
         setLocation();
@@ -61,7 +61,7 @@ public class House_detail extends Fragment {
 
     private void setApply() {
         Button apply = view.findViewById(R.id.btn_applyNow);
-        final Uri uri = Uri.parse(selectedHouse.getWeb());
+        final Uri uri = Uri.parse(selectedHouse.getWebsite());
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,15 +125,15 @@ public class House_detail extends Fragment {
 
     private void setHouseType() {
         TextView houseType = view.findViewById(R.id.txt_HousingTypeContent);
-        int idx = selectedHouse.getDesc().indexOf(".");
-        String des = selectedHouse.getDesc().substring(0, idx + 1).toLowerCase();
+        int idx = selectedHouse.getDescription().indexOf(".");
+        String des = selectedHouse.getDescription().substring(0, idx + 1).toLowerCase();
         houseType.setText(des);
     }
 
     private void setEligible() {
         TextView eliType = view.findViewById(R.id.txt_EligibleType);
-        int idx = selectedHouse.getDesc().indexOf("ousing for");
-        String houseFor = selectedHouse.getDesc().substring(idx + 11);
+        int idx = selectedHouse.getDescription().indexOf("ousing for");
+        String houseFor = selectedHouse.getDescription().substring(idx + 11);
 
         eliType.setText(houseFor);
     }

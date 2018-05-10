@@ -34,11 +34,12 @@ public class House_list extends Fragment{
         RVAdapter adapter;
         view = inflater.inflate(R.layout.activity_house_list,null);
         // set house list
-        formlist = (ArrayList<Place>)getArguments().getSerializable("data");
+        filtered_house = (ArrayList<Place>)getArguments().getSerializable("data");
+        formlist = (ArrayList<Place>)getArguments().getSerializable("all_house");
 
         recyclerView = view.findViewById(R.id.recyclerView);
 
-        adapter = new RVAdapter(mainActivity,formlist);
+        adapter = new RVAdapter(mainActivity,filtered_house);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mainActivity);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);

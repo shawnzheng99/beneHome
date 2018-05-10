@@ -1,13 +1,19 @@
 package zhengc.bcit.ca.benehome;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
-public class Filter extends AppCompatActivity implements View.OnClickListener {
+import java.util.ArrayList;
 
+public class Filter extends Fragment implements View.OnClickListener {
+
+    private MainActivity mainActivity;
     private Button btn_q1_1, btn_q1_2, btn_q1_3;
     private Button btn_q2_2, btn_q2_3, btn_q2_4;
     private Button btn_q3_1, btn_q3_2, btn_q3_3;
@@ -25,31 +31,33 @@ public class Filter extends AppCompatActivity implements View.OnClickListener {
     final private String keyword4_1 = "disabilities";
     private String keywords[] = new String[4];
 
+    View view;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
-
+    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        view = inflater.inflate(R.layout.activity_filter,null);
+        mainActivity = (MainActivity)getActivity();
         init();
 
-
-        final String keys[] = keywords;
+        return view;
     }
 
     private void init() {
-        btn_q1_1 = findViewById(R.id.btn_q1_1);
-        btn_q1_2 = findViewById(R.id.btn_q1_2);
-        btn_q1_3 = findViewById(R.id.btn_q1_3);
-        btn_q2_2 = findViewById(R.id.btn_q2_2);
-        btn_q2_3 = findViewById(R.id.btn_q2_3);
-        btn_q2_4 = findViewById(R.id.btn_q2_4);
-        btn_q3_1 = findViewById(R.id.btn_q3_1);
-        btn_q3_2 = findViewById(R.id.btn_q3_2);
-        btn_q3_3 = findViewById(R.id.btn_q3_3);
-        btn_q4_1 = findViewById(R.id.btn_q4_1);
-        btn_q4_2 = findViewById(R.id.btn_q4_2);
-        btn_q4_3 = findViewById(R.id.btn_q4_3);
-        btn_next = findViewById(R.id.btn_next);
+        btn_q1_1 = view.findViewById(R.id.btn_q1_1);
+        btn_q1_2 = view.findViewById(R.id.btn_q1_2);
+        btn_q1_3 = view.findViewById(R.id.btn_q1_3);
+        btn_q2_2 = view.findViewById(R.id.btn_q2_2);
+        btn_q2_3 = view.findViewById(R.id.btn_q2_3);
+        btn_q2_4 = view.findViewById(R.id.btn_q2_4);
+        btn_q3_1 = view.findViewById(R.id.btn_q3_1);
+        btn_q3_2 = view.findViewById(R.id.btn_q3_2);
+        btn_q3_3 = view.findViewById(R.id.btn_q3_3);
+        btn_q4_1 = view.findViewById(R.id.btn_q4_1);
+        btn_q4_2 = view.findViewById(R.id.btn_q4_2);
+        btn_q4_3 = view.findViewById(R.id.btn_q4_3);
+        btn_next = view.findViewById(R.id.btn_next);
         for (int i = 0; i < 4; i++) {
             keywords[i] = keyword0;
         }
@@ -143,10 +151,21 @@ public class Filter extends AppCompatActivity implements View.OnClickListener {
                 keywords[3] = keyword_no;
                 break;
             case R.id.btn_next:
-                Intent intent = new Intent();
-                intent.putExtra("keywords", keywords);
-                intent.setClass(Filter.this, House_list.class);
-                startActivity(intent);
+                ArrayList<Place> alllist = mainActivity.getList();
+                ArrayList<Place> list = new ArrayList<Place>();
+                if (keywords[0] == keyword0 && keywords[1] == keyword0 && keywords[2] == keyword0 && keywords[3] == keyword0) {
+                    list = alllist;
+                } else {
+                    for (Place house : alllist) {
+                        if (house.getDescription().contains(keywords[0]) || house.getDescription().contains(keywords[1])
+                                || house.getDescription().contains(keywords[2]) || house.getDescription().contains(keywords[3])
+                                || house.getDescription().contains("all household types")) {
+                            list.add(house);
+                        }
+                    }
+                }
+                mainActivity.set_filtered_house(list);
+                mainActivity.show_pass(new House_list(),list,null);
             default:
                 break;
         }
