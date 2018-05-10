@@ -316,6 +316,8 @@ public class MainActivity extends AppCompatActivity
             this.setTitle("Map");
         } else if(id == R.id.nav_Application_guide){
            show_pass(new Application(),null,null);
+            hidemap();
+            hide_slide();
             this.setTitle("Application");
         }
         hide_slide();
@@ -381,7 +383,7 @@ public class MainActivity extends AppCompatActivity
             mMap.animateCamera(location);
         }else{
             LatLng temp = new LatLng(Double.parseDouble(markers.get(0).getY()),Double.parseDouble(markers.get(0).getX()));
-            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(temp, 15);
+            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(temp, 20);
             mMap.animateCamera(location);
         }
 
@@ -429,6 +431,12 @@ public class MainActivity extends AppCompatActivity
                 commitAllowingStateLoss();
     }
     public void hide_slide(){
+        if(mapFragment!=null){
+            if(mapFragment.getUserVisibleHint() && mMap != null){
+                mMap.setPadding(0,0,0,0);
+            }
+        }
+
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
     }
 
@@ -442,6 +450,11 @@ public class MainActivity extends AppCompatActivity
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
     }
     public void show_slide(Fragment fragment, Place house){
+        if(mapFragment!=null){
+            if(mapFragment.getUserVisibleHint() && mMap != null){
+                mMap.setPadding(0,0,0,138);
+            }
+        }
         TextView t = findViewById(R.id.name);
         t.setText(house.getName());
         Bundle data = new Bundle();
