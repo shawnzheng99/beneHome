@@ -2,6 +2,7 @@ package zhengc.bcit.ca.benehome;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -25,7 +26,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -52,8 +57,9 @@ public class MainActivity extends AppCompatActivity
     /*firebase*/
     private DatabaseReference databaseReference;
     private ImageButton imageButton;
-    //private FirebaseStorage storage;
-    private StorageReference storageReference;
+    //auth
+    FirebaseAuth mAuth;
+    FirebaseUser user;
     DrawerLayout drawer;
     Fragment f;
 
@@ -77,6 +83,14 @@ public class MainActivity extends AppCompatActivity
         }
 
 
+//firebase auth
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        if (user != null) {
+            // do your stuff
+        } else {
+            signInAnonymously();
+        }
 
 
         filtered_house = new ArrayList<>();
@@ -89,9 +103,7 @@ public class MainActivity extends AppCompatActivity
         //"https://benehome-f1049.firebaseio.com/"
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://benehome-f1049.firebaseio.com/");
         databaseReference = db.getReference().child("features");
-        FirebaseStorage storage = FirebaseStorage.getInstance();
 
-        storageReference = storage.getReferenceFromUrl("gs://benehome-f1049.appspot.com/");
         loadFirebase();
 
         /*----------------------------------------*/
@@ -157,6 +169,18 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void signInAnonymously() {
+        mAuth.signInAnonymously().addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
+            @Override public void onSuccess(AuthResult authResult) {
+                Log.e("TAG", "sinInOK");
+            }
+        }) .addOnFailureListener(this, new OnFailureListener() {
+            @Override public void onFailure(@NonNull Exception exception) {
+                Log.e("TAG", "signInAnonymously:FAILURE", exception);
+            }
+        });
+    }
+
     //-------------------------lording Firebase data------------------------------------
     public void loadFirebase() {
         databaseReference.keepSynced(true);
@@ -166,33 +190,7 @@ public class MainActivity extends AppCompatActivity
                 Log.wtf(TAG,"---------------onChange--------------");
                 formlist.clear();
                 for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-//                    String Category =  messageSnapshot.child("properties")
-//                            .child("Category").getValue(String.class);
-//                    String Description = messageSnapshot.child("properties")
-//                            .child("Description").getValue(String.class);
-//                    String Email =  messageSnapshot.child("properties")
-//                            .child("Email").getValue(String.class);
-//                    String Hours = messageSnapshot.child("properties")
-//                            .child("Hours").getValue(String.class);
-//                    String Location =  messageSnapshot.child("properties")
-//                            .child("Location").getValue(String.class);
-//                    String Name = messageSnapshot.child("properties")
-//                            .child("Name").getValue(String.class);
-//                    String PC =  messageSnapshot.child("properties")
-//                            .child("PC").getValue(String.class);
-//                    String Phone =  messageSnapshot.child("properties")
-//                            .child("Phone").getValue(String.class);
-//                    String Website =  messageSnapshot.child("properties")
-//                            .child("Website").getValue(String.class);
-//                    String X =  messageSnapshot.child("properties")
-//                            .child("X").getValue(String.class);
-//                    String Y =  messageSnapshot.child("properties")
-//                            .child("Y").getValue(String.class);
-
-
                     Place mPlace = messageSnapshot.child("properties").getValue(Place.class);
-
-                    //loadPic(Name,mPlace);
 
                     formlist.add(mPlace);
                     filtered_house = formlist;
@@ -210,22 +208,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void loadPic(String houseName,final Place mPlace) {
-
-        houseName = houseName.toLowerCase();
-        houseName = houseName.replaceAll(" ", "");
-        houseName = houseName.replaceAll("-", "");
-        houseName = houseName.replaceAll("'", "");
-
-        storageReference.child(houseName+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                mPlace.setUrl(uri.toString());
-            }
-        });
-
-
-    }
     //--------------------------nav method overload-----------------------------------
 
     @Override
