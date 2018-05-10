@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity
 
         //"https://benehome-f1049.firebaseio.com/"
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://benehome-f1049.firebaseio.com/");
-        databaseReference = db.getReference().child("features");
+        databaseReference = db.getReference();
 
         loadFirebase();
 
@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity
                 Log.wtf(TAG,"---------------onChange--------------");
                 formlist.clear();
                 for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                    Place mPlace = messageSnapshot.child("properties").getValue(Place.class);
+                    Place mPlace = messageSnapshot.getValue(Place.class);
                     formlist.add(mPlace);
                     filtered_house = formlist;
                 }
@@ -325,17 +325,16 @@ public class MainActivity extends AppCompatActivity
             show_pass(new About(),null,null);
             hidemap();
             hide_slide();
+            this.setTitle("About");
         } else if (id == R.id.nav_map) {
             mapFragment.getMapAsync(this);
             /*------------------markers---------------------------*/
             setMarkers(filtered_house);
             displaymap();
-            this.setTitle("Map");
         } else if(id == R.id.nav_Application_guide){
            show_pass(new Application(),null,null);
             hidemap();
             hide_slide();
-            this.setTitle("Application");
         }
         hide_slide();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -383,6 +382,20 @@ public class MainActivity extends AppCompatActivity
                 show_slide(new House_detail(),selectHouse);
             }
         });
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Place selectHouse = new Place();
+                // get selected house
+                for (int j = 0; j < formlist.size(); ++j) {
+                    if (formlist.get(j).getName().equals(marker.getTitle())) {
+                        selectHouse = formlist.get(j);
+                    }
+                }
+                show_slide(new House_detail(),selectHouse);
+                return false;
+            }
+        });
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) { 
@@ -394,7 +407,7 @@ public class MainActivity extends AppCompatActivity
 
     }
     public void zoomToMarker(ArrayList<Place> markers) {
-        if(markers.size() > 1){
+        if(markers.size() > 1 || markers.size()==0){
             LatLng newWest = new LatLng(49.21073429331534, -122.92282036503556);
             CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest, 13);
             mMap.animateCamera(location);
@@ -422,6 +435,7 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().
                 setCustomAnimations(R.anim.slide_in_up,R.anim.pop_out,R.anim.pop_in,R.anim.pop_out).
                 show(mapFragment).commit();
+        this.setTitle("Map");
     }
     public void pass_to_map(Place house){
         mapFragment.getMapAsync(this);
