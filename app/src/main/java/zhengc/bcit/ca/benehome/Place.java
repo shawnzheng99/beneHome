@@ -6,7 +6,7 @@ import java.io.Serializable;
 public class Place implements Serializable {
 
     private String name;
-    private Uri picUrl;
+    private String picUrl;
     private String desc;
     private String cate;
     private String hours;
@@ -51,11 +51,11 @@ public class Place implements Serializable {
         return email;
     }
 
-    public void setPicUrl(Uri picUrl) {
+    public void setPicUrl(String picUrl) {
         this.picUrl = picUrl;
     }
 
-    public Uri getPicUrl() {
+    public String getPicUrl() {
 
         return picUrl;
     }

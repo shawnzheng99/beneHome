@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity
     //private FirebaseStorage storage;
     private StorageReference storageReference;
     DrawerLayout drawer;
+    Fragment f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +71,9 @@ public class MainActivity extends AppCompatActivity
         if (settings.getBoolean("first", true)) {
             startActivity(new Intent(MainActivity.this, UserGuide.class));
             SharedPreferences.Editor ed = settings.edit();
-            ed.putBoolean("not_first", false);
-            //ed.commit();
-            ed.apply();
+            ed.putBoolean("first", false);
+            ed.commit();
+            //ed.apply();
         }
 
 
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity
         formlist = new ArrayList<>();
         imageButton = findViewById(R.id.up_down_button);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        f = getSupportFragmentManager ().findFragmentById(R.id.container);
         /*--------initilazing firebase-----------*/
 
         //"https://benehome-f1049.firebaseio.com/"
@@ -118,7 +120,6 @@ public class MainActivity extends AppCompatActivity
         //------------------------nav oncreate-----------------------------------
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -153,22 +154,21 @@ public class MainActivity extends AppCompatActivity
       //  getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
         hidemap();
 
-        new Thread(new Runnable(){
-            @Override
-            public void run() {
-                while(filtered_house.isEmpty()){
-                    try {
-                        sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                show_pass(new House_list(),filtered_house,null);
-            }
+//        new Thread(new Runnable(){
+//            @Override
+//            public void run() {
+//                while(filtered_house.isEmpty()){
+//                    try {
+//                        sleep(1);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                show_pass(new House_list(),filtered_house,null);
+//            }
+//
+//        }).start();
 
-        }).start();
-
-        set_item_check(0);
 
     }
 
@@ -214,7 +214,8 @@ public class MainActivity extends AppCompatActivity
                     filtered_house = formlist;
 
                 }
-
+                show_pass(new House_list(),filtered_house,null);
+                set_item_check(1);
             }
 
             @Override
@@ -235,7 +236,7 @@ public class MainActivity extends AppCompatActivity
         storageReference.child(houseName+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                mPlace.setPicUrl(uri);
+                mPlace.setPicUrl(uri.toString());
             }
         });
 
@@ -315,7 +316,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Fragment f = getSupportFragmentManager ().findFragmentById(R.id.container);
         if (id == R.id.nav_filter) {
             if (f instanceof Eligible) {
                 getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
