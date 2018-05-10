@@ -165,10 +165,24 @@ public class MainActivity extends AppCompatActivity
 
       //  getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
         hidemap();
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                while(formlist.isEmpty()){
+                    try {
+                        sleep(1);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                show_pass(new House_list(),formlist,null);
+            }
 
+        }).start();
+        set_item_check(1);
 
     }
-
+/*-------------------------------------------------oncreate end-----------------------------------------------*/
     private void signInAnonymously() {
         mAuth.signInAnonymously().addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
             @Override public void onSuccess(AuthResult authResult) {
@@ -194,8 +208,6 @@ public class MainActivity extends AppCompatActivity
                     formlist.add(mPlace);
                     filtered_house = formlist;
                 }
-                show_pass(new House_list(),filtered_house,null);
-                set_item_check(1);
             }
 
             @Override
