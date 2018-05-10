@@ -19,8 +19,20 @@ public class Place implements Serializable {
     private String Y;
     private String X;
     private String Website;
+    private String Apply;
+    private String TotalUnit;
+    private String TypeUnits;
+    private String Eligible;
+    private String Pets;
+    private String Boundaries;
+    private String Elementary;
+    private String Middle;
+    private String Secondary;
 
-    public Place(String name, String url, String description, String category, String hours, String location, String PC, String email, String phone, String y, String x, String website) {
+    public Place() {
+
+    }
+    public Place(String name, String url, String description, String category, String hours, String location, String PC, String email, String phone, String y, String x, String website, String apply, String totalUnit, String typeUnits, String eligible, String pets, String boundaries, String elementary, String middle, String secondary) {
         Name = name;
         Url = url;
         Description = description;
@@ -33,6 +45,87 @@ public class Place implements Serializable {
         Y = y;
         X = x;
         Website = website;
+        Apply = apply;
+        TotalUnit = totalUnit;
+        TypeUnits = typeUnits;
+        Eligible = eligible;
+        Pets = pets;
+        Boundaries = boundaries;
+        Elementary = elementary;
+        Middle = middle;
+        Secondary = secondary;
+    }
+
+    public void setApply(String apply) {
+        Apply = apply;
+    }
+
+    public void setTotalUnit(String totalUnit) {
+        TotalUnit = totalUnit;
+    }
+
+    public void setTypeUnits(String typeUnits) {
+        TypeUnits = typeUnits;
+    }
+
+    public void setEligible(String eligible) {
+        Eligible = eligible;
+    }
+
+    public void setPets(String pets) {
+        Pets = pets;
+    }
+
+    public void setBoundaries(String boundaries) {
+        Boundaries = boundaries;
+    }
+
+    public void setElementary(String elementary) {
+        Elementary = elementary;
+    }
+
+    public void setMiddle(String middle) {
+        Middle = middle;
+    }
+
+    public void setSecondary(String secondary) {
+        Secondary = secondary;
+    }
+
+    public String getApply() {
+        return Apply;
+    }
+
+    public String getTotalUnit() {
+        return TotalUnit;
+    }
+
+    public String getTypeUnits() {
+        return TypeUnits;
+    }
+
+    public String getEligible() {
+        return Eligible;
+    }
+
+    public String getPets() {
+        return Pets;
+    }
+
+    public String getBoundaries() {
+        return Boundaries;
+    }
+
+    public String getElementary() {
+        return Elementary;
+    }
+
+    public String getMiddle() {
+        return Middle;
+    }
+
+    public String getSecondary() {
+        return Secondary;
     }
 
     public void setName(String name) {
@@ -131,7 +224,5 @@ public class Place implements Serializable {
         return Website;
     }
 
-    public Place() {
 
-    }
 }
