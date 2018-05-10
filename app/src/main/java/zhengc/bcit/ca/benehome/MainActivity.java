@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-//firebase auth
+        //firebase auth
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         if (user != null) {
@@ -191,10 +191,8 @@ public class MainActivity extends AppCompatActivity
                 formlist.clear();
                 for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
                     Place mPlace = messageSnapshot.child("properties").getValue(Place.class);
-
                     formlist.add(mPlace);
                     filtered_house = formlist;
-
                 }
                 show_pass(new House_list(),filtered_house,null);
                 set_item_check(1);
@@ -244,15 +242,19 @@ public class MainActivity extends AppCompatActivity
         f = getSupportFragmentManager ().findFragmentById(R.id.container);
         if(f instanceof House_list){
             set_item_check(0);
+            this.setTitle("House list");
         }else if(f instanceof Eligible){
             set_item_check(2);
+            this.setTitle("Eligible");
         }else if(f instanceof FAQ){
             set_item_check(3);
+            this.setTitle("FAQ");
         }else if(f instanceof About){
             set_item_check(4);
+            this.setTitle("About");
         }else if(f instanceof Application){
             set_item_check(5);
-            //navigationView.getMenu().getItem(6).getItem(0).setChecked(true);
+            this.setTitle("Application");
         }
     }
 
@@ -283,58 +285,38 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_filter) {
-            if (f instanceof Eligible) {
-                getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
-            } else {
-                show_pass(new Filter(), null, null);
-                hidemap();
-                hide_slide();
-            }
+            show_pass(new Filter(), null, null);
+            hidemap();
+            hide_slide();
+            this.setTitle("Filter");
         } else if (id == R.id.nav_houselist) {
-            if(f instanceof House_list){
-                getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
-            }else{
-                //show_house_list();
-                show_pass(new House_list(),filtered_house,null);
-                hidemap();
-                hide_slide();
-            }
+            show_pass(new House_list(),filtered_house,null);
+            hidemap();
+            hide_slide();
+            this.setTitle("House List");
         } else if (id == R.id.nav_eligibility) {
-
-            if(f instanceof Eligible){
-                getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
-            }else{
-                show_pass(new Eligible(), null,null);
-                hidemap();
-                hide_slide();
-            }
+            show_pass(new Eligible(), null,null);
+            hidemap();
+            hide_slide();
+            this.setTitle("Eligibility");
         } else if (id == R.id.nav_faq) {
-            if(f instanceof FAQ){
-                getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
-            }else{
-                show_pass(new FAQ(),null,null);
-                hidemap();
-                hide_slide();
-            }
+            show_pass(new FAQ(),null,null);
+            hidemap();
+            hide_slide();
+            this.setTitle("FAQ");
         } else if (id == R.id.nav_about) {
-            if(f instanceof About){
-                getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
-            }else{
-                show_pass(new About(),null,null);
-                hidemap();
-                hide_slide();
-            }
+            show_pass(new About(),null,null);
+            hidemap();
+            hide_slide();
         } else if (id == R.id.nav_map) {
             mapFragment.getMapAsync(this);
             /*------------------markers---------------------------*/
             setMarkers(filtered_house);
             displaymap();
+            this.setTitle("Map");
         } else if(id == R.id.nav_Application_guide){
-            if(f instanceof Application){
-                getSupportFragmentManager().beginTransaction().detach(f).attach(f).commit();
-            }else{
-                show_pass(new Application(),null,null);
-            }
+           show_pass(new Application(),null,null);
+            this.setTitle("Application");
         }
         hide_slide();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
