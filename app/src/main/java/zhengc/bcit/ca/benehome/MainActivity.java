@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity
 
         //"https://benehome-f1049.firebaseio.com/"
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://benehome-f1049.firebaseio.com/");
-        databaseReference = db.getReference().child("features");
+        databaseReference = db.getReference();//.child("features");
 
         loadFirebase();
 
@@ -190,7 +190,9 @@ public class MainActivity extends AppCompatActivity
                 Log.wtf(TAG,"---------------onChange--------------");
                 formlist.clear();
                 for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                    Place mPlace = messageSnapshot.child("properties").getValue(Place.class);
+                    Place mPlace = messageSnapshot.getValue(Place.class);
+
+                    //Place mPlace = messageSnapshot.child("properties").getValue(Place.class);
                     formlist.add(mPlace);
                     filtered_house = formlist;
                 }
