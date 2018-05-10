@@ -154,21 +154,6 @@ public class MainActivity extends AppCompatActivity
       //  getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
         hidemap();
 
-//        new Thread(new Runnable(){
-//            @Override
-//            public void run() {
-//                while(filtered_house.isEmpty()){
-//                    try {
-//                        sleep(1);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//                show_pass(new House_list(),filtered_house,null);
-//            }
-//
-//        }).start();
-
 
     }
 
@@ -181,34 +166,33 @@ public class MainActivity extends AppCompatActivity
                 Log.wtf(TAG,"---------------onChange--------------");
                 formlist.clear();
                 for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                    String Category = (String) messageSnapshot.child("properties")
-                            .child("Category").getValue();
-                    String Description = (String) messageSnapshot.child("properties")
-                            .child("Description").getValue();
-                    String Email = (String) messageSnapshot.child("properties")
-                            .child("Email").getValue();
-                    String Hours = (String) messageSnapshot.child("properties")
-                            .child("Hours").getValue();
-                    String Location = (String) messageSnapshot.child("properties")
-                            .child("Location").getValue();
-                    String Name = (String) messageSnapshot.child("properties")
-                            .child("Name").getValue();
-                    String PC = (String) messageSnapshot.child("properties")
-                            .child("PC").getValue();
-                    String Phone = (String) messageSnapshot.child("properties")
-                            .child("Phone").getValue();
-                    String Website = (String) messageSnapshot.child("properties")
-                            .child("Website").getValue();
-                    String X = (String) messageSnapshot.child("properties")
-                            .child("X").getValue();
-                    String Y = (String) messageSnapshot.child("properties")
-                            .child("Y").getValue();
+//                    String Category =  messageSnapshot.child("properties")
+//                            .child("Category").getValue(String.class);
+//                    String Description = messageSnapshot.child("properties")
+//                            .child("Description").getValue(String.class);
+//                    String Email =  messageSnapshot.child("properties")
+//                            .child("Email").getValue(String.class);
+//                    String Hours = messageSnapshot.child("properties")
+//                            .child("Hours").getValue(String.class);
+//                    String Location =  messageSnapshot.child("properties")
+//                            .child("Location").getValue(String.class);
+//                    String Name = messageSnapshot.child("properties")
+//                            .child("Name").getValue(String.class);
+//                    String PC =  messageSnapshot.child("properties")
+//                            .child("PC").getValue(String.class);
+//                    String Phone =  messageSnapshot.child("properties")
+//                            .child("Phone").getValue(String.class);
+//                    String Website =  messageSnapshot.child("properties")
+//                            .child("Website").getValue(String.class);
+//                    String X =  messageSnapshot.child("properties")
+//                            .child("X").getValue(String.class);
+//                    String Y =  messageSnapshot.child("properties")
+//                            .child("Y").getValue(String.class);
 
 
-                    Place mPlace = new Place(Name, Description, Category,Hours
-                            ,Location, PC, Email, Phone, X, Y, Website);
+                    Place mPlace = messageSnapshot.child("properties").getValue(Place.class);
 
-                    loadPic(Name,mPlace);
+                    //loadPic(Name,mPlace);
 
                     formlist.add(mPlace);
                     filtered_house = formlist;
@@ -236,7 +220,7 @@ public class MainActivity extends AppCompatActivity
         storageReference.child(houseName+".jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                mPlace.setPicUrl(uri.toString());
+                mPlace.setUrl(uri.toString());
             }
         });
 
@@ -393,7 +377,7 @@ public class MainActivity extends AppCompatActivity
 
         /*------------Marker-------------------*/
         for (int i = 0; i < markers.size(); ++i) {
-            LatLng temp = new LatLng(Double.parseDouble(markers.get(i).getLat()),Double.parseDouble(markers.get(i).getLon()));
+            LatLng temp = new LatLng(Double.parseDouble(markers.get(i).getY()),Double.parseDouble(markers.get(i).getX()));
             mMap.addMarker(new MarkerOptions()
                     .position(temp)
                     .title(markers.get(i).getName())
@@ -432,7 +416,7 @@ public class MainActivity extends AppCompatActivity
             CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest, 13);
             mMap.animateCamera(location);
         }else{
-            LatLng temp = new LatLng(Double.parseDouble(markers.get(0).getLat()),Double.parseDouble(markers.get(0).getLon()));
+            LatLng temp = new LatLng(Double.parseDouble(markers.get(0).getY()),Double.parseDouble(markers.get(0).getX()));
             CameraUpdate location = CameraUpdateFactory.newLatLngZoom(temp, 15);
             mMap.animateCamera(location);
         }

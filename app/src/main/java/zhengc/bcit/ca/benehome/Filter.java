@@ -157,9 +157,9 @@ public class Filter extends Fragment implements View.OnClickListener {
                     list = alllist;
                 } else {
                     for (Place house : alllist) {
-                        if (house.getDesc().contains(keywords[0]) || house.getDesc().contains(keywords[1])
-                                || house.getDesc().contains(keywords[2]) || house.getDesc().contains(keywords[3])
-                                || house.getDesc().contains("all household types")) {
+                        if (house.getDescription().contains(keywords[0]) || house.getDescription().contains(keywords[1])
+                                || house.getDescription().contains(keywords[2]) || house.getDescription().contains(keywords[3])
+                                || house.getDescription().contains("all household types")) {
                             list.add(house);
                         }
                     }
