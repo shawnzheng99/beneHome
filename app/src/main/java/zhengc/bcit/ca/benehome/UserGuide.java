@@ -6,12 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+/**
+ * Three pages user guide for whom run this app first time.
+ */
 public class UserGuide extends AppCompatActivity {
 
     ViewPager viewPager;
-    ImageView cycle1;
-    ImageView cycle2;
-    ImageView cycle3;
+    ImageView circle1;
+    ImageView circle2;
+    ImageView circle3;
 
     private ImageView[] tips;
 
@@ -24,9 +27,9 @@ public class UserGuide extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_guide);
 
-        cycle1 = findViewById(R.id.cycle1);
-        cycle2 = findViewById(R.id.cycle2);
-        cycle3 = findViewById(R.id.cycle3);
+        circle1 = findViewById(R.id.circle1);
+        circle2 = findViewById(R.id.circle2);
+        circle3 = findViewById(R.id.circle3);
 
         viewPager = (ViewPager) findViewById(R.id.ViewPager);
         ViewPagerAdpter viewPagerAdpter = new ViewPagerAdpter(this);
@@ -46,7 +49,6 @@ public class UserGuide extends AppCompatActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-//                Log.v("AAA",isLastPage+"   "+isDragPage+"   "+positionOffsetPixels);
                 if (isLastPage && isDragPage && positionOffsetPixels == 0){
                     if (canJumpPage){
                         canJumpPage = false;
@@ -56,7 +58,7 @@ public class UserGuide extends AppCompatActivity {
             }
 
             /**
-             *
+             * display effect between the three.
              * @param position    the current page index
              */
             @Override
@@ -64,21 +66,21 @@ public class UserGuide extends AppCompatActivity {
                 isLastPage = position == 2;
 
                 if (position == 0) {
-                    cycle1.setImageResource(R.drawable.circle_selected);
-                    cycle2.setImageResource(R.drawable.circle_unselected);
-                    cycle3.setImageResource(R.drawable.circle_unselected);
+                    circle1.setImageResource(R.drawable.circle_selected);
+                    circle2.setImageResource(R.drawable.circle_unselected);
+                    circle3.setImageResource(R.drawable.circle_unselected);
                 }
 
                 if (position == 1) {
-                    cycle1.setImageResource(R.drawable.circle_unselected);
-                    cycle2.setImageResource(R.drawable.circle_selected);
-                    cycle3.setImageResource(R.drawable.circle_unselected);
+                    circle1.setImageResource(R.drawable.circle_unselected);
+                    circle2.setImageResource(R.drawable.circle_selected);
+                    circle3.setImageResource(R.drawable.circle_unselected);
                 }
 
                 if (position == 2) {
-                    cycle1.setImageResource(R.drawable.circle_unselected);
-                    cycle2.setImageResource(R.drawable.circle_unselected);
-                    cycle3.setImageResource(R.drawable.circle_selected);
+                    circle1.setImageResource(R.drawable.circle_unselected);
+                    circle2.setImageResource(R.drawable.circle_unselected);
+                    circle3.setImageResource(R.drawable.circle_selected);
                 }
 
             }
@@ -98,7 +100,7 @@ public class UserGuide extends AppCompatActivity {
 
 
     /**
-     * Jump to next activity
+     * On the last user guide page, keeping swiping left will make the screen jump to next activity.
      */
     private void JumpToNext() {
 

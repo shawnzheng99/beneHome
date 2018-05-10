@@ -3,6 +3,9 @@ package zhengc.bcit.ca.benehome;
 import android.net.Uri;
 import java.io.Serializable;
 
+/**
+ * A place refers to a subsidized house, which has name, description contact info and so on.
+ */
 public class Place implements Serializable {
 
     private String name;

@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
 
-        /*check if it is the first time run*/
+        /*check if it is the first time run this app*/
         final String first_time = "if_first_time";
 
         SharedPreferences settings = getSharedPreferences(first_time, 0);
@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, UserGuide.class));
             SharedPreferences.Editor ed = settings.edit();
             ed.putBoolean("not_first", false);
-            //ed.commit();
-            ed.apply();
+            ed.commit();
+            //ed.apply();   Compared to commit(), apply() won't change the file synchronously.
         }
 
 
