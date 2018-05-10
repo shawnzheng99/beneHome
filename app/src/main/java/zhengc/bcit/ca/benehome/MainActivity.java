@@ -241,20 +241,23 @@ public class MainActivity extends AppCompatActivity
         }
         f = getSupportFragmentManager ().findFragmentById(R.id.container);
         if(f instanceof House_list){
-            set_item_check(0);
+            set_item_check(1);
             this.setTitle("House list");
         }else if(f instanceof Eligible){
-            set_item_check(2);
+            set_item_check(3);
             this.setTitle("Eligible");
         }else if(f instanceof FAQ){
-            set_item_check(3);
+            set_item_check(4);
             this.setTitle("FAQ");
         }else if(f instanceof About){
-            set_item_check(4);
+            set_item_check(5);
             this.setTitle("About");
         }else if(f instanceof Application){
-            set_item_check(5);
+            set_item_check(6);
             this.setTitle("Application");
+        }else if(f instanceof Filter){
+            set_item_check(0);
+            this.setTitle("Filter");
         }
     }
 
