@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,6 +19,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -62,6 +65,8 @@ public class MainActivity extends AppCompatActivity
     FirebaseUser user;
     DrawerLayout drawer;
     Fragment f;
+    boolean filter_on_map = false;
+    int on_back_press_twice_to_exit = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +139,7 @@ public class MainActivity extends AppCompatActivity
         //------------------------nav oncreate-----------------------------------
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+//        toolbar.setOverflowIcon(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_filter_list_white_24dp));
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -149,8 +155,14 @@ public class MainActivity extends AppCompatActivity
                 Log.e("Drawer","open");
                 super.onDrawerOpened(drawerView);
                 if(mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED){
-                    mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+                    hide_slide();
                 }
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                on_back_press_twice_to_exit = 0;
             }
         };
         drawer.addDrawerListener(toggle);
@@ -226,55 +238,67 @@ public class MainActivity extends AppCompatActivity
     public void onBackPressed() {
         Fragment f = getSupportFragmentManager ().findFragmentById(R.id.container);
         FrameLayout container = findViewById(R.id.container);
-
-        if(mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED ||
-                (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)){
+        if(mLayout.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN){
             mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
-            Log.e("slide","back");
-        }else if(drawer.isDrawerOpen(GravityCompat.START)){
-            drawer.closeDrawer(GravityCompat.START);
-            Log.e("drawer","back");
             return;
         }
-        else if(mapFragment.getUserVisibleHint()){
-            hidemap();
-            set_item_uncheck(1);
-            Log.e("map","back");
-        }else if(f instanceof House_detail){
+        if(f instanceof House_detail){
             super.onBackPressed();
-            Log.e("detail","back");
-        }else if(f instanceof House_list){
-            moveTaskToBack(true);
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
-            Log.e("home","back");
-        }else{
-            super.onBackPressed();
-            //overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-            Log.e("super","back");
+            set_title();
+            return;
         }
-        f = getSupportFragmentManager ().findFragmentById(R.id.container);
-        if(f instanceof House_list){
-            set_item_check(1);
-            this.setTitle("House list");
-        }else if(f instanceof Eligible){
-            set_item_check(3);
-            this.setTitle("Eligible");
-        }else if(f instanceof FAQ){
-            set_item_check(4);
-            this.setTitle("FAQ");
-        }else if(f instanceof About){
-            set_item_check(5);
-            this.setTitle("About");
-        }else if(f instanceof Application){
-            set_item_check(6);
-            this.setTitle("Application");
-        }else if(f instanceof Filter){
-            set_item_check(0);
-            this.setTitle("Filter");
+        if(drawer.isDrawerOpen(GravityCompat.START)){
+            on_back_press_twice_to_exit++;
+            if(on_back_press_twice_to_exit == 2){
+                on_back_press_twice_to_exit = 0;
+                moveTaskToBack(true);
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
+            }
+            Toast.makeText(this,"Press again to exit",Toast.LENGTH_LONG).show();
+        }else{
+            drawer.openDrawer(GravityCompat.START);
         }
     }
-
+    public void set_title(){
+        Fragment frag = getSupportFragmentManager ().findFragmentById(R.id.container);
+        if(mapFragment.getUserVisibleHint()){
+            set_item_check(2);
+            this.setTitle("Map");
+            return;
+        }
+        if(frag instanceof House_list){
+            set_item_check(1);
+            this.setTitle("House list");
+            return;
+        }
+        if(frag instanceof Eligible){
+            set_item_check(3);
+            this.setTitle("Eligible");
+            return;
+        }
+        if(frag instanceof FAQ){
+            set_item_check(4);
+            this.setTitle("FAQ");
+            return;
+        }
+        if(frag instanceof About){
+            set_item_check(5);
+            this.setTitle("About");
+            return;
+        }
+        if(frag instanceof Application){
+            set_item_check(6);
+            this.setTitle("Application");
+            return;
+        }
+        if(frag instanceof Filter){
+            set_item_check(0);
+            this.setTitle("Filter");
+            return;
+        }
+        this.setTitle("BeneHome");
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -283,58 +307,55 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        Log.e("menu","open");
+        return super.onMenuOpened(featureId, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Log.e("close","close");
+        if (id == R.id.menu_filter) {
+            go_filter_by_check_list_map();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_filter) {
-            show_pass(new Filter(), null, null);
-            hidemap();
-            hide_slide();
-            this.setTitle("Filter");
+            go_filter_by_check_list_map();
         } else if (id == R.id.nav_houselist) {
             show_pass(new House_list(),filtered_house,null);
             hidemap();
-            hide_slide();
             this.setTitle("House List");
         } else if (id == R.id.nav_eligibility) {
             show_pass(new Eligible(), null,null);
             hidemap();
-            hide_slide();
             this.setTitle("Eligibility");
         } else if (id == R.id.nav_faq) {
             show_pass(new FAQ(),null,null);
             hidemap();
-            hide_slide();
             this.setTitle("FAQ");
         } else if (id == R.id.nav_about) {
             show_pass(new About(),null,null);
             hidemap();
-            hide_slide();
             this.setTitle("About");
         } else if (id == R.id.nav_map) {
-            mapFragment.getMapAsync(this);
+            //mapFragment.getMapAsync(this);
             /*------------------markers---------------------------*/
-            setMarkers(filtered_house);
-            displaymap();
+            displaymap(filtered_house);
         } else if(id == R.id.nav_Application_guide){
            show_pass(new Application(),null,null);
-            hidemap();
-            hide_slide();
+           this.setTitle("Application Guide");
+           hidemap();
         }
         hide_slide();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -430,7 +451,9 @@ public class MainActivity extends AppCompatActivity
                 setCustomAnimations(R.anim.slide_in_up,R.anim.pop_out,R.anim.pop_in,R.anim.pop_out).
                 hide(mapFragment).commit();
     }
-    public void displaymap(){
+    public void displaymap(ArrayList<Place> list){
+        mapFragment.getMapAsync(this);
+        setMarkers(list);
         mapFragment.setUserVisibleHint(true);
         getSupportFragmentManager().beginTransaction().
                 setCustomAnimations(R.anim.slide_in_up,R.anim.pop_out,R.anim.pop_in,R.anim.pop_out).
@@ -438,16 +461,18 @@ public class MainActivity extends AppCompatActivity
         this.setTitle("Map");
     }
     public void pass_to_map(Place house){
-        mapFragment.getMapAsync(this);
+       // mapFragment.getMapAsync(this);
         ArrayList<Place> temp = new ArrayList<>();
         temp.add(house);
-        setMarkers(temp);
-        displaymap();
+        displaymap(temp);
     }
 //-------------------------------map method end---------------------------------------------------
 
     public void set_filtered_house(ArrayList<Place> list){
         filtered_house = list;
+    }
+    public ArrayList<Place> get_filtered_house(){
+        return filtered_house;
     }
     public void show_pass(Fragment fragment, ArrayList list, Place house){
         Bundle data = new Bundle();
@@ -455,11 +480,18 @@ public class MainActivity extends AppCompatActivity
         data.putSerializable("all_house",formlist);
         data.putSerializable("house", house);
         fragment.setArguments(data);
-        getSupportFragmentManager().beginTransaction().
-                setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
-                replace(R.id.container, fragment).
-                addToBackStack(null).
-                commitAllowingStateLoss();
+        if(mapFragment.getUserVisibleHint()){
+            getSupportFragmentManager().beginTransaction().
+                    replace(R.id.container, fragment).
+                    addToBackStack(null).
+                    commitAllowingStateLoss();
+        }else{
+            getSupportFragmentManager().beginTransaction().
+                    setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
+                    replace(R.id.container, fragment).
+                    addToBackStack(null).
+                    commitAllowingStateLoss();
+        }
     }
     public void hide_slide(){
         if(mapFragment!=null){
@@ -503,5 +535,30 @@ public class MainActivity extends AppCompatActivity
             imageButton.setBackground(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up_black_24dp));
         }
     }
-
+    public boolean check_map_is_display_background(){
+           return filter_on_map;
+    }
+    public void go_filter_by_check_list_map(){
+        f = getSupportFragmentManager ().findFragmentById(R.id.container);
+        if(f instanceof Filter){
+            if(mapFragment.getUserVisibleHint()){
+                hidemap();
+                filter_on_map = true;
+            }
+        }else{
+            if(!mapFragment.getUserVisibleHint()){
+                filter_on_map = false;
+                this.setTitle("Filter");
+                set_item_check(0);
+                show_pass(new Filter(),null,null);
+            }else{
+                show_pass(new Filter(),null,null);
+                set_item_check(0);
+                this.setTitle("Filter");
+                hidemap();
+                filter_on_map = true;
+            }
+        }
+        this.setTitle("Filter");
+    }
 }

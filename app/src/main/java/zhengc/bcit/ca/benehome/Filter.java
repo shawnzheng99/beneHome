@@ -165,9 +165,14 @@ public class Filter extends Fragment implements View.OnClickListener {
                     }
                 }
                 mainActivity.set_filtered_house(list);
-                mainActivity.show_pass(new House_list(),list,null);
-                mainActivity.setTitle("House list");
-                mainActivity.set_item_check(1);
+                if(mainActivity.check_map_is_display_background()){
+                    mainActivity.displaymap(list);
+                    mainActivity.set_item_check(2);
+                }else{
+                    mainActivity.show_pass(new House_list(),list,null);
+                    mainActivity.setTitle("House list");
+                    mainActivity.set_item_check(1);
+                }
             default:
                 break;
         }
