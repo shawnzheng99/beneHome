@@ -318,27 +318,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_filter) {
-            f = getSupportFragmentManager ().findFragmentById(R.id.container);
-            Log.e("close","close");
-            if(f instanceof Filter){
-                if(mapFragment.getUserVisibleHint()){
-                    hidemap();
-                    filter_on_map = true;
-                }
-            }else{
-                if(!mapFragment.getUserVisibleHint()){
-                    filter_on_map = false;
-                    this.setTitle("Filter");
-                    set_item_check(0);
-                    show_pass(new Filter(),null,null);
-                }else{
-                    show_pass(new Filter(),null,null);
-                    set_item_check(0);
-                    this.setTitle("Filter");
-                    hidemap();
-                    filter_on_map = true;
-                }
-            }
+            go_filter_by_check_list_map();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -349,27 +329,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_filter) {
-            f = getSupportFragmentManager ().findFragmentById(R.id.container);
-            if(f instanceof Filter){
-                if(mapFragment.getUserVisibleHint()){
-                    hidemap();
-                    filter_on_map = true;
-                }
-            }else{
-                if(!mapFragment.getUserVisibleHint()){
-                    filter_on_map = false;
-                    this.setTitle("Filter");
-                    set_item_check(0);
-                    show_pass(new Filter(),null,null);
-                }else{
-                    show_pass(new Filter(),null,null);
-                    set_item_check(0);
-                    this.setTitle("Filter");
-                    hidemap();
-                    filter_on_map = true;
-                }
-            }
-            this.setTitle("Filter");
+            go_filter_by_check_list_map();
         } else if (id == R.id.nav_houselist) {
             show_pass(new House_list(),filtered_house,null);
             hidemap();
@@ -575,5 +535,28 @@ public class MainActivity extends AppCompatActivity
     }
     public boolean check_map_is_display_background(){
            return filter_on_map;
+    }
+    public void go_filter_by_check_list_map(){
+        f = getSupportFragmentManager ().findFragmentById(R.id.container);
+        if(f instanceof Filter){
+            if(mapFragment.getUserVisibleHint()){
+                hidemap();
+                filter_on_map = true;
+            }
+        }else{
+            if(!mapFragment.getUserVisibleHint()){
+                filter_on_map = false;
+                this.setTitle("Filter");
+                set_item_check(0);
+                show_pass(new Filter(),null,null);
+            }else{
+                show_pass(new Filter(),null,null);
+                set_item_check(0);
+                this.setTitle("Filter");
+                hidemap();
+                filter_on_map = true;
+            }
+        }
+        this.setTitle("Filter");
     }
 }
