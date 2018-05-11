@@ -89,7 +89,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
             @Override
             public void onClick(View v) {
                 context.show_pass(new House_detail(), null, places.get(placeViewHolder.getAdapterPosition()));
-
+                context.setTitle("House Detail");
             }
         });
 
