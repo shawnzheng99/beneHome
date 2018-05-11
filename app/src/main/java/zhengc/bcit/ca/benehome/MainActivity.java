@@ -349,8 +349,26 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_filter) {
-            show_pass(new Filter(), null, null);
-            hidemap();
+            f = getSupportFragmentManager ().findFragmentById(R.id.container);
+            if(f instanceof Filter){
+                if(mapFragment.getUserVisibleHint()){
+                    hidemap();
+                    filter_on_map = true;
+                }
+            }else{
+                if(!mapFragment.getUserVisibleHint()){
+                    filter_on_map = false;
+                    this.setTitle("Filter");
+                    set_item_check(0);
+                    show_pass(new Filter(),null,null);
+                }else{
+                    show_pass(new Filter(),null,null);
+                    set_item_check(0);
+                    this.setTitle("Filter");
+                    hidemap();
+                    filter_on_map = true;
+                }
+            }
             this.setTitle("Filter");
         } else if (id == R.id.nav_houselist) {
             show_pass(new House_list(),filtered_house,null);
@@ -374,7 +392,8 @@ public class MainActivity extends AppCompatActivity
             displaymap(filtered_house);
         } else if(id == R.id.nav_Application_guide){
            show_pass(new Application(),null,null);
-            hidemap();
+           this.setTitle("Application Guide");
+           hidemap();
         }
         hide_slide();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
