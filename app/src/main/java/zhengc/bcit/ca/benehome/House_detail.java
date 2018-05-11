@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
@@ -34,7 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class House_detail extends Fragment implements ViewSwitcher.ViewFactory, View.OnTouchListener {
+public class House_detail extends Fragment {
     Place selectedHouse;
     View view;
     private MainActivity mainActivity;
@@ -59,10 +60,64 @@ public class House_detail extends Fragment implements ViewSwitcher.ViewFactory, 
 
         selectedHouse = (Place) getArguments().getSerializable("house");
         switcher = view.findViewById(R.id.imageSwitcher);
-        imageView = view.findViewById(R.id.img_house);
 
+        switcher.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                ImageView imageView = new ImageView(mainActivity);
+                imageView.setLayoutParams(new ImageSwitcher.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                return imageView;
+            }
+        });
 
+        switcher.setImageResource(images[0]);//初始化时显示，必须放在工厂后面，否则会报NullPointerException
+        switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.fade_in));//设置动画
+        switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.fade_out));//设置动画
 
+        switcher.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:{
+                        //手指按下的X坐标
+                        downX = event.getX();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP:{
+                        float lastX = event.getX();
+                        //抬起的时候的X坐标大于按下的时候就显示上一张图片
+                        if(lastX > downX){
+                            if(currentPosition > 0){
+                                //设置动画，这里的动画比较简单，不明白的去网上看看相关内容
+                                currentPosition --;
+                                switcher.setImageResource(images[currentPosition % images.length]);
+
+                            }else{
+                                Toast.makeText(mainActivity, "first page", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        if(lastX < downX){
+                            if(currentPosition < images.length - 1){
+
+                                currentPosition ++ ;
+                                switcher.setImageResource(images[currentPosition]);
+                            }else{
+                                Toast.makeText(mainActivity, "last page", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    break;
+                }
+
+                return true;
+            }
+        });
+//        imageView = view.findViewById(R.id.img_house);
+
+//        switcher.setFactory(this);
+//        imageView.setOnTouchListener(this);
 
 
 //        Picasso.get().load(selectedHouse.getUrl()).fit().centerCrop().into(imageView);
@@ -171,48 +226,48 @@ public class House_detail extends Fragment implements ViewSwitcher.ViewFactory, 
         txtLocation.setText(selectedHouse.getLocation());
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:{
-                //手指按下的X坐标
-                downX = event.getX();
-                break;
-            }
-            case MotionEvent.ACTION_UP:{
-                float lastX = event.getX();
-                //抬起的时候的X坐标大于按下的时候就显示上一张图片
-                if(lastX > downX){
-                    if(currentPosition > 0){
-                        //设置动画，这里的动画比较简单，不明白的去网上看看相关内容
-                        currentPosition --;
-                        imageView.setImageResource(images[currentPosition % images.length]);
-
-                    }else{
-                        Toast.makeText(mainActivity, "first page", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                if(lastX < downX){
-                    if(currentPosition < images.length - 1){
-
-                        currentPosition ++ ;
-                        imageView.setImageResource(images[currentPosition]);
-                    }else{
-                        Toast.makeText(mainActivity, "last page", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            break;
-        }
-
-        return true;
-
-    }
-
-    @Override
-    public View makeView() {
-        return null;
-    }
+//    @Override
+//    public boolean onTouch(View v, MotionEvent event) {
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_DOWN:{
+//                //手指按下的X坐标
+//                downX = event.getX();
+//                break;
+//            }
+//            case MotionEvent.ACTION_UP:{
+//                float lastX = event.getX();
+//                //抬起的时候的X坐标大于按下的时候就显示上一张图片
+//                if(lastX > downX){
+//                    if(currentPosition > 0){
+//                        //设置动画，这里的动画比较简单，不明白的去网上看看相关内容
+//                        currentPosition --;
+//                        imageView.setImageResource(images[currentPosition % images.length]);
+//
+//                    }else{
+//                        Toast.makeText(mainActivity, "first page", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//
+//                if(lastX < downX){
+//                    if(currentPosition < images.length - 1){
+//
+//                        currentPosition ++ ;
+//                        imageView.setImageResource(images[currentPosition]);
+//                    }else{
+//                        Toast.makeText(mainActivity, "last page", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            }
+//
+//            break;
+//        }
+//
+//        return true;
+//
+//    }
+//
+//    @Override
+//    public View makeView() {
+//        return imageView;
+//    }
 }
