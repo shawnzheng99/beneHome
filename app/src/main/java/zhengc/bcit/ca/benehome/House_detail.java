@@ -71,8 +71,7 @@ public class House_detail extends Fragment {
         });
 
         switcher.setImageResource(images[0]);//初始化时显示，必须放在工厂后面，否则会报NullPointerException
-        switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.fade_in));//设置动画
-        switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.fade_out));//设置动画
+
 
         switcher.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -87,23 +86,32 @@ public class House_detail extends Fragment {
                         float lastX = event.getX();
                         //抬起的时候的X坐标大于按下的时候就显示上一张图片
                         if(lastX > downX){
+                            switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_in_left));//设置动画
+                            switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_out_right));//设置动画
                             if(currentPosition > 0){
                                 //设置动画，这里的动画比较简单，不明白的去网上看看相关内容
                                 currentPosition --;
+
                                 switcher.setImageResource(images[currentPosition % images.length]);
 
                             }else{
-                                Toast.makeText(mainActivity, "first page", Toast.LENGTH_SHORT).show();
+                                currentPosition = 2;
+                                switcher.setImageResource(images[currentPosition % images.length]);
+//                                Toast.makeText(mainActivity, "first page", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         if(lastX < downX){
+                            switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity,R.anim.slide_in_right));
+                            switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity,R.anim.slide_out_left));
                             if(currentPosition < images.length - 1){
 
                                 currentPosition ++ ;
                                 switcher.setImageResource(images[currentPosition]);
                             }else{
-                                Toast.makeText(mainActivity, "last page", Toast.LENGTH_SHORT).show();
+                                currentPosition = 0;
+                                switcher.setImageResource(images[currentPosition % images.length]);
+ //                               Toast.makeText(mainActivity, "last page", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
