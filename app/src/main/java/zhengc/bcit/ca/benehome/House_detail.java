@@ -44,12 +44,19 @@ public class House_detail extends Fragment {
         // set up
         selectedHouse = (Place) getArguments().getSerializable("house");
         ImageView imageView = view.findViewById(R.id.img_house);
-        Picasso.get().load(selectedHouse.getUrl()).fit().centerCrop().into(imageView);
+
+        //TODO: add to loop in the image switcher, image index a,b,c
+        Picasso.get().load(selectedHouse.getUrl().get("c")).fit().centerCrop().into(imageView);
 
         setName();
         setLocation();
         setEligible();
         setHouseType();
+        setTotalUnit();
+        setUnitType();
+        setPet();
+        setSchool();
+        setBoundary();
 
         /*contact*/
         callHouse();
@@ -57,6 +64,36 @@ public class House_detail extends Fragment {
         setApply();
 
         return view;
+    }
+
+    private void setBoundary() {
+        TextView boundary = view.findViewById(R.id.dis_boundary);
+        boundary.setText(selectedHouse.getBoundaries());
+    }
+
+    private void setSchool() {
+        TextView ele = view.findViewById(R.id.dis_school_ele);
+        TextView sec = view.findViewById(R.id.dis_school_sec);
+        TextView mid = view.findViewById(R.id.dis_school_mid);
+
+        ele.setText("Elementary school : " + selectedHouse.getElementary());
+        mid.setText("Middle school: " + selectedHouse.getMiddle());
+        sec.setText("Secondary School: " + selectedHouse.getSecondary());
+    }
+
+    private void setPet() {
+        TextView pet = view.findViewById(R.id.dis_pet);
+        pet.setText(selectedHouse.getPets());
+    }
+
+    private void setUnitType() {
+        TextView unitType = view.findViewById(R.id.dis_unitType);
+        unitType.setText(selectedHouse.getTypeUnits());
+    }
+
+    private void setTotalUnit() {
+        TextView totalUnit = view.findViewById(R.id.dis_totalUnit);
+        totalUnit.setText(selectedHouse.getTotalUnit());
     }
 
     private void setApply() {
@@ -132,8 +169,7 @@ public class House_detail extends Fragment {
 
     private void setEligible() {
         TextView eliType = view.findViewById(R.id.txt_EligibleType);
-        int idx = selectedHouse.getDescription().indexOf("ousing for");
-        String houseFor = selectedHouse.getDescription().substring(idx + 11);
+        String houseFor = selectedHouse.getEligible();
 
         eliType.setText(houseFor);
     }

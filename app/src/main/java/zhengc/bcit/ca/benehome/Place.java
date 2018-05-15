@@ -1,11 +1,12 @@
 package zhengc.bcit.ca.benehome;
 
 import java.io.Serializable;
+import java.util.HashMap;
 
 public class Place implements Serializable {
 
     private String Name;
-    private String Url;
+    private HashMap<String,String> Url ;
     private String Description;
     private String Category;
     private String Hours;
@@ -29,7 +30,7 @@ public class Place implements Serializable {
     public Place() {
 
     }
-    public Place(String name, String url, String description, String category, String hours, String location, String PC, String email, String phone, String y, String x, String website, String apply, String totalUnit, String typeUnits, String eligible, String pets, String boundaries, String elementary, String middle, String secondary) {
+    public Place(String name, HashMap<String,String> url, String description, String category, String hours, String location, String PC, String email, String phone, String y, String x, String website, String apply, String totalUnit, String typeUnits, String eligible, String pets, String boundaries, String elementary, String middle, String secondary) {
         Name = name;
         Url = url;
         Description = description;
@@ -129,7 +130,7 @@ public class Place implements Serializable {
         Name = name;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(HashMap<String,String> url) {
         Url = url;
     }
 
@@ -177,7 +178,7 @@ public class Place implements Serializable {
         return Name;
     }
 
-    public String getUrl() {
+    public HashMap<String,String> getUrl() {
         return Url;
     }
 
