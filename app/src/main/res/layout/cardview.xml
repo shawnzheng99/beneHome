@@ -43,14 +43,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/news_header"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
                 android:maxLines="1" />
+
             <TextView
-                android:id="@+id/location_desc"
+                android:id="@+id/location_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/location_name"
-                android:layout_margin="10dp"
+                android:layout_margin="5dp"
+                android:maxLines="2" />
+
+            <TextView
+                android:id="@+id/location_total_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/location_location"
+                android:layout_margin="5dp"
                 android:maxLines="2" />
 
 

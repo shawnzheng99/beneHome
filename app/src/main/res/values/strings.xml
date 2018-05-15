@@ -28,7 +28,7 @@
     <string name="back_button_of_house_string_house_listing">back button of house @string/house_listing</string>
     <string name="checked">All checked!</string>
     <string name="fire">OK</string>
-
+    <string name = "Filter">Filter</string>
     <string name="house_type_content1">Subsidized housing (rent geared to income)</string>
     <string name="question1">Do you have children or dependents that live with you?</string>
     <string name="question2">What age is the oldest person in your household?</string>
@@ -90,6 +90,5 @@
     <string name="application_guide1">Please know that not all subsidized houses use The Hosuing Registry as their application database.
         You apply directly to some subsidized houses with housing provider. Please check the how to apply at the house detail page regarding house application.
   </string>
-
 
 </resources>

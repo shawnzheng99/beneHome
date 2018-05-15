@@ -1,7 +1,6 @@
 package zhengc.bcit.ca.benehome;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -15,9 +14,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,8 +31,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -62,6 +60,8 @@ public class MainActivity extends AppCompatActivity
     FirebaseUser user;
     DrawerLayout drawer;
     Fragment f;
+    boolean filter_on_map = false;
+    int on_back_press_twice_to_exit = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity
 //        Intent intent = new Intent(MainActivity.this,Main2Activity.class);
 //        startActivity(intent);
 
-        /*check if it is the first time run*/
+        /*check if it is the first time run this app*/
         final String first_time = "if_first_time";
 
         SharedPreferences settings = getSharedPreferences(first_time, 0);
@@ -79,38 +79,40 @@ public class MainActivity extends AppCompatActivity
         if (settings.getBoolean("first", true)) {
             startActivity(new Intent(MainActivity.this, UserGuide.class));
             SharedPreferences.Editor ed = settings.edit();
+
             ed.putBoolean("first", false);
             ed.commit();
-            //ed.apply();
+            //ed.apply();   Compared to commit(), apply() won't change the file synchronously.
+
         }
 
 
         //firebase auth
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        if (user != null) {
-            // do your stuff
-        } else {
+        if (user == null) {
             signInAnonymously();
+        } else {
+            Toast.makeText(this,"Loading",Toast.LENGTH_LONG).show();
         }
 
 
         filtered_house = new ArrayList<>();
         formlist = new ArrayList<>();
         imageButton = findViewById(R.id.up_down_button);
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         f = getSupportFragmentManager ().findFragmentById(R.id.container);
         /*--------initilazing firebase-----------*/
 
         //"https://benehome-f1049.firebaseio.com/"
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://benehome-f1049.firebaseio.com/");
-        databaseReference = db.getReference().child("features");
+        databaseReference = db.getReference();
 
         loadFirebase();
 
         /*----------------------------------------*/
         /*slide up*/
-        mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        mLayout = findViewById(R.id.sliding_layout);
         hide_slide();
         mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -132,31 +134,30 @@ public class MainActivity extends AppCompatActivity
             }
         });
         //------------------------nav oncreate-----------------------------------
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this,House_detail.class));
-//            }
-//        });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
             @Override
             public void onDrawerOpened(View drawerView) {
                 Log.e("Drawer","open");
                 super.onDrawerOpened(drawerView);
                 if(mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED){
-                    mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+                    hide_slide();
                 }
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                on_back_press_twice_to_exit = 0;
             }
         };
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         if(formlist.isEmpty())
@@ -206,7 +207,7 @@ public class MainActivity extends AppCompatActivity
                 Log.wtf(TAG,"---------------onChange--------------");
                 formlist.clear();
                 for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                    Place mPlace = messageSnapshot.child("properties").getValue(Place.class);
+                    Place mPlace = messageSnapshot.getValue(Place.class);
                     formlist.add(mPlace);
                     filtered_house = formlist;
                 }
@@ -225,56 +226,67 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         Fragment f = getSupportFragmentManager ().findFragmentById(R.id.container);
-        FrameLayout container = findViewById(R.id.container);
-
-        if(mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED ||
-                (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)){
+        if(mLayout.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN){
             mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
-            Log.e("slide","back");
-        }else if(drawer.isDrawerOpen(GravityCompat.START)){
-            drawer.closeDrawer(GravityCompat.START);
-            Log.e("drawer","back");
             return;
         }
-        else if(mapFragment.getUserVisibleHint()){
-            hidemap();
-            set_item_uncheck(1);
-            Log.e("map","back");
-        }else if(f instanceof House_detail){
+        if(f instanceof House_detail){
             super.onBackPressed();
-            Log.e("detail","back");
-        }else if(f instanceof House_list){
-            moveTaskToBack(true);
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
-            Log.e("home","back");
-        }else{
-            super.onBackPressed();
-            //overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-            Log.e("super","back");
+            set_title();
+            return;
         }
-        f = getSupportFragmentManager ().findFragmentById(R.id.container);
-        if(f instanceof House_list){
-            set_item_check(1);
-            this.setTitle("House list");
-        }else if(f instanceof Eligible){
-            set_item_check(3);
-            this.setTitle("Eligible");
-        }else if(f instanceof FAQ){
-            set_item_check(4);
-            this.setTitle("FAQ");
-        }else if(f instanceof About){
-            set_item_check(5);
-            this.setTitle("About");
-        }else if(f instanceof Application){
-            set_item_check(6);
-            this.setTitle("Application");
-        }else if(f instanceof Filter){
-            set_item_check(0);
-            this.setTitle("Filter");
+        if(drawer.isDrawerOpen(GravityCompat.START)){
+            on_back_press_twice_to_exit++;
+            if(on_back_press_twice_to_exit == 2){
+                on_back_press_twice_to_exit = 0;
+                moveTaskToBack(true);
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
+            }
+            Toast.makeText(this,"Press again to exit",Toast.LENGTH_LONG).show();
+        }else{
+            drawer.openDrawer(GravityCompat.START);
         }
     }
-
+    public void set_title(){
+        Fragment frag = getSupportFragmentManager ().findFragmentById(R.id.container);
+        if(mapFragment.getUserVisibleHint()){
+            set_item_check(2);
+            this.setTitle("Map");
+            return;
+        }
+        if(frag instanceof House_list){
+            set_item_check(1);
+            this.setTitle("House list");
+            return;
+        }
+        if(frag instanceof Eligible){
+            set_item_check(3);
+            this.setTitle("Eligible");
+            return;
+        }
+        if(frag instanceof FAQ){
+            set_item_check(4);
+            this.setTitle("FAQ");
+            return;
+        }
+        if(frag instanceof About){
+            set_item_check(5);
+            this.setTitle("About");
+            return;
+        }
+        if(frag instanceof Application){
+            set_item_check(6);
+            this.setTitle("Application");
+            return;
+        }
+        if(frag instanceof Filter){
+            set_item_check(0);
+            this.setTitle("Filter");
+            return;
+        }
+        this.setTitle("BeneHome");
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -283,62 +295,58 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        Log.e("menu","open");
+        return super.onMenuOpened(featureId, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Log.e("close","close");
+        if (id == R.id.menu_filter) {
+            go_filter_by_check_list_map();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_filter) {
-            show_pass(new Filter(), null, null);
-            hidemap();
-            hide_slide();
-            this.setTitle("Filter");
+            go_filter_by_check_list_map();
         } else if (id == R.id.nav_houselist) {
             show_pass(new House_list(),filtered_house,null);
             hidemap();
-            hide_slide();
             this.setTitle("House List");
         } else if (id == R.id.nav_eligibility) {
             show_pass(new Eligible(), null,null);
             hidemap();
-            hide_slide();
             this.setTitle("Eligibility");
         } else if (id == R.id.nav_faq) {
             show_pass(new FAQ(),null,null);
             hidemap();
-            hide_slide();
             this.setTitle("FAQ");
         } else if (id == R.id.nav_about) {
             show_pass(new About(),null,null);
             hidemap();
-            hide_slide();
+            this.setTitle("About");
         } else if (id == R.id.nav_map) {
-            mapFragment.getMapAsync(this);
+            //mapFragment.getMapAsync(this);
             /*------------------markers---------------------------*/
-            setMarkers(filtered_house);
-            displaymap();
-            this.setTitle("Map");
+            displaymap(filtered_house);
         } else if(id == R.id.nav_Application_guide){
            show_pass(new Application(),null,null);
-            hidemap();
-            hide_slide();
-            this.setTitle("Application");
+           this.setTitle("Application Guide");
+           hidemap();
         }
         hide_slide();
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -383,6 +391,20 @@ public class MainActivity extends AppCompatActivity
                 show_slide(new House_detail(),selectHouse);
             }
         });
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Place selectHouse = new Place();
+                // get selected house
+                for (int j = 0; j < formlist.size(); ++j) {
+                    if (formlist.get(j).getName().equals(marker.getTitle())) {
+                        selectHouse = formlist.get(j);
+                    }
+                }
+                show_slide(new House_detail(),selectHouse);
+                return false;
+            }
+        });
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) { 
@@ -394,7 +416,7 @@ public class MainActivity extends AppCompatActivity
 
     }
     public void zoomToMarker(ArrayList<Place> markers) {
-        if(markers.size() > 1){
+        if(markers.size() > 1 || markers.size()==0){
             LatLng newWest = new LatLng(49.21073429331534, -122.92282036503556);
             CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest, 13);
             mMap.animateCamera(location);
@@ -417,23 +439,28 @@ public class MainActivity extends AppCompatActivity
                 setCustomAnimations(R.anim.slide_in_up,R.anim.pop_out,R.anim.pop_in,R.anim.pop_out).
                 hide(mapFragment).commit();
     }
-    public void displaymap(){
+    public void displaymap(ArrayList<Place> list){
+        mapFragment.getMapAsync(this);
+        setMarkers(list);
         mapFragment.setUserVisibleHint(true);
         getSupportFragmentManager().beginTransaction().
                 setCustomAnimations(R.anim.slide_in_up,R.anim.pop_out,R.anim.pop_in,R.anim.pop_out).
                 show(mapFragment).commit();
+        this.setTitle("Map");
     }
     public void pass_to_map(Place house){
-        mapFragment.getMapAsync(this);
+       // mapFragment.getMapAsync(this);
         ArrayList<Place> temp = new ArrayList<>();
         temp.add(house);
-        setMarkers(temp);
-        displaymap();
+        displaymap(temp);
     }
 //-------------------------------map method end---------------------------------------------------
 
     public void set_filtered_house(ArrayList<Place> list){
         filtered_house = list;
+    }
+    public ArrayList<Place> get_filtered_house(){
+        return filtered_house;
     }
     public void show_pass(Fragment fragment, ArrayList list, Place house){
         Bundle data = new Bundle();
@@ -441,11 +468,18 @@ public class MainActivity extends AppCompatActivity
         data.putSerializable("all_house",formlist);
         data.putSerializable("house", house);
         fragment.setArguments(data);
-        getSupportFragmentManager().beginTransaction().
-                setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
-                replace(R.id.container, fragment).
-                addToBackStack(null).
-                commitAllowingStateLoss();
+        if(mapFragment.getUserVisibleHint()){
+            getSupportFragmentManager().beginTransaction().
+                    replace(R.id.container, fragment).
+                    addToBackStack(null).
+                    commitAllowingStateLoss();
+        }else{
+            getSupportFragmentManager().beginTransaction().
+                    setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
+                    replace(R.id.container, fragment).
+                    addToBackStack(null).
+                    commitAllowingStateLoss();
+        }
     }
     public void hide_slide(){
         if(mapFragment!=null){
@@ -489,5 +523,30 @@ public class MainActivity extends AppCompatActivity
             imageButton.setBackground(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up_black_24dp));
         }
     }
-
+    public boolean check_map_is_display_background(){
+           return filter_on_map;
+    }
+    public void go_filter_by_check_list_map(){
+        f = getSupportFragmentManager ().findFragmentById(R.id.container);
+        if(f instanceof Filter){
+            if(mapFragment.getUserVisibleHint()){
+                hidemap();
+                filter_on_map = true;
+            }
+        }else{
+            if(!mapFragment.getUserVisibleHint()){
+                filter_on_map = false;
+                this.setTitle("Filter");
+                set_item_check(0);
+                show_pass(new Filter(),null,null);
+            }else{
+                show_pass(new Filter(),null,null);
+                set_item_check(0);
+                this.setTitle("Filter");
+                hidemap();
+                filter_on_map = true;
+            }
+        }
+        this.setTitle("Filter");
+    }
 }
