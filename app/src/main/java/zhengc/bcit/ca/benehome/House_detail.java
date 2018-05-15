@@ -1,5 +1,6 @@
 package zhengc.bcit.ca.benehome;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -54,6 +55,7 @@ public class House_detail extends Fragment {
         super.onCreate(savedInstanceState);
         mainActivity = (MainActivity) getActivity();
     }
+    @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.activity_hose_detail,null);
         // set up
@@ -70,7 +72,7 @@ public class House_detail extends Fragment {
             }
         });
 
-        switcher.setImageResource(images[0]);//初始化时显示，必须放在工厂后面，否则会报NullPointerException
+        switcher.setImageResource(images[0]);
 
 
         switcher.setOnTouchListener(new View.OnTouchListener() {
@@ -78,18 +80,16 @@ public class House_detail extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:{
-                        //手指按下的X坐标
                         downX = event.getX();
                         break;
                     }
                     case MotionEvent.ACTION_UP:{
                         float lastX = event.getX();
-                        //抬起的时候的X坐标大于按下的时候就显示上一张图片
+
                         if(lastX > downX){
-                            switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_in_left));//设置动画
-                            switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_out_right));//设置动画
+                            switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_in_left));
+                            switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_out_right));
                             if(currentPosition > 0){
-                                //设置动画，这里的动画比较简单，不明白的去网上看看相关内容
                                 currentPosition --;
 
                                 switcher.setImageResource(images[currentPosition % images.length]);
