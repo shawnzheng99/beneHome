@@ -2,7 +2,11 @@ package zhengc.bcit.ca.benehome;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -85,8 +89,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Intent intent = new Intent(MainActivity.this,Main2Activity.class);
-//        startActivity(intent);
+
 
         /*check if it is the first time run this app*/
         final String first_time = "if_first_time";
@@ -186,23 +189,40 @@ public class MainActivity extends AppCompatActivity
 
       //  getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
         hidemap();
-        new Thread(new Runnable(){
-            @Override
-            public void run() {
-                while(formlist.isEmpty()){
-                    try {
-                        sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                show_pass(new House_list(),formlist,null);
-            }
+        ConnectivityManager cm =
+                (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        }).start();
-        set_item_check(1);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        if(!isConnected){
+            getSupportFragmentManager().beginTransaction().
+                    setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
+                    replace(R.id.container, new EmptyActivity()).
+                    addToBackStack(null).
+                    commitAllowingStateLoss();
+        }else{
+            new Thread(new Runnable(){
+                @Override
+                public void run() {
+                    while(formlist.isEmpty()){
+                        try {
+                            sleep(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    show_pass(new House_list(),formlist,null);
+                }
+
+            }).start();
+            set_item_check(1);
+        }
     }
-/*-------------------------------------------------oncreate end-----------------------------------------------*/
+
+
+
+    /*-------------------------------------------------oncreate end-----------------------------------------------*/
     private void signInAnonymously() {
         mAuth.signInAnonymously().addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
             @Override public void onSuccess(AuthResult authResult) {
@@ -232,11 +252,9 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                getSupportFragmentManager().beginTransaction().
-                        setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
-                        replace(R.id.container, new EmptyActivity()).
-                        addToBackStack(null).
-                        commitAllowingStateLoss();
+
+                Log.e("Firebase","Server side database error");
+
             }
         });
 
