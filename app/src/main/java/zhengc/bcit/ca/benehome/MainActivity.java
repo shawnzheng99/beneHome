@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        Intent intent = new Intent(MainActivity.this,Main2Activity.class);
+//        startActivity(intent);
 
         /*check if it is the first time run this app*/
         final String first_time = "if_first_time";
