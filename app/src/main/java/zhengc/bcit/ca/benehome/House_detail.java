@@ -1,6 +1,8 @@
 package zhengc.bcit.ca.benehome;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -10,12 +12,16 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,17 +40,95 @@ public class House_detail extends Fragment {
     Place selectedHouse;
     View view;
     private MainActivity mainActivity;
+
+    ImageSwitcher switcher;
+    ImageView imageView;
+    float initialX;
+    private Cursor cursor;
+    private  int columnIndex, position = 0;
+    private int currentPosition = 0;
+    private float downX;
+    int [] images = {R.drawable.slide1,R.drawable.slide2,R.drawable.slide3};
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mainActivity = (MainActivity) getActivity();
     }
+    @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.activity_hose_detail,null);
         // set up
+
         selectedHouse = (Place) getArguments().getSerializable("house");
-        ImageView imageView = view.findViewById(R.id.img_house);
-        Picasso.get().load(selectedHouse.getUrl()).fit().centerCrop().into(imageView);
+        switcher = view.findViewById(R.id.imageSwitcher);
+
+        switcher.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                ImageView imageView = new ImageView(mainActivity);
+                imageView.setLayoutParams(new ImageSwitcher.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                return imageView;
+            }
+        });
+
+        switcher.setImageResource(images[0]);
+
+
+        switcher.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:{
+                        downX = event.getX();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP:{
+                        float lastX = event.getX();
+
+                        if(lastX > downX){
+                            switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_in_left));
+                            switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_out_right));
+                            if(currentPosition > 0){
+                                currentPosition --;
+
+                                switcher.setImageResource(images[currentPosition % images.length]);
+
+                            }else{
+                                currentPosition = 2;
+                                switcher.setImageResource(images[currentPosition % images.length]);
+//                                Toast.makeText(mainActivity, "first page", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        if(lastX < downX){
+                            switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity,R.anim.slide_in_right));
+                            switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity,R.anim.slide_out_left));
+                            if(currentPosition < images.length - 1){
+
+                                currentPosition ++ ;
+                                switcher.setImageResource(images[currentPosition]);
+                            }else{
+                                currentPosition = 0;
+                                switcher.setImageResource(images[currentPosition % images.length]);
+ //                               Toast.makeText(mainActivity, "last page", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                    break;
+                }
+
+                return true;
+            }
+        });
+//        imageView = view.findViewById(R.id.img_house);
+
+//        switcher.setFactory(this);
+//        imageView.setOnTouchListener(this);
+
+
+//        Picasso.get().load(selectedHouse.getUrl()).fit().centerCrop().into(imageView);
 
         setName();
         setLocation();
@@ -58,6 +142,8 @@ public class House_detail extends Fragment {
 
         return view;
     }
+
+
 
     private void setApply() {
         Button apply = view.findViewById(R.id.btn_applyNow);
@@ -148,4 +234,48 @@ public class House_detail extends Fragment {
         txtLocation.setText(selectedHouse.getLocation());
     }
 
+//    @Override
+//    public boolean onTouch(View v, MotionEvent event) {
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_DOWN:{
+//                //手指按下的X坐标
+//                downX = event.getX();
+//                break;
+//            }
+//            case MotionEvent.ACTION_UP:{
+//                float lastX = event.getX();
+//                //抬起的时候的X坐标大于按下的时候就显示上一张图片
+//                if(lastX > downX){
+//                    if(currentPosition > 0){
+//                        //设置动画，这里的动画比较简单，不明白的去网上看看相关内容
+//                        currentPosition --;
+//                        imageView.setImageResource(images[currentPosition % images.length]);
+//
+//                    }else{
+//                        Toast.makeText(mainActivity, "first page", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//
+//                if(lastX < downX){
+//                    if(currentPosition < images.length - 1){
+//
+//                        currentPosition ++ ;
+//                        imageView.setImageResource(images[currentPosition]);
+//                    }else{
+//                        Toast.makeText(mainActivity, "last page", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            }
+//
+//            break;
+//        }
+//
+//        return true;
+//
+//    }
+//
+//    @Override
+//    public View makeView() {
+//        return imageView;
+//    }
 }
