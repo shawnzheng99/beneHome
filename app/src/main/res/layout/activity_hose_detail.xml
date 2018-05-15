@@ -6,29 +6,6 @@
     android:layout_height="match_parent"
     tools:context="zhengc.bcit.ca.benehome.House_detail">
 
-<<<<<<< HEAD
-    <ImageSwitcher
-        android:id="@+id/imageSwitcher"
-        android:layout_width="395dp"
-        android:layout_height="219dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-<!--        <ImageView
-            android:id="@+id/img_house"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/house_image"
-             />
--->
-    </ImageSwitcher>
-=======
->>>>>>> Shawn
-
     <ScrollView
         android:id="@+id/scrollView2"
         style="@android:style/Widget.DeviceDefault.Light.ScrollView"
