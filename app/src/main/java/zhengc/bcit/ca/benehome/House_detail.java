@@ -35,6 +35,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class House_detail extends Fragment {
     Place selectedHouse;
@@ -60,7 +61,11 @@ public class House_detail extends Fragment {
         view = inflater.inflate(R.layout.activity_hose_detail,null);
         // set up
 
+        //TODO: HashMap<String,String> hm = selectedHouse.getUrl();
+        //      hm.get("a");.. b, c
+
         selectedHouse = (Place) getArguments().getSerializable("house");
+
         switcher = view.findViewById(R.id.imageSwitcher);
 
         switcher.setFactory(new ViewSwitcher.ViewFactory() {
@@ -130,10 +135,12 @@ public class House_detail extends Fragment {
 
 //        Picasso.get().load(selectedHouse.getUrl()).fit().centerCrop().into(imageView);
 
+
         setName();
         setLocation();
         setEligible();
         setHouseType();
+
 
         /*contact*/
         callHouse();
@@ -142,6 +149,7 @@ public class House_detail extends Fragment {
 
         return view;
     }
+
 
 
 
@@ -218,8 +226,7 @@ public class House_detail extends Fragment {
 
     private void setEligible() {
         TextView eliType = view.findViewById(R.id.txt_EligibleType);
-        int idx = selectedHouse.getDescription().indexOf("ousing for");
-        String houseFor = selectedHouse.getDescription().substring(idx + 11);
+        String houseFor = selectedHouse.getEligible();
 
         eliType.setText(houseFor);
     }
