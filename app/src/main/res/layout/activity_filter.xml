@@ -15,11 +15,90 @@
         android:layout_marginRight="40dp">
 
         <TextView
-            android:id="@+id/txt-q2"
+            android:id="@+id/txt-f1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/question2"
+            android:text="Application type(s)"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt-title-eligi" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn-1-1"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="#72C5CA"
+                android:text="Family with dependent children"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btn-1-2"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="#72C5CA"
+                android:text="Senior (age 55 or older)"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btn-1-3"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="#72C5CA"
+                android:text="People with disabilities"
+                android:textColor="#FFFFFF" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn-1-4"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="#72C5CA"
+                android:text="Single people"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btn-1-5"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="#72C5CA"
+                android:text="couples"
+                android:textColor="#FFFFFF" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt-f2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Unit type(s)"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,42 +112,62 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btn-q2-2"
+                android:id="@+id/btn-2-1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="#72C5CA"
-                android:text="55-"
+                android:text="Studio"
                 android:textColor="#FFFFFF" />
 
             <Button
-                android:id="@+id/btn-q2-3"
+                android:id="@+id/btn-2-2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="1dp"
-                android:layout_marginRight="1dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:background="#72C5CA"
-                android:text="55 - 65"
+                android:text="1 bedroom"
+                android:textColor="#FFFFFF" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn-2-3"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="#72C5CA"
+                android:text="2 bedrooms"
                 android:textColor="#FFFFFF" />
 
             <Button
-                android:id="@+id/btn-q2-4"
+                android:id="@+id/btn-2-4"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:background="#72C5CA"
-                android:text="65+"
+                android:text="3 or more bds"
                 android:textColor="#FFFFFF" />
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/txt-q1"
+            android:id="@+id/txt-f3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/question1"
+            android:text="Location area"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,42 +181,26 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btn-q1-1"
+                android:id="@+id/btn-3-1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="#72C5CA"
-                android:text="Yes"
+                android:text="Eastside"
                 android:textColor="#FFFFFF" />
 
             <Button
-                android:id="@+id/btn-q1-2"
+                android:id="@+id/btn-3-2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#AABD58" />
-
-            <Button
-                android:id="@+id/btn-q1-3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:background="#72C5CA"
-                android:text="No"
+                android:text="Westside"
                 android:textColor="#FFFFFF" />
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/txt-q3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/question3"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt-title-eligi" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -127,78 +210,26 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btn-q3-1"
+                android:id="@+id/btn-3-3"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="#72C5CA"
-                android:text="Yes"
+                android:text="Downtown"
                 android:textColor="#FFFFFF" />
 
             <Button
-                android:id="@+id/btn-q3-2"
+                android:id="@+id/btn-3-4"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#AABD58" />
-
-            <Button
-                android:id="@+id/btn-q3-3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:background="#72C5CA"
-                android:text="No"
+                android:text="island"
                 android:textColor="#FFFFFF" />
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/txt-q4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/question4"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt-title-eligi" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn-q4-1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#72C5CA"
-                android:text="Yes"
-                android:textColor="#FFFFFF" />
-
-            <Button
-                android:id="@+id/btn-q4-2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#AABD58" />
-
-            <Button
-                android:id="@+id/btn-q4-3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#72C5CA"
-                android:text="No"
-                android:textColor="#FFFFFF" />
-
-        </LinearLayout>
-
-
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -208,16 +239,14 @@
                 android:id="@+id/btn-next"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginBottom="50dp"
-                android:layout_weight="1"
-                android:background="#CAAB72"
-                android:text="NEXT"
-                android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                />
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:background="#CAAB72"
+                android:text="NEXT"
+                android:textColor="#000000" />
 
         </android.support.constraint.ConstraintLayout>
 

@@ -14,22 +14,18 @@ import java.util.ArrayList;
 public class Filter extends Fragment implements View.OnClickListener {
 
     private MainActivity mainActivity;
-    private Button btn_q1_1, btn_q1_2, btn_q1_3;
-    private Button btn_q2_2, btn_q2_3, btn_q2_4;
-    private Button btn_q3_1, btn_q3_2, btn_q3_3;
-    private Button btn_q4_1, btn_q4_2, btn_q4_3;
+    private Button btn_1_1, btn_1_2, btn_1_3, btn_1_4, btn_1_5;
+    private Button btn_2_1, btn_2_2, btn_2_3, btn_2_4;
+    private Button btn_3_1, btn_3_2, btn_3_3, btn_3_4;
     private Button btn_next;
+    private boolean filter1_flag[] = {false, false, false, false, false};
+    private String filter1_keyword[] = {"Families", "Seniors", "disabilities", "Single", "Couples"};
+    private boolean filter2_flag[] = {false, false, false, false};
+    private String filter2_keyword[] = {"Studio", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 bedrooms"};
+    private boolean filter3_flag[] = {false, false, false, false};
+//    private String filter3_keyword[] = {"", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 bedrooms"};
     final private int color_unselected = 0xFF72C5CA;
     final private int color_selected = 0xFFAABD58;
-    final private String keyword0 = "empty";
-    final private String keyword_no = "no";
-    final private String keyword1_1 = "families with children";
-    final private String keyword2_1 = "seniors";
-    final private String keyword2_2 = "(65+)";
-    final private String keyword3_1 = "couples";
-    final private String keyword3_2 = "singles";
-    final private String keyword4_1 = "disabilities";
-    private String keywords[] = new String[4];
 
     View view;
     @Override
@@ -45,123 +41,187 @@ public class Filter extends Fragment implements View.OnClickListener {
     }
 
     private void init() {
-        btn_q1_1 = view.findViewById(R.id.btn_q1_1);
-        btn_q1_2 = view.findViewById(R.id.btn_q1_2);
-        btn_q1_3 = view.findViewById(R.id.btn_q1_3);
-        btn_q2_2 = view.findViewById(R.id.btn_q2_2);
-        btn_q2_3 = view.findViewById(R.id.btn_q2_3);
-        btn_q2_4 = view.findViewById(R.id.btn_q2_4);
-        btn_q3_1 = view.findViewById(R.id.btn_q3_1);
-        btn_q3_2 = view.findViewById(R.id.btn_q3_2);
-        btn_q3_3 = view.findViewById(R.id.btn_q3_3);
-        btn_q4_1 = view.findViewById(R.id.btn_q4_1);
-        btn_q4_2 = view.findViewById(R.id.btn_q4_2);
-        btn_q4_3 = view.findViewById(R.id.btn_q4_3);
+        btn_1_1 = view.findViewById(R.id.btn_1_1);
+        btn_1_2 = view.findViewById(R.id.btn_1_2);
+        btn_1_3 = view.findViewById(R.id.btn_1_3);
+        btn_1_4 = view.findViewById(R.id.btn_1_4);
+        btn_1_5 = view.findViewById(R.id.btn_1_5);
+        btn_2_1 = view.findViewById(R.id.btn_2_1);
+        btn_2_2 = view.findViewById(R.id.btn_2_2);
+        btn_2_3 = view.findViewById(R.id.btn_2_3);
+        btn_2_4 = view.findViewById(R.id.btn_2_4);
+        btn_3_1 = view.findViewById(R.id.btn_3_1);
+        btn_3_2 = view.findViewById(R.id.btn_3_2);
+        btn_3_3 = view.findViewById(R.id.btn_3_3);
+        btn_3_4 = view.findViewById(R.id.btn_3_4);
         btn_next = view.findViewById(R.id.btn_next);
-        for (int i = 0; i < 4; i++) {
-            keywords[i] = keyword0;
-        }
-        btn_q1_1.setOnClickListener(this);
-        btn_q1_2.setOnClickListener(this);
-        btn_q1_3.setOnClickListener(this);
-        btn_q2_2.setOnClickListener(this);
-        btn_q2_3.setOnClickListener(this);
-        btn_q2_4.setOnClickListener(this);
-        btn_q3_1.setOnClickListener(this);
-        btn_q3_2.setOnClickListener(this);
-        btn_q3_3.setOnClickListener(this);
-        btn_q4_1.setOnClickListener(this);
-        btn_q4_2.setOnClickListener(this);
-        btn_q4_3.setOnClickListener(this);
+        btn_1_1.setOnClickListener(this);
+        btn_1_2.setOnClickListener(this);
+        btn_1_3.setOnClickListener(this);
+        btn_1_4.setOnClickListener(this);
+        btn_1_5.setOnClickListener(this);
+        btn_2_1.setOnClickListener(this);
+        btn_2_2.setOnClickListener(this);
+        btn_2_3.setOnClickListener(this);
+        btn_2_4.setOnClickListener(this);
+        btn_3_1.setOnClickListener(this);
+        btn_3_2.setOnClickListener(this);
+        btn_3_3.setOnClickListener(this);
+        btn_3_4.setOnClickListener(this);
         btn_next.setOnClickListener(this);
     }
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_q1_1:
-                btn_q1_1.setBackgroundColor(color_selected);
-                btn_q1_2.setBackgroundColor(color_unselected);
-                btn_q1_3.setBackgroundColor(color_unselected);
-                keywords[0] = keyword1_1;
+            case R.id.btn_1_1:
+                if (filter1_flag[0]) {
+                    btn_1_1.setBackgroundColor(color_unselected);
+                    filter1_flag[0] = false;
+                } else {
+                    btn_1_1.setBackgroundColor(color_selected);
+                    filter1_flag[0] = true;
+                }
                 break;
-            case R.id.btn_q1_2:
-                btn_q1_1.setBackgroundColor(color_unselected);
-                btn_q1_2.setBackgroundColor(color_selected);
-                btn_q1_3.setBackgroundColor(color_unselected);
-                keywords[0] = keyword0;
+            case R.id.btn_1_2:
+                if (filter1_flag[1]) {
+                    btn_1_2.setBackgroundColor(color_unselected);
+                    filter1_flag[1] = false;
+                } else {
+                    btn_1_2.setBackgroundColor(color_selected);
+                    filter1_flag[1] = true;
+                }
                 break;
-            case R.id.btn_q1_3:
-                btn_q1_1.setBackgroundColor(color_unselected);
-                btn_q1_2.setBackgroundColor(color_unselected);
-                btn_q1_3.setBackgroundColor(color_selected);
-                keywords[0] = keyword_no;
+            case R.id.btn_1_3:
+                if (filter1_flag[2]) {
+                    btn_1_3.setBackgroundColor(color_unselected);
+                    filter1_flag[2] = false;
+                } else {
+                    btn_1_3.setBackgroundColor(color_selected);
+                    filter1_flag[2] = true;
+                }
                 break;
-            case R.id.btn_q2_2:
-                btn_q2_2.setBackgroundColor(color_selected);
-                btn_q2_3.setBackgroundColor(color_unselected);
-                btn_q2_4.setBackgroundColor(color_unselected);
-                keywords[1] = keyword_no;
+            case R.id.btn_1_4:
+                if (filter1_flag[3]) {
+                    btn_1_4.setBackgroundColor(color_unselected);
+                    filter1_flag[3] = false;
+                } else {
+                    btn_1_4.setBackgroundColor(color_selected);
+                    filter1_flag[3] = true;
+                }
                 break;
-            case R.id.btn_q2_3:
-                btn_q2_2.setBackgroundColor(color_unselected);
-                btn_q2_3.setBackgroundColor(color_selected);
-                btn_q2_4.setBackgroundColor(color_unselected);
-                keywords[1] = keyword2_1;
+            case R.id.btn_1_5:
+                if (filter1_flag[4]) {
+                    btn_1_5.setBackgroundColor(color_unselected);
+                    filter1_flag[4] = false;
+                } else {
+                    btn_1_5.setBackgroundColor(color_selected);
+                    filter1_flag[4] = true;
+                }
                 break;
-            case R.id.btn_q2_4:
-                btn_q2_2.setBackgroundColor(color_unselected);
-                btn_q2_3.setBackgroundColor(color_unselected);
-                btn_q2_4.setBackgroundColor(color_selected);
-                keywords[1] = keyword2_2;
+            case R.id.btn_2_1:
+                if (filter2_flag[0]) {
+                    btn_2_1.setBackgroundColor(color_unselected);
+                    filter2_flag[0] = false;
+                } else {
+                    btn_2_1.setBackgroundColor(color_selected);
+                    filter2_flag[0] = true;
+                }
                 break;
-            case R.id.btn_q3_1:
-                btn_q3_1.setBackgroundColor(color_selected);
-                btn_q3_2.setBackgroundColor(color_unselected);
-                btn_q3_3.setBackgroundColor(color_unselected);
-                keywords[2] = keyword3_1;
+            case R.id.btn_2_2:
+                if (filter2_flag[1]) {
+                    btn_2_2.setBackgroundColor(color_unselected);
+                    filter2_flag[1] = false;
+                } else {
+                    btn_2_2.setBackgroundColor(color_selected);
+                    filter2_flag[1] = true;
+                }
                 break;
-            case R.id.btn_q3_2:
-                btn_q3_1.setBackgroundColor(color_unselected);
-                btn_q3_2.setBackgroundColor(color_selected);
-                btn_q3_3.setBackgroundColor(color_unselected);
-                keywords[2] = keyword0;
+            case R.id.btn_2_3:
+                if (filter2_flag[2]) {
+                    btn_2_3.setBackgroundColor(color_unselected);
+                    filter2_flag[2] = false;
+                } else {
+                    btn_2_3.setBackgroundColor(color_selected);
+                    filter2_flag[2] = true;
+                }
                 break;
-            case R.id.btn_q3_3:
-                btn_q3_1.setBackgroundColor(color_unselected);
-                btn_q3_2.setBackgroundColor(color_unselected);
-                btn_q3_3.setBackgroundColor(color_selected);
-                keywords[2] = keyword3_2;
+            case R.id.btn_2_4:
+                if (filter2_flag[3]) {
+                    btn_2_4.setBackgroundColor(color_unselected);
+                    filter2_flag[3] = false;
+                } else {
+                    btn_2_4.setBackgroundColor(color_selected);
+                    filter2_flag[3] = true;
+                }
                 break;
-            case R.id.btn_q4_1:
-                btn_q4_1.setBackgroundColor(color_selected);
-                btn_q4_2.setBackgroundColor(color_unselected);
-                btn_q4_3.setBackgroundColor(color_unselected);
-                keywords[3] = keyword4_1;
+            case R.id.btn_3_1:
+                if (filter3_flag[0]) {
+                    btn_3_1.setBackgroundColor(color_unselected);
+                    filter3_flag[0] = false;
+                } else {
+                    btn_3_1.setBackgroundColor(color_selected);
+                    filter3_flag[0] = true;
+                }
                 break;
-            case R.id.btn_q4_2:
-                btn_q4_1.setBackgroundColor(color_unselected);
-                btn_q4_2.setBackgroundColor(color_selected);
-                btn_q4_3.setBackgroundColor(color_unselected);
-                keywords[3] = keyword0;
+            case R.id.btn_3_2:
+                if (filter3_flag[1]) {
+                    btn_3_2.setBackgroundColor(color_unselected);
+                    filter3_flag[1] = false;
+                } else {
+                    btn_3_2.setBackgroundColor(color_selected);
+                    filter3_flag[1] = true;
+                }
                 break;
-            case R.id.btn_q4_3:
-                btn_q4_1.setBackgroundColor(color_unselected);
-                btn_q4_2.setBackgroundColor(color_unselected);
-                btn_q4_3.setBackgroundColor(color_selected);
-                keywords[3] = keyword_no;
+            case R.id.btn_3_3:
+                if (filter3_flag[2]) {
+                    btn_3_3.setBackgroundColor(color_unselected);
+                    filter3_flag[2] = false;
+                } else {
+                    btn_3_3.setBackgroundColor(color_selected);
+                    filter3_flag[2] = true;
+                }
+                break;
+            case R.id.btn_3_4:
+                if (filter3_flag[3]) {
+                    btn_3_4.setBackgroundColor(color_unselected);
+                    filter3_flag[3] = false;
+                } else {
+                    btn_3_4.setBackgroundColor(color_selected);
+                    filter3_flag[3] = true;
+                }
                 break;
             case R.id.btn_next:
                 ArrayList<Place> alllist = mainActivity.getList();
                 ArrayList<Place> list = new ArrayList<Place>();
-                if (keywords[0] == keyword0 && keywords[1] == keyword0 && keywords[2] == keyword0 && keywords[3] == keyword0) {
-                    list = alllist;
-                } else {
-                    for (Place house : alllist) {
-                        if (house.getDescription().contains(keywords[0]) || house.getDescription().contains(keywords[1])
-                                || house.getDescription().contains(keywords[2]) || house.getDescription().contains(keywords[3])
-                                || house.getDescription().contains("all household types")) {
-                            list.add(house);
+                for (Place place : alllist) {
+                    boolean suitable1 = true;
+                    boolean suitable2 = false;
+                    for (int i = 0; i < filter1_flag.length; i++) {
+                        if (filter1_flag[i]) {
+                            if (! place.getEligible().contains(filter1_keyword[i])) {
+                                suitable1 = false;
+                                continue;
+                            }
                         }
+                    }
+                    if (! (filter2_flag[0] || filter2_flag[0] || filter2_flag[0] || filter2_flag[0])) {
+                        suitable2 = true;
+                    }
+                    for (int i = 0; i < filter2_flag.length; i++) {
+                        if (filter2_flag[i]) {
+                            if (place.getTypeUnits().contains(filter2_keyword[i])) {
+                                suitable2 = true;
+                                continue;
+                            }
+                        }
+                    }
+                    if (filter2_flag[3]) {
+                        if (place.getTypeUnits().contains(filter2_keyword[4])) {
+                            suitable2 = true;
+                        }
+                    }
+                    if (suitable1 && suitable2) {
+                        list.add(place);
                     }
                 }
                 mainActivity.set_filtered_house(list);
@@ -173,6 +233,7 @@ public class Filter extends Fragment implements View.OnClickListener {
                     mainActivity.setTitle("House list");
                     mainActivity.set_item_check(1);
                 }
+                break;
             default:
                 break;
         }

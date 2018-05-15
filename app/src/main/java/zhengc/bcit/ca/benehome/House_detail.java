@@ -1,5 +1,6 @@
 package zhengc.bcit.ca.benehome;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -37,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class House_detail extends Fragment {
     Place selectedHouse;
@@ -64,11 +66,16 @@ public class House_detail extends Fragment {
         super.onCreate(savedInstanceState);
         mainActivity = (MainActivity) getActivity();
     }
+    @SuppressLint("ClickableViewAccessibility")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.activity_hose_detail,null);
         // set up
 
+        //TODO: HashMap<String,String> hm = selectedHouse.getUrl();
+        //      hm.get("a");.. b, c
+
         selectedHouse = (Place) getArguments().getSerializable("house");
+
         switcher = view.findViewById(R.id.imageSwitcher);
 
         switcher.setFactory(new ViewSwitcher.ViewFactory() {
@@ -76,62 +83,76 @@ public class House_detail extends Fragment {
             public View makeView() {
                 ImageView imageView = new ImageView(mainActivity);
                 imageView.setLayoutParams(new ImageSwitcher.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//                imageView.setImageURI(Uri.parse(selectedHouse.getUrl().get("a")))
                 return imageView;
             }
         });
 
 
-        switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));//initialize the first view of the image switcher
+
+//        switcher.setImageURI(Uri.parse(selectedHouse.getUrl().get("a")));//initialize the first view of the image switcher
+
+        switcher.setImageResource(images[0]);
+
 
 
         switcher.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:{
+                    case MotionEvent.ACTION_DOWN: {
+
                         //finger press on
+
                         downX = event.getX();
                         break;
                     }
-                    case MotionEvent.ACTION_UP:{
+                    case MotionEvent.ACTION_UP: {
                         float lastX = event.getX();
+
                         //swipe right or left
-                        if(lastX > downX){
+                        if (lastX > downX) {
                             switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_in_left));//set in animition
                             switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_out_right));//set out animition
-                            if(currentPosition > 0){
-                                currentPosition --;
-                                switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));
-//                                switcher.setImageResource(images[currentPosition % images.length]);
 
-                            }else{
-                                currentPosition = 2;
-                                switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));
-//                                switcher.setImageResource(images[currentPosition % images.length]);
+
+                            if (lastX > downX) {
+                                switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_in_left));
+                                switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_out_right));
+
+                                if (currentPosition > 0) {
+                                    currentPosition--;
+//                                switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));
+                                switcher.setImageResource(images[currentPosition % images.length]);
+
+                                } else {
+                                    currentPosition = 2;
+//                                switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));
+                                switcher.setImageResource(images[currentPosition % images.length]);
 //                                Toast.makeText(mainActivity, "first page", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            if (lastX < downX) {
+                                switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity, R.anim.slide_in_right)); //reset in animition
+                                switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity, R.anim.slide_out_left)); // reset out animition
+                                if (currentPosition < images.length - 1) {
+
+                                    currentPosition++;
+                                    //                               switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));
+                                                                   switcher.setImageResource(images[currentPosition]);
+                                } else {
+                                    currentPosition = 0;
+                                    //                               switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));
+                                                                   switcher.setImageResource(images[currentPosition % images.length]);
+                                    //                               Toast.makeText(mainActivity, "last page", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
 
-                        if(lastX < downX){
-                            switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity,R.anim.slide_in_right)); //reset in animition
-                            switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity,R.anim.slide_out_left)); // reset out animition
-                            if(currentPosition < images.length - 1){
-
-                                currentPosition ++ ;
-                                switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));
- //                               switcher.setImageResource(images[currentPosition]);
-                            }else{
-                                currentPosition = 0;
-                                switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));
- //                               switcher.setImageResource(images[currentPosition % images.length]);
- //                               Toast.makeText(mainActivity, "last page", Toast.LENGTH_SHORT).show();
-                            }
-                        }
+                        break;
                     }
-
-                    break;
                 }
-
                 return true;
             }
         });
@@ -145,10 +166,7 @@ public class House_detail extends Fragment {
 
 
 
-//        setName();
-//        setLocation();
-//        setEligible();
-//        setHouseType();
+
 
 
 
@@ -171,13 +189,16 @@ public class House_detail extends Fragment {
 
         lv.setAdapter(new DetailAdapter(mainActivity, fillin, ii));
 
+
+
         /*contact*/
-        callHouse();
-        sendEmail();
-        setApply();
+//        callHouse();
+//        sendEmail();
+//        setApply();
 
         return view;
     }
+
 
 
 
@@ -245,30 +266,7 @@ public class House_detail extends Fragment {
 
     }
 
-//    private void setHouseType() {
-//        TextView houseType = view.findViewById(R.id.txt_HousingTypeContent);
-//        int idx = selectedHouse.getDescription().indexOf(".");
-//        String des = selectedHouse.getDescription().substring(0, idx + 1).toLowerCase();
-//        houseType.setText(des);
-//    }
-//
-//    private void setEligible() {
-//        TextView eliType = view.findViewById(R.id.txt_EligibleType);
-//        int idx = selectedHouse.getDescription().indexOf("ousing for");
-//        String houseFor = selectedHouse.getDescription().substring(idx + 11);
-//
-//        eliType.setText(houseFor);
-//    }
-//
-//    private void setName() {
-//        TextView txtName = view.findViewById(R.id.txtTitle_HoseName);
-//        txtName.setText(selectedHouse.getName());
-//    }
-//
-//    private void setLocation() {
-//        TextView txtLocation = view.findViewById(R.id.txt_location_detail);
-//        txtLocation.setText(selectedHouse.getLocation());
-//    }
+
 
 //    @Override
 //    public boolean onTouch(View v, MotionEvent event) {
