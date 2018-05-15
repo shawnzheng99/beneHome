@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +19,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
@@ -33,6 +35,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class House_detail extends Fragment {
@@ -47,7 +50,14 @@ public class House_detail extends Fragment {
     private  int columnIndex, position = 0;
     private int currentPosition = 0;
     private float downX;
+
+
     int [] images = {R.drawable.slide1,R.drawable.slide2,R.drawable.slide3};
+
+    ArrayList<String> fillin = new ArrayList<String>();
+
+    ListView lv;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +80,8 @@ public class House_detail extends Fragment {
             }
         });
 
-        switcher.setImageResource(images[0]);//初始化时显示，必须放在工厂后面，否则会报NullPointerException
+
+        switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));//initialize the first view of the image switcher
 
 
         switcher.setOnTouchListener(new View.OnTouchListener() {
@@ -78,39 +89,41 @@ public class House_detail extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:{
-                        //手指按下的X坐标
+                        //finger press on
                         downX = event.getX();
                         break;
                     }
                     case MotionEvent.ACTION_UP:{
                         float lastX = event.getX();
-                        //抬起的时候的X坐标大于按下的时候就显示上一张图片
+                        //swipe right or left
                         if(lastX > downX){
-                            switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_in_left));//设置动画
-                            switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_out_right));//设置动画
+                            switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_in_left));//set in animition
+                            switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_out_right));//set out animition
                             if(currentPosition > 0){
-                                //设置动画，这里的动画比较简单，不明白的去网上看看相关内容
                                 currentPosition --;
-
-                                switcher.setImageResource(images[currentPosition % images.length]);
+                                switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));
+//                                switcher.setImageResource(images[currentPosition % images.length]);
 
                             }else{
                                 currentPosition = 2;
-                                switcher.setImageResource(images[currentPosition % images.length]);
+                                switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));
+//                                switcher.setImageResource(images[currentPosition % images.length]);
 //                                Toast.makeText(mainActivity, "first page", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         if(lastX < downX){
-                            switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity,R.anim.slide_in_right));
-                            switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity,R.anim.slide_out_left));
+                            switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity,R.anim.slide_in_right)); //reset in animition
+                            switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity,R.anim.slide_out_left)); // reset out animition
                             if(currentPosition < images.length - 1){
 
                                 currentPosition ++ ;
-                                switcher.setImageResource(images[currentPosition]);
+                                switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));
+ //                               switcher.setImageResource(images[currentPosition]);
                             }else{
                                 currentPosition = 0;
-                                switcher.setImageResource(images[currentPosition % images.length]);
+                                switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));
+ //                               switcher.setImageResource(images[currentPosition % images.length]);
  //                               Toast.makeText(mainActivity, "last page", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -130,10 +143,33 @@ public class House_detail extends Fragment {
 
 //        Picasso.get().load(selectedHouse.getUrl()).fit().centerCrop().into(imageView);
 
-        setName();
-        setLocation();
-        setEligible();
-        setHouseType();
+
+
+//        setName();
+//        setLocation();
+//        setEligible();
+//        setHouseType();
+
+
+
+            int idx = selectedHouse.getDescription().indexOf(".");
+            String des = selectedHouse.getDescription().substring(0, idx + 1).toLowerCase();
+            fillin.add(des);
+
+            int idy = selectedHouse.getDescription().indexOf("ousing for");
+            String houseFor = selectedHouse.getDescription().substring(idy + 11);
+
+            fillin.add(houseFor);
+
+            fillin.add(selectedHouse.getName());
+
+            fillin.add(selectedHouse.getLocation());
+
+            int [] ii = {R.drawable.ic_menu_send, R.drawable.ic_menu_share, R.drawable.ic_drawer, R.drawable.ic_filter_list_black_24dp};
+
+        lv = view.findViewById(R.id.androidList);
+
+        lv.setAdapter(new DetailAdapter(mainActivity, fillin, ii));
 
         /*contact*/
         callHouse();
@@ -209,30 +245,30 @@ public class House_detail extends Fragment {
 
     }
 
-    private void setHouseType() {
-        TextView houseType = view.findViewById(R.id.txt_HousingTypeContent);
-        int idx = selectedHouse.getDescription().indexOf(".");
-        String des = selectedHouse.getDescription().substring(0, idx + 1).toLowerCase();
-        houseType.setText(des);
-    }
-
-    private void setEligible() {
-        TextView eliType = view.findViewById(R.id.txt_EligibleType);
-        int idx = selectedHouse.getDescription().indexOf("ousing for");
-        String houseFor = selectedHouse.getDescription().substring(idx + 11);
-
-        eliType.setText(houseFor);
-    }
-
-    private void setName() {
-        TextView txtName = view.findViewById(R.id.txtTitle_HoseName);
-        txtName.setText(selectedHouse.getName());
-    }
-
-    private void setLocation() {
-        TextView txtLocation = view.findViewById(R.id.txt_location_detail);
-        txtLocation.setText(selectedHouse.getLocation());
-    }
+//    private void setHouseType() {
+//        TextView houseType = view.findViewById(R.id.txt_HousingTypeContent);
+//        int idx = selectedHouse.getDescription().indexOf(".");
+//        String des = selectedHouse.getDescription().substring(0, idx + 1).toLowerCase();
+//        houseType.setText(des);
+//    }
+//
+//    private void setEligible() {
+//        TextView eliType = view.findViewById(R.id.txt_EligibleType);
+//        int idx = selectedHouse.getDescription().indexOf("ousing for");
+//        String houseFor = selectedHouse.getDescription().substring(idx + 11);
+//
+//        eliType.setText(houseFor);
+//    }
+//
+//    private void setName() {
+//        TextView txtName = view.findViewById(R.id.txtTitle_HoseName);
+//        txtName.setText(selectedHouse.getName());
+//    }
+//
+//    private void setLocation() {
+//        TextView txtLocation = view.findViewById(R.id.txt_location_detail);
+//        txtLocation.setText(selectedHouse.getLocation());
+//    }
 
 //    @Override
 //    public boolean onTouch(View v, MotionEvent event) {

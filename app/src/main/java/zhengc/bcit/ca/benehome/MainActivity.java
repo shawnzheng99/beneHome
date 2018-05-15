@@ -1,6 +1,7 @@
 package zhengc.bcit.ca.benehome;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -29,6 +30,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -378,6 +381,47 @@ public class MainActivity extends AppCompatActivity
         mMap = googleMap;
         mMap.clear();
 
+        // Instantiates a new Polygon object and adds points to define a rectangle
+        PolygonOptions rectOptions = new PolygonOptions()
+                .add(
+                        new LatLng(49.197187935537194, -122.95337464295908  ),
+                        new LatLng( 49.198731080205214,-122.95059974403983  ),
+                        new LatLng( 49.19909491021949,-122.9499043415938 ),
+                        new LatLng( 49.1992436980587,-122.9494616930328 ),
+                        new LatLng( 49.19945459291779,-122.94840570085132 ),
+                        new LatLng( 49.19958141693029,-122.94758483947474 ),
+                        new LatLng( 49.199701559344895,-122.94707035826414),
+                        new LatLng( 49.200077968663834,-122.94590671276111 ),
+                        new LatLng( 49.20017093380553,-122.94538849311321 ),
+                        new LatLng( 49.20016518180846,-122.94489910004675 ),
+                        new LatLng( 49.20062876588758,-122.94551762215255 ),
+                        new LatLng( 49.20100528235115,-122.9460197460542 ),
+                        new LatLng( 49.20579536419638,-122.95203976980233 ),
+                        new LatLng( 49.205674499304216,-122.95242624507755 ),
+                        new LatLng( 49.20524154312592,-122.95322248078203 ),
+                        new LatLng( 49.20489553380344,-122.95368716921013 ),
+                        new LatLng( 49.204066157258524,-122.95516436176167 ),
+                        new LatLng( 49.20371120098451,-122.95581469938618 ),
+                        new LatLng( 49.20307331107445,-122.95697116730695 ),
+                        new LatLng( 49.20285160172769,-122.95739967936753 ),
+                        new LatLng( 49.20213789581101,-122.95870078076672 ),
+                        new LatLng( 49.20142175310843,-122.95996246359555 ),
+                        new LatLng( 49.20048727127685,-122.9587507581231 ),
+                        new LatLng( 49.19988211605632,-122.95790294658659 ),
+                        new LatLng( 49.19861152785573,-122.95631288497802 ),
+                        new LatLng( 49.1981841028523,-122.95571595090823 ),
+                        new LatLng( 49.19763099255786,-122.95514076596706 ),
+                        new LatLng( 49.19715749995816,-122.95452228743464 ),
+                        new LatLng( 49.197187935537194,-122.95337464295908 ))
+                .strokeWidth(10)
+                .strokeColor(Color.RED)
+                .fillColor(Color.BLUE);
+
+// Get back the mutable Polygon
+        Polygon polygon = mMap.addPolygon(rectOptions);
+
+        polygon.setVisible(true);
+
         /*------------Marker-------------------*/
         for (int i = 0; i < markers.size(); ++i) {
             LatLng temp = new LatLng(Double.parseDouble(markers.get(i).getY()),Double.parseDouble(markers.get(i).getX()));
@@ -425,6 +469,8 @@ public class MainActivity extends AppCompatActivity
         });
         mMap.getUiSettings().setZoomGesturesEnabled(true);
         zoomToMarker(markers);
+
+
 
     }
     public void zoomToMarker(ArrayList<Place> markers) {
@@ -519,7 +565,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         TextView t = findViewById(R.id.name);
-        t.setText(house.getName());
+        t.setText("House Detail");
         Bundle data = new Bundle();
         data.putSerializable("house",house);
         fragment.setArguments(data);
