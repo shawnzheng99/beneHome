@@ -19,8 +19,11 @@ public class Filter extends Fragment implements View.OnClickListener {
     private Button btn_3_1, btn_3_2, btn_3_3, btn_3_4;
     private Button btn_next;
     private boolean filter1_flag[] = {false, false, false, false, false};
+    private String filter1_keyword[] = {"Families", "Seniors", "disabilities", "Single", "Couples"};
     private boolean filter2_flag[] = {false, false, false, false};
+    private String filter2_keyword[] = {"Studio", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 bedrooms"};
     private boolean filter3_flag[] = {false, false, false, false};
+//    private String filter3_keyword[] = {"", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 bedrooms"};
     final private int color_unselected = 0xFF72C5CA;
     final private int color_selected = 0xFFAABD58;
 
@@ -190,9 +193,37 @@ public class Filter extends Fragment implements View.OnClickListener {
             case R.id.btn_next:
                 ArrayList<Place> alllist = mainActivity.getList();
                 ArrayList<Place> list = new ArrayList<Place>();
-
-
-
+                for (Place place : alllist) {
+                    boolean suitable1 = true;
+                    boolean suitable2 = false;
+                    for (int i = 0; i < filter1_flag.length; i++) {
+                        if (filter1_flag[i]) {
+                            if (! place.getEligible().contains(filter1_keyword[i])) {
+                                suitable1 = false;
+                                continue;
+                            }
+                        }
+                    }
+                    if (! (filter2_flag[0] || filter2_flag[0] || filter2_flag[0] || filter2_flag[0])) {
+                        suitable2 = true;
+                    }
+                    for (int i = 0; i < filter2_flag.length; i++) {
+                        if (filter2_flag[i]) {
+                            if (place.getTypeUnits().contains(filter2_keyword[i])) {
+                                suitable2 = true;
+                                continue;
+                            }
+                        }
+                    }
+                    if (filter2_flag[3]) {
+                        if (place.getTypeUnits().contains(filter2_keyword[4])) {
+                            suitable2 = true;
+                        }
+                    }
+                    if (suitable1 && suitable2) {
+                        list.add(place);
+                    }
+                }
                 mainActivity.set_filtered_house(list);
                 if(mainActivity.check_map_is_display_background()){
                     mainActivity.displaymap(list);
@@ -202,6 +233,7 @@ public class Filter extends Fragment implements View.OnClickListener {
                     mainActivity.setTitle("House list");
                     mainActivity.set_item_check(1);
                 }
+                break;
             default:
                 break;
         }
