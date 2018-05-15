@@ -1,5 +1,6 @@
 package zhengc.bcit.ca.benehome;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
@@ -13,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -196,11 +198,18 @@ public class MainActivity extends AppCompatActivity
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
         if(!isConnected){
-            getSupportFragmentManager().beginTransaction().
-                    setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
-                    replace(R.id.container, new EmptyActivity()).
-                    addToBackStack(null).
-                    commitAllowingStateLoss();
+            AlertDialog.Builder alertChk = new AlertDialog.Builder(this);
+            alertChk.setTitle("No internet connections")
+                    .setMessage("Please check your internet connections")
+                    .setCancelable(false)
+                    .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // do nothing
+                }
+            });
+            AlertDialog alertDialog = alertChk.create();
+            alertDialog.show();
+
         }else{
             new Thread(new Runnable(){
                 @Override
