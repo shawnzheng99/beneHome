@@ -62,7 +62,7 @@
         <activity
             android:name=".UserGuide"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".Filter"></activity>
+        <!--<activity android:name=".Filter"></activity>-->
     </application>
 
 </manifest>

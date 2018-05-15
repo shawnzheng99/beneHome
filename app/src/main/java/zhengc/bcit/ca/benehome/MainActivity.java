@@ -1,4 +1,5 @@
 package zhengc.bcit.ca.benehome;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -26,6 +27,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -37,8 +42,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity
@@ -90,9 +105,10 @@ public class MainActivity extends AppCompatActivity
         user = mAuth.getCurrentUser();
         if (user == null) {
             signInAnonymously();
-        } else {
-            Toast.makeText(this,"Loading",Toast.LENGTH_LONG).show();
         }
+//        } else {
+//            Toast.makeText(this,"Loading",Toast.LENGTH_LONG).show();
+//        }
 
 
         filtered_house = new ArrayList<>();
@@ -181,7 +197,6 @@ public class MainActivity extends AppCompatActivity
 
         }).start();
         set_item_check(1);
-
     }
 /*-------------------------------------------------oncreate end-----------------------------------------------*/
     private void signInAnonymously() {
@@ -363,6 +378,7 @@ public class MainActivity extends AppCompatActivity
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
         mMap.clear();
+        read_neigh(mMap);
 
         /*------------Marker-------------------*/
         for (int i = 0; i < markers.size(); ++i) {
@@ -546,5 +562,71 @@ public class MainActivity extends AppCompatActivity
             }
         }
         this.setTitle("Filter");
+    }
+
+    public void read_neigh(GoogleMap googleMap){
+        //ArrayList<HashMap<String,ArrayList<LatLng>>> arealist = new ArrayList<>();
+        ArrayList<LatLng> points;
+        HashMap<String,ArrayList<LatLng>> area = new HashMap<>();
+        try {
+            JSONObject obj = new JSONObject(loadJSONFromAsset(this));
+            JSONArray jsonarray = obj.getJSONArray("features");
+            Log.e(TAG,"json array"+jsonarray.length());
+            for(int i = 0; i <jsonarray.length();i++){
+                JSONObject obj_inside = jsonarray.getJSONObject(i);
+
+                ArrayList<LatLng> x_y = new ArrayList<>();
+                String Name = obj_inside.getJSONObject("properties").getString("NEIGH_NAME");
+
+                JSONObject obj_area = obj_inside.getJSONObject("geometry");
+                JSONArray coordinate_array = obj_area.getJSONArray("coordinates").getJSONArray(0);
+               // for(int j = 0; j<coordinate_array.length();j++){
+
+                    //x_y.add(new LatLng(coordinate_array.getDouble(1),coordinate_array.getDouble(0)));
+                //}
+//                Log.e(TAG,""+Name);
+//                Log.e(TAG,""+coordinate_array.length());
+                for(int n = 0; n<coordinate_array.length();n++){
+                    double x = coordinate_array.getJSONArray(n).getDouble(1);
+                    double y = coordinate_array.getJSONArray(n).getDouble(0);
+//                    Log.e(TAG,""+y);
+//                    Log.e(TAG,""+x);
+                   x_y.add(new LatLng(y,x));
+
+                }
+                area.put(Name,x_y);
+                //arealist.add(area);
+            }
+
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+        PolylineOptions myoption = new PolylineOptions();
+        myoption.clickable(true);
+        for(Map.Entry<String,ArrayList<LatLng>> entry: area.entrySet()){
+
+            PolygonOptions pO = new PolygonOptions();
+           for(LatLng coor : entry.getValue()){
+                pO.add(coor);
+           }
+            Polygon polyline1 = googleMap.addPolygon(pO);
+
+        }
+    }
+
+    public String loadJSONFromAsset(Context context) {
+        String json = null;
+        try {
+            InputStream is = context.getAssets().open("NEIGHBOURHOOD_BOUNDARIES.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
     }
 }
