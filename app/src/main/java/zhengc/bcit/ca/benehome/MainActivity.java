@@ -232,11 +232,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                getSupportFragmentManager().beginTransaction().
-                        setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
-                        replace(R.id.container, new EmptyActivity()).
-                        addToBackStack(null).
-                        commitAllowingStateLoss();
+
             }
         });
 
