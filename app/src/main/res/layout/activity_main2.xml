@@ -6,15 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
     tools:context=".Main2Activity">
+    <!--android:background="@color/colorPrimary"-->
 
     <ImageView
         android:id="@+id/imageView-logo"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:adjustViewBounds="true"
-        app:srcCompat="@color/colorPrimary" />
+        android:scaleType="fitXY"
+        android:src="@drawable/logo" />
+        <!--app:srcCompat="@color/colorPrimary" />-->
 
 
     <LinearLayout
