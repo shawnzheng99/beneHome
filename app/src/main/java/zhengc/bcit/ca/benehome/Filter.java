@@ -229,9 +229,15 @@ public class Filter extends Fragment implements View.OnClickListener {
                     mainActivity.displaymap(list);
                     mainActivity.set_item_check(2);
                 }else{
-                    mainActivity.show_pass(new House_list(),list,null);
-                    mainActivity.setTitle("House list");
-                    mainActivity.set_item_check(1);
+                    if(list.size() == 0){
+                        mainActivity.show_pass(new No_result_Activity(),null,null);
+                        mainActivity.setTitle("House list");
+                        mainActivity.set_item_check(1);
+                    }else{
+                        mainActivity.show_pass(new House_list(),list,null);
+                        mainActivity.setTitle("House list");
+                        mainActivity.set_item_check(1);
+                    }
                 }
                 break;
             default:
