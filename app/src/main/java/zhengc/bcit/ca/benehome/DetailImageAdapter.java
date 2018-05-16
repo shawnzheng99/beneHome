@@ -9,19 +9,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-public class ViewPagerAdpter extends PagerAdapter {
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
+public class DetailImageAdapter extends PagerAdapter {
 
     private Context context;
     private LayoutInflater layoutInflater;
-    private Integer [] images = {R.drawable.benehome1, R.drawable.benehome2, R.drawable.benehome3};
+    private ArrayList<String> images;
 
-    public ViewPagerAdpter (Context context) {
+    public DetailImageAdapter(Context context, ArrayList<String> al) {
         this.context = context;
+        this.images = al;
     }
 
     @Override
     public int getCount() {
-        return images.length;
+        return images.size();
     }
 
     @Override
@@ -32,9 +37,9 @@ public class ViewPagerAdpter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.image, null);
-        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
-        imageView.setImageResource(images[position]);
+        View view = layoutInflater.inflate(R.layout.detailimage, null);
+        ImageView imageView = (ImageView) view.findViewById(R.id.img_house);
+        Picasso.get().load((images.get(position))).fit().centerCrop().into(imageView);
 
         ViewPager vp = (ViewPager) container;
         vp.addView(view, 0);

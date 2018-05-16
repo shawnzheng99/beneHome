@@ -55,7 +55,7 @@ public class DetailAdapter extends BaseAdapter {
         }
         ImageView iv = (ImageView) vi.findViewById(R.id.appIconIV);
         TextView tv = (TextView) vi.findViewById(R.id.aNametxt);
-        iv.setImageResource(imageId[position]);
+        iv.setImageResource(imageId[position % 4]);
         tv.setText(fillin.get(position));
         return vi;
     }

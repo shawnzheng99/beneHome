@@ -16,7 +16,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="6dp"
         android:fillViewport="true"
-        android:scrollbarStyle="insideOverlay"
+        android:scrollbarStyle="insideOverlay">
+
+<!--
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -24,7 +26,7 @@
 
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
-
+-->
 
 
 
@@ -33,7 +35,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageSwitcher
+<!--            <ImageSwitcher
                 android:id="@+id/imageSwitcher"
                 android:layout_width="match_parent"
 
@@ -46,162 +48,175 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <!--        <ImageView
+        <ImageView
                     android:id="@+id/img_house"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/house_image"
                      />
-        -->
-            </ImageSwitcher>
 
-<!--
-=======
-                android:layout_height="200dp"
+            </ImageSwitcher>
+-->
+            <android.support.v4.view.ViewPager
+                android:id="@+id/mygallery"
+                android:layout_width="match_parent"
+                android:layout_height="219dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.481"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/img_house"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/house_image" />
+            <!--
+            =======
 
-            </ImageSwitcher>
+                            android:layout_height="200dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="8dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
->>>>>>> master
-            <TextView
-                android:id="@+id/txtTitle-HoseName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="24sp" />
+                            <ImageView
+                                android:id="@+id/img_house"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/house_image" />
 
+                        </ImageSwitcher>
 
-            <TextView
-                android:id="@+id/txtTitle-Location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/location"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/txt_location_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/boundary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Boundary"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/dis_boundary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/totalUnit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Total unit"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/dis_totalUnit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/type_unit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Type of Units"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/dis_unitType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/pet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Allow Pet"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/dis_pet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp" />
+            >>>>>>> master
+                        <TextView
+                            android:id="@+id/txtTitle-HoseName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="24sp" />
 
 
-            <TextView
-                android:id="@+id/txtTitle-EligibleClients"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/eligible_clients"
-                android:textSize="24sp" />
+                        <TextView
+                            android:id="@+id/txtTitle-Location"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/location"
+                            android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/txt-EligibleType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                        <TextView
+                            android:id="@+id/txt_location_detail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/School"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Schools around this house"
-                android:textSize="24sp" />
+                        <TextView
+                            android:id="@+id/boundary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Boundary"
+                            android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/dis_school_ele"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                        <TextView
+                            android:id="@+id/dis_boundary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/dis_school_sec"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                        <TextView
+                            android:id="@+id/totalUnit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Total unit"
+                            android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/dis_school_mid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                        <TextView
+                            android:id="@+id/dis_totalUnit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/txtTitle-HouseType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Description"
-                android:textSize="24sp" />
+                        <TextView
+                            android:id="@+id/type_unit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Type of Units"
+                            android:textSize="24sp" />
 
-            <TextView
-                android:id="@+id/txt-HousingTypeContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp" />
--->
+                        <TextView
+                            android:id="@+id/dis_unitType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/pet"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Allow Pet"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:id="@+id/dis_pet"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp" />
+
+
+                        <TextView
+                            android:id="@+id/txtTitle-EligibleClients"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/eligible_clients"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:id="@+id/txt-EligibleType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/School"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Schools around this house"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:id="@+id/dis_school_ele"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/dis_school_sec"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/dis_school_mid"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/txtTitle-HouseType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Description"
+                            android:textSize="24sp" />
+
+                        <TextView
+                            android:id="@+id/txt-HousingTypeContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp" />
+            -->
 
             <ListView
                 android:id="@+id/androidList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="900dp" />
 
             <Button
                 android:id="@+id/btn-applyNow"
