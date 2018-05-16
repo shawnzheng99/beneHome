@@ -212,21 +212,23 @@ public class MainActivity extends AppCompatActivity
             alertDialog.show();
 
         }else{
-            new Thread(new Runnable(){
-                @Override
-                public void run() {
-                    while(formlist.isEmpty()){
-                        try {
-                            sleep(1);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    show_pass(new House_list(),formlist,null);
-                }
-
-            }).start();
-            set_item_check(1);
+//            new Thread(new Runnable(){
+//                @Override
+//                public void run() {
+//                    while(formlist.isEmpty()){
+//                        try {
+//                            sleep(1);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    show_pass(new House_list(),formlist,null);
+//                }
+//
+//            }).start();
+//            set_item_check(1);
+            show_pass(new Main2Activity(),formlist,null);
+            set_item_check(0);
         }
     }
 
@@ -370,8 +372,8 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_filter) {
-            go_filter_by_check_list_map();
+        if (id == R.id.nav_Application_home) {
+            show_pass(new Main2Activity(),filtered_house,null);
         } else if (id == R.id.nav_houselist) {
             show_pass(new House_list(),filtered_house,null);
             hidemap();
@@ -595,11 +597,9 @@ public class MainActivity extends AppCompatActivity
             if(!mapFragment.getUserVisibleHint()){
                 filter_on_map = false;
                 this.setTitle("Filter");
-                set_item_check(0);
                 show_pass(new Filter(),null,null);
             }else{
                 show_pass(new Filter(),null,null);
-                set_item_check(0);
                 this.setTitle("Filter");
                 hidemap();
                 filter_on_map = true;

@@ -5,9 +5,9 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_filter"
-            android:icon="@drawable/ic_filter_list_black_24dp"
-            android:title="Filter" />
+            android:id="@+id/nav_Application_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Home" />
         <item
             android:id="@+id/nav_houselist"
             android:icon="@drawable/ic_home_black_24dp"
@@ -32,10 +32,6 @@
             android:id="@+id/nav_Application_guide"
             android:icon="@drawable/ic_application_black_24dp"
             android:title="Application Guide" />
-        <item
-            android:id="@+id/nav_Application_home"
-            android:icon="@drawable/ic_home_black_24dp"
-            android:title="Home" />
     </group>
 
 </menu>
