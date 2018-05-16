@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity
         formlist = new ArrayList<>();
         imageButton = findViewById(R.id.up_down_button);
         drawer = findViewById(R.id.drawer_layout);
-        f = getSupportFragmentManager ().findFragmentById(R.id.container);
+        f = get_current_fragment();
         /*--------initilazing firebase-----------*/
 
         //"https://benehome-f1049.firebaseio.com/"
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        f = getSupportFragmentManager ().findFragmentById(R.id.container);
+        f = get_current_fragment();
         if(mLayout.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN){
             mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
             return;
@@ -251,9 +251,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
     public void set_title(Fragment frag){
-        if(mapFragment.getUserVisibleHint()){
-            set_item_check(2);
-            this.setTitle("Map");
+        if(frag instanceof HomeActivity){
+            set_item_check(0);
+            this.setTitle("Home");
             return;
         }
         if(frag instanceof House_list){
@@ -261,36 +261,33 @@ public class MainActivity extends AppCompatActivity
             this.setTitle("House list");
             return;
         }
-        if(frag instanceof Eligible){
-            set_item_check(3);
-            this.setTitle("Eligible");
-            return;
-        }
-        if(frag instanceof FAQ){
-            set_item_check(4);
-            this.setTitle("FAQ");
-            return;
-        }
         if(frag instanceof About){
-            set_item_check(5);
+            set_item_check(3);
             this.setTitle("About");
             return;
         }
+        if(frag instanceof Eligible){
+            set_item_check(4);
+            this.setTitle("Eligible");
+            return;
+        }
         if(frag instanceof Application){
-            set_item_check(6);
+            set_item_check(5);
             this.setTitle("Application");
             return;
         }
+        if(frag instanceof FAQ){
+            set_item_check(6);
+            this.setTitle("FAQ");
+            return;
+        }
+
         if(frag instanceof Filter){
             set_item_check(0);
             this.setTitle("Filter");
             return;
         }
-        if(frag instanceof HomeActivity){
-            set_item_check(0);
-            this.setTitle("Home");
-            return;
-        }
+
         this.setTitle("BeneHome");
     }
     @Override
@@ -326,6 +323,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.nav_Application_home) {
             show_pass(new HomeActivity(),filtered_house,null);
+            hidemap();
         } else if (id == R.id.nav_houselist) {
             show_pass(new House_list(),filtered_house,null);
             hidemap();
@@ -487,6 +485,7 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().
                 setCustomAnimations(R.anim.slide_in_up,R.anim.pop_out,R.anim.pop_in,R.anim.pop_out).
                 show(mapFragment).commit();
+        set_item_check(2);
         this.setTitle("Map");
     }
     public void pass_to_map(Place house){
@@ -577,7 +576,7 @@ public class MainActivity extends AppCompatActivity
            return filter_on_map;
     }
     public void go_filter_by_check_list_map(){
-        f = getSupportFragmentManager ().findFragmentById(R.id.container);
+        f = get_current_fragment();
         if(f instanceof Filter){
             if(mapFragment.getUserVisibleHint()){
                 hidemap();
@@ -599,8 +598,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void show_neighborhood(GoogleMap googleMap){
-        //ArrayList<HashMap<String,ArrayList<LatLng>>> arealist = new ArrayList<>();
-        ArrayList<LatLng> points;
         HashMap<String,ArrayList<LatLng>> area = new HashMap<>();
         try {
             JSONObject obj = new JSONObject(loadJSONFromAsset(this));
@@ -614,22 +611,13 @@ public class MainActivity extends AppCompatActivity
 
                 JSONObject obj_area = obj_inside.getJSONObject("geometry");
                 JSONArray coordinate_array = obj_area.getJSONArray("coordinates").getJSONArray(0);
-               // for(int j = 0; j<coordinate_array.length();j++){
-
-                    //x_y.add(new LatLng(coordinate_array.getDouble(1),coordinate_array.getDouble(0)));
-                //}
-//                Log.e(TAG,""+Name);
-//                Log.e(TAG,""+coordinate_array.length());
                 for(int n = 0; n<coordinate_array.length();n++){
                     double x = coordinate_array.getJSONArray(n).getDouble(1);
                     double y = coordinate_array.getJSONArray(n).getDouble(0);
-//                    Log.e(TAG,""+y);
-//                    Log.e(TAG,""+x);
                    x_y.add(new LatLng(y,x));
 
                 }
                 area.put(Name,x_y);
-                //arealist.add(area);
             }
 
         }catch(JSONException e){
@@ -649,7 +637,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public String loadJSONFromAsset(Context context) {
-        String json = null;
+        String json;
         try {
             InputStream is = context.getAssets().open("NEIGHBOURHOOD_BOUNDARIES.json");
             int size = is.available();
@@ -675,23 +663,12 @@ public class MainActivity extends AppCompatActivity
         ConnectivityManager cm =
                 (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
+        assert cm != null;
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
         if(!isConnected){
-//            AlertDialog.Builder alertChk = new AlertDialog.Builder(this);
-//            alertChk.setTitle("No internet connections")
-//                    .setMessage("Please check your internet connections")
-//                    .setCancelable(false)
-//                    .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-//                public void onClick(DialogInterface dialog, int id) {
-//                    // do nothing
-//                }
-//            });
-//            AlertDialog alertDialog = alertChk.create();
-//            alertDialog.show();
             show_pass(new No_internet_Activity(),null,null);
-
         }else{
             new Thread(new Runnable(){
                 @Override
@@ -720,13 +697,13 @@ public class MainActivity extends AppCompatActivity
         ConnectivityManager cm =
                 (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
+        assert cm != null;
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
+        return activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
-        if(!isConnected){
-            return false;
-        }else{
-            return true;
-        }
+    }
+
+    public Fragment get_current_fragment(){
+        return getSupportFragmentManager().findFragmentById(R.id.container);
     }
 }
