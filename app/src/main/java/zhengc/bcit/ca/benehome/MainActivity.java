@@ -1,13 +1,12 @@
 package zhengc.bcit.ca.benehome;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -18,14 +17,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -36,25 +37,21 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.collection.LLRBNode;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -185,6 +182,7 @@ public class MainActivity extends AppCompatActivity
         //  getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
         hidemap();
         start_creat();
+
     }
 
 
@@ -294,7 +292,12 @@ public class MainActivity extends AppCompatActivity
             this.setTitle("Filter");
             return;
         }
-        setTitle("BeneHome");
+        if(frag instanceof Main2Activity){
+            set_item_check(7);
+            this.setTitle("Home");
+            return;
+        }
+        this.setTitle("BeneHome");
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -327,8 +330,8 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if (id == R.id.nav_filter) {
-            go_filter_by_check_list_map();
+        if (id == R.id.nav_Application_home) {
+            show_pass(new Main2Activity(),filtered_house,null);
         } else if (id == R.id.nav_houselist) {
             show_pass(new House_list(),filtered_house,null);
             hidemap();
@@ -357,6 +360,10 @@ public class MainActivity extends AppCompatActivity
            show_pass(new Application(),null,null);
            setTitle("Application Guide");
            hidemap();
+        } else if (id == R.id.nav_Application_home) {
+            show_pass(new Main2Activity(),null,null);
+            this.setTitle("Home");
+            hidemap();
         }
         hide_slide();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -386,6 +393,47 @@ public class MainActivity extends AppCompatActivity
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.clear();
         read_neigh(mMap);
+
+        // Instantiates a new Polygon object and adds points to define a rectangle
+        PolygonOptions rectOptions = new PolygonOptions()
+                .add(
+                        new LatLng(49.197187935537194, -122.95337464295908  ),
+                        new LatLng( 49.198731080205214,-122.95059974403983  ),
+                        new LatLng( 49.19909491021949,-122.9499043415938 ),
+                        new LatLng( 49.1992436980587,-122.9494616930328 ),
+                        new LatLng( 49.19945459291779,-122.94840570085132 ),
+                        new LatLng( 49.19958141693029,-122.94758483947474 ),
+                        new LatLng( 49.199701559344895,-122.94707035826414),
+                        new LatLng( 49.200077968663834,-122.94590671276111 ),
+                        new LatLng( 49.20017093380553,-122.94538849311321 ),
+                        new LatLng( 49.20016518180846,-122.94489910004675 ),
+                        new LatLng( 49.20062876588758,-122.94551762215255 ),
+                        new LatLng( 49.20100528235115,-122.9460197460542 ),
+                        new LatLng( 49.20579536419638,-122.95203976980233 ),
+                        new LatLng( 49.205674499304216,-122.95242624507755 ),
+                        new LatLng( 49.20524154312592,-122.95322248078203 ),
+                        new LatLng( 49.20489553380344,-122.95368716921013 ),
+                        new LatLng( 49.204066157258524,-122.95516436176167 ),
+                        new LatLng( 49.20371120098451,-122.95581469938618 ),
+                        new LatLng( 49.20307331107445,-122.95697116730695 ),
+                        new LatLng( 49.20285160172769,-122.95739967936753 ),
+                        new LatLng( 49.20213789581101,-122.95870078076672 ),
+                        new LatLng( 49.20142175310843,-122.95996246359555 ),
+                        new LatLng( 49.20048727127685,-122.9587507581231 ),
+                        new LatLng( 49.19988211605632,-122.95790294658659 ),
+                        new LatLng( 49.19861152785573,-122.95631288497802 ),
+                        new LatLng( 49.1981841028523,-122.95571595090823 ),
+                        new LatLng( 49.19763099255786,-122.95514076596706 ),
+                        new LatLng( 49.19715749995816,-122.95452228743464 ),
+                        new LatLng( 49.197187935537194,-122.95337464295908 ))
+                .strokeWidth(10)
+                .strokeColor(Color.RED)
+                .fillColor(Color.BLUE);
+
+// Get back the mutable Polygon
+        Polygon polygon = mMap.addPolygon(rectOptions);
+
+        polygon.setVisible(true);
 
         /*------------Marker-------------------*/
         for (int i = 0; i < markers.size(); ++i) {
@@ -443,6 +491,8 @@ public class MainActivity extends AppCompatActivity
         });
         mMap.getUiSettings().setZoomGesturesEnabled(true);
         zoomToMarker(markers);
+
+
 
     }
     public void zoomToMarker(ArrayList<Place> markers) {
@@ -553,7 +603,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         TextView t = findViewById(R.id.name);
-        t.setText(house.getName());
+        t.setText("House Detail");
         Bundle data = new Bundle();
         data.putSerializable("house",house);
         fragment.setArguments(data);
@@ -583,11 +633,9 @@ public class MainActivity extends AppCompatActivity
             if(!mapFragment.getUserVisibleHint()){
                 filter_on_map = false;
                 this.setTitle("Filter");
-                set_item_check(0);
                 show_pass(new Filter(),null,null);
             }else{
                 show_pass(new Filter(),null,null);
-                set_item_check(0);
                 this.setTitle("Filter");
                 hidemap();
                 filter_on_map = true;

@@ -64,12 +64,7 @@
             android:name=".UserGuide"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
-        <!-- <activity android:name=".Filter"></activity> -->
 
-        <activity android:name=".Main2Activity" />
-        <activity android:name=".EmptyActivity" />
-        <activity android:name=".No_internet_Activity" />
-        <activity android:name=".No_result_Activity"></activity>
     </application>
 
 </manifest>
