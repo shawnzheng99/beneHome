@@ -244,8 +244,6 @@ public class House_detail extends Fragment {
 
             fillin.add(selectedHouse.getPets());
 
-            fillin.add(selectedHouse.getWebsite());
-
             fillin.add(selectedHouse.getElementary());
 
             fillin.add(selectedHouse.getSecondary());
@@ -259,9 +257,9 @@ public class House_detail extends Fragment {
 
 
         /*contact*/
-//        callHouse();
-//        sendEmail();
-//        setApply();
+        callHouse();
+        sendEmail();
+        setApply();
 
         return view;
     }
@@ -271,7 +269,7 @@ public class House_detail extends Fragment {
 
     private void setApply() {
         Button apply = view.findViewById(R.id.btn_applyNow);
-        final Uri uri = Uri.parse(selectedHouse.getWebsite());
+        final Uri uri = Uri.parse("https://housingapplication.bchousing.org");
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
