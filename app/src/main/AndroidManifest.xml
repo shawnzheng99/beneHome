@@ -61,8 +61,6 @@
         <activity
             android:name=".UserGuide"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".Filter" />
-        <activity android:name=".Main2Activity"></activity>
     </application>
 
     <!--<meta-data android:name="design_width" android:value="1080"></meta-data>-->

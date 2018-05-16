@@ -1,6 +1,8 @@
 package zhengc.bcit.ca.benehome;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,10 +12,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -206,11 +211,11 @@ public class MainActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.wtf(TAG,"---------------onChange--------------");
                 formlist.clear();
-                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                    Place mPlace = messageSnapshot.getValue(Place.class);
-                    formlist.add(mPlace);
-                    filtered_house = formlist;
-                }
+//                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+//                    Place mPlace = messageSnapshot.getValue(Place.class);
+//                    formlist.add(mPlace);
+//                    filtered_house = formlist;
+//                }
             }
 
             @Override
@@ -285,6 +290,11 @@ public class MainActivity extends AppCompatActivity
             this.setTitle("Filter");
             return;
         }
+        if(frag instanceof Main2Activity){
+            set_item_check(7);
+            this.setTitle("Home");
+            return;
+        }
         this.setTitle("BeneHome");
     }
     @Override
@@ -344,6 +354,10 @@ public class MainActivity extends AppCompatActivity
            show_pass(new Application(),null,null);
            this.setTitle("Application Guide");
            hidemap();
+        } else if (id == R.id.nav_Application_home) {
+            show_pass(new Main2Activity(),null,null);
+            this.setTitle("Home");
+            hidemap();
         }
         hide_slide();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

@@ -32,6 +32,10 @@
             android:id="@+id/nav_Application_guide"
             android:icon="@drawable/ic_menu_manage"
             android:title="Application Guide" />
+        <item
+            android:id="@+id/nav_Application_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Home" />
     </group>
 
 </menu>
