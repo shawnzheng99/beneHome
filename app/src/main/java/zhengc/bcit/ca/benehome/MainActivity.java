@@ -255,11 +255,11 @@ public class MainActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.wtf(TAG,"---------------onChange--------------");
                 formlist.clear();
-//                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-//                    Place mPlace = messageSnapshot.getValue(Place.class);
-//                    formlist.add(mPlace);
-//                    filtered_house = formlist;
-//                }
+                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                    Place mPlace = messageSnapshot.getValue(Place.class);
+                    formlist.add(mPlace);
+                    filtered_house = formlist;
+                }
             }
 
             @Override
