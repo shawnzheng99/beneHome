@@ -63,7 +63,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:paddingLeft="10dp"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:gravity="center"/>
 
             <FrameLayout
                 android:id="@+id/house_detail_container"

@@ -3,14 +3,10 @@ package zhengc.bcit.ca.benehome;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,37 +15,39 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.storage.FileDownloadTask;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class House_detail extends Fragment {
     Place selectedHouse;
     View view;
     private MainActivity mainActivity;
 
-    ImageSwitcher switcher;
+//    ImageSwitcher switcher;
     ImageView imageView;
     float initialX;
     private Cursor cursor;
     private  int columnIndex, position = 0;
     private int currentPosition = 0;
     private float downX;
-    int [] images = {R.drawable.slide1,R.drawable.slide2,R.drawable.slide3};
+
+    private boolean isLastPage = false;
+    private boolean isDragPage = false;
+    private boolean canJumpPage = true;
+
+    ViewPager sliderLayout;
+
+//    int [] images = {R.drawable.slide1,R.drawable.slide2,R.drawable.slide3};
+
+    ArrayList<String> fillin = new ArrayList<String>();
+
+    ListView lv;
+
+    ArrayList<String> al;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,67 +64,147 @@ public class House_detail extends Fragment {
 
         selectedHouse = (Place) getArguments().getSerializable("house");
 
-        switcher = view.findViewById(R.id.imageSwitcher);
+//        switcher = view.findViewById(R.id.imageSwitcher);
 
-        switcher.setFactory(new ViewSwitcher.ViewFactory() {
+        sliderLayout = (ViewPager) view.findViewById(R.id.mygallery);
+
+        al = new ArrayList<String>();
+
+        for (String x : selectedHouse.getUrl().values()) {
+            al.add(x);
+        }
+
+        DetailImageAdapter dia = new DetailImageAdapter(mainActivity, al);
+
+        sliderLayout.setAdapter(dia);
+
+        sliderLayout.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            /**
+             * swipe
+             * @param position
+             * @param positionOffset   move offset, 0/1
+             * @param positionOffsetPixels   image move offset
+             */
             @Override
-            public View makeView() {
-                ImageView imageView = new ImageView(mainActivity);
-                imageView.setLayoutParams(new ImageSwitcher.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                return imageView;
-            }
-        });
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        switcher.setImageResource(images[0]);
-
-
-        switcher.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:{
-                        downX = event.getX();
-                        break;
+                if (isLastPage && isDragPage && positionOffsetPixels == 0){
+                    if (canJumpPage){
+                        canJumpPage = false;
+                        Toast.makeText(mainActivity, "last page", Toast.LENGTH_SHORT).show();
                     }
-                    case MotionEvent.ACTION_UP:{
-                        float lastX = event.getX();
-
-                        if(lastX > downX){
-                            switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_in_left));
-                            switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_out_right));
-                            if(currentPosition > 0){
-                                currentPosition --;
-
-                                switcher.setImageResource(images[currentPosition % images.length]);
-
-                            }else{
-                                currentPosition = 2;
-                                switcher.setImageResource(images[currentPosition % images.length]);
-//                                Toast.makeText(mainActivity, "first page", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        if(lastX < downX){
-                            switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity,R.anim.slide_in_right));
-                            switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity,R.anim.slide_out_left));
-                            if(currentPosition < images.length - 1){
-
-                                currentPosition ++ ;
-                                switcher.setImageResource(images[currentPosition]);
-                            }else{
-                                currentPosition = 0;
-                                switcher.setImageResource(images[currentPosition % images.length]);
- //                               Toast.makeText(mainActivity, "last page", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-
-                    break;
                 }
+            }
 
-                return true;
+            /**
+             * display effect between the three.
+             * @param position    the current page index
+             */
+            @Override
+            public void onPageSelected(int position) {
+                isLastPage = position == al.size() -1 ;
+
+
+
+            }
+
+            /**
+             * screen
+             * @param state   0（END）,1(PRESS) , 2(UP) 。
+             */
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+                isDragPage = state == 1;
+
             }
         });
+
+//        switcher.setFactory(new ViewSwitcher.ViewFactory() {
+//            @Override
+//            public View makeView() {
+//                ImageView imageView = new ImageView(mainActivity);
+//                imageView.setLayoutParams(new ImageSwitcher.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+////                imageView.setImageURI(Uri.parse(selectedHouse.getUrl().get("a")))
+//
+//                return imageView;
+//            }
+//        });
+//
+////        Bitmap tmpBitmap = null;
+////        try {
+////            InputStream is = new java.net.URL(selectedHouse.getUrl().get("a")).openStream();
+////            tmpBitmap = BitmapFactory.decodeStream(is);
+////            is.close();
+////        } catch (Exception e) {
+////            e.printStackTrace();
+////            Log.i("KK下载图片", e.getMessage());
+////        }
+//
+//        switcher.setImageResource(images[0]);
+//
+////        switcher.setImageURI(Uri.parse(selectedHouse.getUrl().get("a")));//initialize the first view of the image switcher
+//
+////        switcher.setImageURL(selectedHouse.getUrl().get("a"));
+//
+//
+//        switcher.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_DOWN: {
+//
+//                        //finger press on
+//
+//                        downX = event.getX();
+//                        break;
+//                    }
+//                    case MotionEvent.ACTION_UP: {
+//                        float lastX = event.getX();
+//
+//                        //swipe right or left
+//                        if (lastX > downX) {
+//                            switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_in_left));//set in animition
+//                            switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_out_right));//set out animition
+//
+//
+//                                if (currentPosition > 0) {
+//                                    currentPosition--;
+////                                switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));
+//                                switcher.setImageResource(images[currentPosition % images.length]);
+//
+//                                } else {
+//                                    currentPosition = 2;
+////                                switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));
+//                                switcher.setImageResource(images[currentPosition % images.length]);
+////                                Toast.makeText(mainActivity, "first page", Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//
+//                            if (lastX < downX) {
+//                                switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity, R.anim.slide_in_right)); //reset in animition
+//                                switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity, R.anim.slide_out_left)); // reset out animition
+//                                if (currentPosition < images.length - 1) {
+//
+//                                    currentPosition++;
+//                                    //                               switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));
+//                                                                   switcher.setImageResource(images[currentPosition]);
+//                                } else {
+//                                    currentPosition = 0;
+//                                    //                               switcher.setImageURI(Uri.parse(selectedHouse.getUrl()));
+//                                                                   switcher.setImageResource(images[currentPosition % images.length]);
+//                                    //                               Toast.makeText(mainActivity, "last page", Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//                        }
+//
+//                        break;
+//                    }
+//
+//                return true;
+//            }
+//        });
 //        imageView = view.findViewById(R.id.img_house);
 
 //        switcher.setFactory(this);
@@ -136,16 +214,54 @@ public class House_detail extends Fragment {
 //        Picasso.get().load(selectedHouse.getUrl()).fit().centerCrop().into(imageView);
 
 
-        setName();
-        setLocation();
-        setEligible();
-        setHouseType();
+
+
+
+
+
+        fillin.add(selectedHouse.getName());
+
+            int idx = selectedHouse.getDescription().indexOf(".");
+            String des = selectedHouse.getDescription().substring(0, idx + 1).toLowerCase();
+            fillin.add(des);
+
+            int idy = selectedHouse.getDescription().indexOf("ousing for");
+            String houseFor = selectedHouse.getDescription().substring(idy + 11);
+
+            fillin.add(houseFor);
+
+
+
+            fillin.add(selectedHouse.getLocation());
+
+            fillin.add(selectedHouse.getApply());
+
+            fillin.add(selectedHouse.getEmail());
+
+            fillin.add(selectedHouse.getMiddle());
+
+            fillin.add(selectedHouse.getPC());
+
+            fillin.add(selectedHouse.getPets());
+
+            fillin.add(selectedHouse.getWebsite());
+
+            fillin.add(selectedHouse.getElementary());
+
+            fillin.add(selectedHouse.getSecondary());
+
+            int [] ii = {R.drawable.ic_menu_send, R.drawable.ic_menu_share, R.drawable.ic_drawer, R.drawable.ic_filter_list_black_24dp};
+
+        lv = view.findViewById(R.id.androidList);
+
+        lv.setAdapter(new DetailAdapter(mainActivity, fillin, ii));
+        lv.setLayoutParams(getListViewParams());
 
 
         /*contact*/
-        callHouse();
-        sendEmail();
-        setApply();
+//        callHouse();
+//        sendEmail();
+//        setApply();
 
         return view;
     }
@@ -216,30 +332,21 @@ public class House_detail extends Fragment {
         });
 
     }
-
-    private void setHouseType() {
-        TextView houseType = view.findViewById(R.id.txt_HousingTypeContent);
-        int idx = selectedHouse.getDescription().indexOf(".");
-        String des = selectedHouse.getDescription().substring(0, idx + 1).toLowerCase();
-        houseType.setText(des);
+    private ViewGroup.LayoutParams getListViewParams() {
+        ListView listView = view.findViewById(R.id.androidList);
+        ListAdapter listAdapter = listView.getAdapter();
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View item = listAdapter.getView(i, null, listView);
+            item.measure(0, 0);
+            totalHeight += item.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams lp = listView.getLayoutParams();
+        lp.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        return lp;
     }
 
-    private void setEligible() {
-        TextView eliType = view.findViewById(R.id.txt_EligibleType);
-        String houseFor = selectedHouse.getEligible();
 
-        eliType.setText(houseFor);
-    }
-
-    private void setName() {
-        TextView txtName = view.findViewById(R.id.txtTitle_HoseName);
-        txtName.setText(selectedHouse.getName());
-    }
-
-    private void setLocation() {
-        TextView txtLocation = view.findViewById(R.id.txt_location_detail);
-        txtLocation.setText(selectedHouse.getLocation());
-    }
 
 //    @Override
 //    public boolean onTouch(View v, MotionEvent event) {
@@ -286,3 +393,5 @@ public class House_detail extends Fragment {
 //        return imageView;
 //    }
 }
+
+

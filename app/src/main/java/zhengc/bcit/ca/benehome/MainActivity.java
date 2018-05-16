@@ -1,6 +1,6 @@
 package zhengc.bcit.ca.benehome;
+
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,21 +12,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,25 +32,21 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.collection.LLRBNode;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -91,9 +82,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
         /*check if it is the first time run this app*/
         final String first_time = "if_first_time";
 
@@ -131,8 +119,6 @@ public class MainActivity extends AppCompatActivity
         //"https://benehome-f1049.firebaseio.com/"
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://benehome-f1049.firebaseio.com/");
         databaseReference = db.getReference();
-
-        loadFirebase();
 
         /*----------------------------------------*/
         /*slide up*/
@@ -184,52 +170,14 @@ public class MainActivity extends AppCompatActivity
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        if(formlist.isEmpty())
-            Log.wtf(TAG, "empty");
 //-------------------------------map load and hide it----------------------------------------------------------
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
-      //  getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
+        //  getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
         hidemap();
-        ConnectivityManager cm =
-                (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        start_creat();
 
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-        if(!isConnected){
-            AlertDialog.Builder alertChk = new AlertDialog.Builder(this);
-            alertChk.setTitle("No internet connections")
-                    .setMessage("Please check your internet connections")
-                    .setCancelable(false)
-                    .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // do nothing
-                }
-            });
-            AlertDialog alertDialog = alertChk.create();
-            alertDialog.show();
-
-        }else{
-//            new Thread(new Runnable(){
-//                @Override
-//                public void run() {
-//                    while(formlist.isEmpty()){
-//                        try {
-//                            sleep(1);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                    show_pass(new House_list(),formlist,null);
-//                }
-//
-//            }).start();
-//            set_item_check(1);
-            show_pass(new Main2Activity(),formlist,null);
-            set_item_check(0);
-        }
     }
 
 
@@ -274,9 +222,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        Fragment f = getSupportFragmentManager ().findFragmentById(R.id.container);
+        f = getSupportFragmentManager ().findFragmentById(R.id.container);
         if(mLayout.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN){
             mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            return;
+        }
+        if(mapFragment.getUserVisibleHint()){
+            hidemap();
+            set_title();
             return;
         }
         if(f instanceof House_detail){
@@ -334,7 +287,7 @@ public class MainActivity extends AppCompatActivity
             this.setTitle("Filter");
             return;
         }
-        if(frag instanceof Main2Activity){
+        if(frag instanceof HomeActivity){
             set_item_check(7);
             this.setTitle("Home");
             return;
@@ -373,33 +326,37 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_Application_home) {
-            show_pass(new Main2Activity(),filtered_house,null);
+            show_pass(new HomeActivity(),filtered_house,null);
         } else if (id == R.id.nav_houselist) {
             show_pass(new House_list(),filtered_house,null);
             hidemap();
-            this.setTitle("House List");
+            setTitle("House List");
         } else if (id == R.id.nav_eligibility) {
             show_pass(new Eligible(), null,null);
             hidemap();
-            this.setTitle("Eligibility");
+            setTitle("Eligibility");
         } else if (id == R.id.nav_faq) {
             show_pass(new FAQ(),null,null);
             hidemap();
-            this.setTitle("FAQ");
+            setTitle("FAQ");
         } else if (id == R.id.nav_about) {
             show_pass(new About(),null,null);
             hidemap();
-            this.setTitle("About");
+            setTitle("About");
         } else if (id == R.id.nav_map) {
             //mapFragment.getMapAsync(this);
             /*------------------markers---------------------------*/
+            f = getSupportFragmentManager().findFragmentById(R.id.container);
             displaymap(filtered_house);
+            if(f instanceof No_internet_Activity){
+                start_creat();
+            }
         } else if(id == R.id.nav_Application_guide){
            show_pass(new Application(),null,null);
-           this.setTitle("Application Guide");
+           setTitle("Application Guide");
            hidemap();
         } else if (id == R.id.nav_Application_home) {
-            show_pass(new Main2Activity(),null,null);
+            show_pass(new HomeActivity(),null,null);
             this.setTitle("Home");
             hidemap();
         }
@@ -414,6 +371,12 @@ public class MainActivity extends AppCompatActivity
     public void set_item_uncheck(int i){
         navigationView.getMenu().getItem(i).setChecked(false);
     }
+    public void set_all_item_uncheck(){
+        int size = navigationView.getMenu().size();
+        for (int i = 0; i < size; i++) {
+            navigationView.getMenu().getItem(i).setChecked(false);
+        }
+    }
     //-------------------------------nav end----------------------------------
     public ArrayList<Place> getList() {
         return formlist;
@@ -424,7 +387,7 @@ public class MainActivity extends AppCompatActivity
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.clear();
-        read_neigh(mMap);
+        show_neighborhood(mMap);
 
         /*------------Marker-------------------*/
         for (int i = 0; i < markers.size(); ++i) {
@@ -454,6 +417,15 @@ public class MainActivity extends AppCompatActivity
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                if(!check_internet()){
+                    getSupportFragmentManager().beginTransaction().
+                            setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
+                            replace(R.id.container, new No_internet_Activity()).
+                            addToBackStack(null).
+                            commitAllowingStateLoss();
+                    hidemap();
+                    return false;
+                }
                 Place selectHouse = new Place();
                 // get selected house
                 for (int j = 0; j < formlist.size(); ++j) {
@@ -473,6 +445,8 @@ public class MainActivity extends AppCompatActivity
         });
         mMap.getUiSettings().setZoomGesturesEnabled(true);
         zoomToMarker(markers);
+
+
 
     }
     public void zoomToMarker(ArrayList<Place> markers) {
@@ -500,6 +474,14 @@ public class MainActivity extends AppCompatActivity
                 hide(mapFragment).commit();
     }
     public void displaymap(ArrayList<Place> list){
+        if(!check_internet()){
+            getSupportFragmentManager().beginTransaction().
+                    setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
+                    replace(R.id.container, new No_internet_Activity()).
+                    addToBackStack(null).
+                    commitAllowingStateLoss();
+            return;
+        }
         mapFragment.getMapAsync(this);
         setMarkers(list);
         mapFragment.setUserVisibleHint(true);
@@ -523,6 +505,14 @@ public class MainActivity extends AppCompatActivity
         return filtered_house;
     }
     public void show_pass(Fragment fragment, ArrayList list, Place house){
+        if(!check_internet() && (fragment instanceof House_list || fragment instanceof House_detail)){
+            getSupportFragmentManager().beginTransaction().
+                    setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
+                    replace(R.id.container, new No_internet_Activity()).
+                    addToBackStack(null).
+                    commitAllowingStateLoss();
+            return;
+        }
         Bundle data = new Bundle();
         data.putSerializable("data",list);
         data.putSerializable("all_house",formlist);
@@ -567,7 +557,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         TextView t = findViewById(R.id.name);
-        t.setText(house.getName());
+        t.setText("House Detail");
         Bundle data = new Bundle();
         data.putSerializable("house",house);
         fragment.setArguments(data);
@@ -608,7 +598,7 @@ public class MainActivity extends AppCompatActivity
         this.setTitle("Filter");
     }
 
-    public void read_neigh(GoogleMap googleMap){
+    public void show_neighborhood(GoogleMap googleMap){
         //ArrayList<HashMap<String,ArrayList<LatLng>>> arealist = new ArrayList<>();
         ArrayList<LatLng> points;
         HashMap<String,ArrayList<LatLng>> area = new HashMap<>();
@@ -672,5 +662,67 @@ public class MainActivity extends AppCompatActivity
             return null;
         }
         return json;
+    }
+    public Fragment getF() {
+        f = getSupportFragmentManager().findFragmentById(R.id.container);
+        return f;
+    }
+
+    public void start_creat(){
+        loadFirebase();
+        if(formlist.isEmpty())
+            Log.wtf(TAG, "empty");
+        ConnectivityManager cm =
+                (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        if(!isConnected){
+//            AlertDialog.Builder alertChk = new AlertDialog.Builder(this);
+//            alertChk.setTitle("No internet connections")
+//                    .setMessage("Please check your internet connections")
+//                    .setCancelable(false)
+//                    .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+//                public void onClick(DialogInterface dialog, int id) {
+//                    // do nothing
+//                }
+//            });
+//            AlertDialog alertDialog = alertChk.create();
+//            alertDialog.show();
+            show_pass(new No_internet_Activity(),null,null);
+
+        }else{
+            new Thread(new Runnable(){
+                @Override
+                public void run() {
+                    while(formlist.isEmpty()){
+                        try {
+                            sleep(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    show_pass(new HomeActivity(),formlist,null);
+                }
+
+            }).start();
+            set_item_check(0);
+        }
+        set_title();
+    }
+
+    public boolean check_internet(){
+        ConnectivityManager cm =
+                (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        if(!isConnected){
+            return false;
+        }else{
+            return true;
+        }
     }
 }

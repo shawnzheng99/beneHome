@@ -117,6 +117,11 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
 
     @Override
     public int getItemCount() {
-        return places.size();
+        if(places!=null){
+            return places.size();
+        }else{
+            return 0;
+        }
+
     }
 }

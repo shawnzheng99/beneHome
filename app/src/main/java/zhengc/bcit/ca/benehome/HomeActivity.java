@@ -20,12 +20,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-public class Main2Activity extends Fragment implements View.OnClickListener{
+public class HomeActivity extends Fragment implements View.OnClickListener{
 
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main2);
+//        setContentView(R.layout.activity_home);
 //    }
     private MainActivity mainActivity;
     private static final String TAG = House_detail.class.getName();
@@ -41,7 +41,7 @@ public class Main2Activity extends Fragment implements View.OnClickListener{
         super.onCreate(savedInstanceState);
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        view = inflater.inflate(R.layout.activity_main2,null);
+        view = inflater.inflate(R.layout.activity_home,null);
         mainActivity = (MainActivity)getActivity();
         image_logo = view.findViewById(R.id.imageView_logo);
         btn_about = view.findViewById(R.id.btn_about);
