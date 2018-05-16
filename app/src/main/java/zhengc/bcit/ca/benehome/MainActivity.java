@@ -504,6 +504,7 @@ public class MainActivity extends AppCompatActivity
         return filtered_house;
     }
     public void show_pass(Fragment fragment, ArrayList list, Place house){
+        set_title(fragment);
         if(!check_internet() && (fragment instanceof House_list || fragment instanceof House_detail)){
             getSupportFragmentManager().beginTransaction().
                     setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
@@ -529,7 +530,6 @@ public class MainActivity extends AppCompatActivity
                     addToBackStack(null).
                     commitAllowingStateLoss();
         }
-        set_title(fragment);
     }
     public void hide_slide(){
         if(mapFragment!=null){
