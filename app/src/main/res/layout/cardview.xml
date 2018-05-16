@@ -43,6 +43,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/news_header"
+                android:textColor="@color/textBlack"
+
                 android:layout_margin="5dp"
                 android:maxLines="1" />
 
@@ -51,6 +53,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/location_name"
+                android:textColor="@color/textBlack"
+
                 android:layout_margin="5dp"
                 android:maxLines="2" />
 
@@ -58,6 +62,8 @@
                 android:id="@+id/location_total_unit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/textBlack"
+
                 android:layout_below="@+id/location_location"
                 android:layout_margin="5dp"
                 android:maxLines="2" />
