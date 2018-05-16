@@ -226,7 +226,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:background="#72C5CA"
-                android:text="island"
+                android:text="Queensborough"
                 android:textColor="#FFFFFF" />
 
         </LinearLayout>
