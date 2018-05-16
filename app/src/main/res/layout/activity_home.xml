@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorPrimary"
-    tools:context=".Main2Activity">
+    tools:context=".HomeActivity">
 
     <ImageView
         android:id="@+id/imageView-logo"
