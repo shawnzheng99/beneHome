@@ -84,6 +84,7 @@ public class House_detail extends Fragment {
                 ImageView imageView = new ImageView(mainActivity);
                 imageView.setLayoutParams(new ImageSwitcher.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 //                imageView.setImageURI(Uri.parse(selectedHouse.getUrl().get("a")))
+
                 return imageView;
             }
         });
@@ -115,10 +116,6 @@ public class House_detail extends Fragment {
                             switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_in_left));//set in animition
                             switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_out_right));//set out animition
 
-
-                            if (lastX > downX) {
-                                switcher.setInAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_in_left));
-                                switcher.setOutAnimation(AnimationUtils.loadAnimation(mainActivity, android.R.anim.slide_out_right));
 
                                 if (currentPosition > 0) {
                                     currentPosition--;
@@ -152,7 +149,7 @@ public class House_detail extends Fragment {
 
                         break;
                     }
-                }
+
                 return true;
             }
         });

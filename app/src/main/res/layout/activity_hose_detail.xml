@@ -7,9 +7,6 @@
     tools:context="zhengc.bcit.ca.benehome.House_detail">
 
 
-
-
-
     <ScrollView
         android:id="@+id/scrollView2"
         style="@android:style/Widget.DeviceDefault.Light.ScrollView"

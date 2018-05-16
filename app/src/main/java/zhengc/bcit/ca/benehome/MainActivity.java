@@ -1,16 +1,19 @@
 package zhengc.bcit.ca.benehome;
+
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-
 import android.graphics.Color;
-
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -21,7 +24,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,9 +34,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
-
 import com.google.android.gms.maps.model.PolylineOptions;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -46,11 +46,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -87,8 +85,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Intent intent = new Intent(MainActivity.this,Main2Activity.class);
-//        startActivity(intent);
+
 
         /*check if it is the first time run this app*/
         final String first_time = "if_first_time";
@@ -188,23 +185,47 @@ public class MainActivity extends AppCompatActivity
 
       //  getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
         hidemap();
-        new Thread(new Runnable(){
-            @Override
-            public void run() {
-                while(formlist.isEmpty()){
-                    try {
-                        sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                show_pass(new House_list(),formlist,null);
-            }
+        ConnectivityManager cm =
+                (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        }).start();
-        set_item_check(1);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        if(!isConnected){
+            AlertDialog.Builder alertChk = new AlertDialog.Builder(this);
+            alertChk.setTitle("No internet connections")
+                    .setMessage("Please check your internet connections")
+                    .setCancelable(false)
+                    .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // do nothing
+                }
+            });
+            AlertDialog alertDialog = alertChk.create();
+            alertDialog.show();
+
+        }else{
+            new Thread(new Runnable(){
+                @Override
+                public void run() {
+                    while(formlist.isEmpty()){
+                        try {
+                            sleep(1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    show_pass(new House_list(),formlist,null);
+                }
+
+            }).start();
+            set_item_check(1);
+        }
     }
-/*-------------------------------------------------oncreate end-----------------------------------------------*/
+
+
+
+    /*-------------------------------------------------oncreate end-----------------------------------------------*/
     private void signInAnonymously() {
         mAuth.signInAnonymously().addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
             @Override public void onSuccess(AuthResult authResult) {
@@ -234,7 +255,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.e("Firebase","Server side database error");
             }
         });
 
@@ -383,6 +404,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.clear();
         read_neigh(mMap);
 
@@ -654,12 +676,12 @@ public class MainActivity extends AppCompatActivity
         myoption.clickable(true);
         for(Map.Entry<String,ArrayList<LatLng>> entry: area.entrySet()){
 
-            PolygonOptions pO = new PolygonOptions();
-           for(LatLng coor : entry.getValue()){
-                pO.add(coor);
+            PolygonOptions polygonOptions = new PolygonOptions();
+           for(LatLng coordinate : entry.getValue()){
+               polygonOptions.add(coordinate);
            }
-            Polygon polyline1 = googleMap.addPolygon(pO);
-
+           Polygon polyline = googleMap.addPolygon(polygonOptions);
+           polyline.setStrokeColor(Color.rgb(244, 65, 128));
         }
     }
 
