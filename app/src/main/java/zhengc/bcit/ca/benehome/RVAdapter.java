@@ -81,7 +81,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
     @Override
     public void onBindViewHolder(final RVAdapter.PlaceViewHolder placeViewHolder, int i) {
         Fragment f = context.getSupportFragmentManager ().findFragmentById(R.id.container);
-        Picasso.get().load(places.get(i).getUrl()).placeholder(R.drawable.animated_rotate_drawable).fit().centerCrop().into(placeViewHolder.news_photo);
+        // get first image with name
+        Picasso.get().load(places.get(i).getUrl().get("a")).placeholder(R.drawable.animated_rotate_drawable).fit().centerCrop().into(placeViewHolder.news_photo);
 
         placeViewHolder.news_title.setText(places.get(i).getName());
         placeViewHolder.news_desc.setText(places.get(i).getLocation());
