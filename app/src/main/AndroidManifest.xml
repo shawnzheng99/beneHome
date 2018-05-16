@@ -14,7 +14,6 @@
 
     <!-- <meta-data android:name="design_width" android:value="1080"></meta-data> -->
     <!-- <meta-data android:name="design_height" android:value="1960"></meta-data> -->
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -66,10 +65,7 @@
             android:name=".UserGuide"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
-        <!-- <activity android:name=".Filter"></activity> -->
 
-        <activity android:name=".Main2Activity" />
-        <activity android:name=".EmptyActivity"></activity>
     </application>
 
 </manifest>

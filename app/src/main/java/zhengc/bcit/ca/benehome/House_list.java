@@ -44,7 +44,7 @@ public class House_list extends Fragment{
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
         return view;
+
     }
 }
