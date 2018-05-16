@@ -749,7 +749,7 @@ public class MainActivity extends AppCompatActivity
                             e.printStackTrace();
                         }
                     }
-                    show_pass(new House_list(),formlist,null);
+                    show_pass(new Main2Activity(),formlist,null);
                 }
 
             }).start();
