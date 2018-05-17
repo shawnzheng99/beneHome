@@ -553,7 +553,7 @@ public class MainActivity extends AppCompatActivity
     public void show_slide(Fragment fragment, Place house){
         if(mapFragment!=null){
             if(mapFragment.getUserVisibleHint() && mMap != null){
-                mMap.setPadding(0,0,0,138);
+                mMap.setPadding(0,0,0,200);
             }
         }
         TextView t = findViewById(R.id.name);
