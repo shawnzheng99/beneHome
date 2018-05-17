@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class HomeActivity extends Fragment implements View.OnClickListener{
 
@@ -33,8 +34,8 @@ public class HomeActivity extends Fragment implements View.OnClickListener{
     private ImageButton btn_about;
     private ImageButton btn_eligible;
     private ImageButton btn_find_house;
-    private Button btn_application;
-    private Button btn_faq;
+    private ImageButton btn_application;
+    private ImageButton btn_faq;
     View view;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,47 +56,56 @@ public class HomeActivity extends Fragment implements View.OnClickListener{
         btn_application.setOnClickListener(this);
         btn_faq.setOnClickListener(this);
 
-//        int width = Resources.getSystem().getDisplayMetrics().widthPixels;
-//        int height = Resources.getSystem().getDisplayMetrics().heightPixels;
-//
-        Resources r = getResources();
-        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, r.getDisplayMetrics());
-
-//        LinearLayout layout = view.findViewById(R.id.page_layout);
-//        layout.measure(0,0);
-//        int width = layout.getMeasuredWidth();
         int width = Resources.getSystem().getDisplayMetrics().widthPixels;
-//        int height = layout.getMeasuredHeight();
+        int height = Resources.getSystem().getDisplayMetrics().heightPixels;
 
-
-//        image_logo.setMaxHeight(height - width / 6 * 5);
-//        btn_about.setMaxWidth(width/3);
-//        btn_about.setMaxHeight(width/3);
-//        btn_eligible.setMaxWidth(width/3);
-//        btn_eligible.setMaxHeight(width/3);
-//        btn_find_house.setMaxWidth(width / 3 * 2);
-//        btn_find_house.setMaxHeight(width / 3 * 2);
-//        btn_application.setMaxHeight(width / 3 / 2);
-//        btn_faq.setMaxHeight(width / 3 / 2);
-//
-//        image_logo.setMinimumHeight(height - width / 6 * 5);
-//        btn_about.setMinimumWidth(width/3);
-//        btn_about.setMinimumHeight(width/3);
-//        btn_eligible.setMinimumWidth(width/3);
-//        btn_eligible.setMinimumHeight(width/3);
-//        btn_find_house.setMinimumWidth(width / 3 * 2);
-//        btn_find_house.setMinimumHeight(width / 3 * 2);
-//        btn_application.setMinimumHeight(width / 3 / 2);
-//        btn_faq.setMinimumHeight(width / 3 / 2);
+        RelativeLayout.LayoutParams lp;
+        if ((double) height / (double) width <= 13.0 / 9) {
+            image_logo.setVisibility(View.INVISIBLE);
+        } else if ((double) height / (double) width <= 14.0 / 9) {
+            lp = new RelativeLayout.LayoutParams(width / 9 * 2, width / 9);
+            lp.setMargins(width / 18 * 7, 20, width / 18 * 7, 0);
+            image_logo.setLayoutParams(lp);
+        } else if ((double) height / (double) width <= 15.0 / 9) {
+            lp = new RelativeLayout.LayoutParams(width / 9 * 4, width / 9 * 2);
+            lp.setMargins(width / 18 * 5, 50, width / 18 * 5, 0);
+            image_logo.setLayoutParams(lp);
+        } else if ((double) height / (double) width <= 16.0 / 9) {
+            lp = new RelativeLayout.LayoutParams(width / 3 * 2, width / 3);
+            lp.setMargins(width / 6, 80, width / 6, 0);
+            image_logo.setLayoutParams(lp);
+        } else {
+            lp = new RelativeLayout.LayoutParams(width / 9 * 8, width / 9 * 4);
+            lp.setMargins(width / 18, 100, width / 18, 0);
+            image_logo.setLayoutParams(lp);
+        }
 
 //        image_logo.setLayoutParams(new LinearLayout.LayoutParams(width, height - width / 6 * 5 - (int)px));
-        btn_about.setLayoutParams(new LinearLayout.LayoutParams(width / 3, width / 3));
-        btn_eligible.setLayoutParams(new LinearLayout.LayoutParams(width / 3, width / 3));
-        btn_find_house.setLayoutParams(new LinearLayout.LayoutParams(width / 3 * 2, width / 3 * 2));
-        btn_application.getLayoutParams().height = width / 6;
-        btn_application.setLayoutParams(btn_application.getLayoutParams());
-        btn_faq.getLayoutParams().height = width / 6;
-        btn_faq.setLayoutParams(btn_faq.getLayoutParams());
+
+
+//        btn_about.setLayoutParams(new LinearLayout.LayoutParams(width / 3, width / 3));
+//        btn_eligible.setLayoutParams(new LinearLayout.LayoutParams(width / 3, width / 3));
+//        btn_find_house.setLayoutParams(new LinearLayout.LayoutParams(width / 3 * 2, width / 3 * 2));
+//        btn_application.setLayoutParams(new LinearLayout.LayoutParams(width / 2, width / 2));
+//        btn_faq.setLayoutParams(new LinearLayout.LayoutParams(width / 2, width / 2));
+
+        LinearLayout.LayoutParams lp1;
+        LinearLayout.LayoutParams lp2;
+        LinearLayout.LayoutParams lp3;
+
+        lp1 = new LinearLayout.LayoutParams(width / 3 - 30, width / 3 - 20);
+        lp1.setMargins(20, 10, 10, 10);
+        btn_about.setLayoutParams(lp1);
+        btn_eligible.setLayoutParams(lp1);
+
+        lp2 = new LinearLayout.LayoutParams(width / 3 * 2 - 30, width / 3 * 2 - 20);
+        lp2.setMargins(10, 10, 20, 10);
+        btn_find_house.setLayoutParams(lp2);
+
+        lp3 = new LinearLayout.LayoutParams(width / 2 - 30, width / 2 - 30);
+        lp3.setMargins(20, 10, 10, 20);
+        btn_application.setLayoutParams(lp3);
+        btn_faq.setLayoutParams(lp3);
 
         return view;
     }
