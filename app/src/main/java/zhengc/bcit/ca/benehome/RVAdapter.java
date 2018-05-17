@@ -63,11 +63,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
             news_title = itemView.findViewById(R.id.location_name);
             news_desc = itemView.findViewById(R.id.location_location);
             total_unit = itemView.findViewById(R.id.location_total_unit);
-            //map = (Button) itemView.findViewById(R.id.btn_map);
-            //readMore = (Button) itemView.findViewById(R.id.btn_more);
-            //Set the TextView background -->opacity
-            //news_title.setBackgroundColor(Color.argb(0, 0, 0, 0));
-
         }
     }
     @Override
@@ -82,8 +77,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
         Picasso.get().load(places.get(i).getUrl().get("a")).placeholder(R.drawable.animated_rotate_drawable).fit().centerCrop().into(placeViewHolder.news_photo);
 
         placeViewHolder.news_title.setText(places.get(i).getName());
-        placeViewHolder.news_desc.setText(places.get(i).getLocation());
-        placeViewHolder.total_unit.setText(String.format("Total unit: %s", places.get(i).getTotalUnit()));
+        placeViewHolder.news_desc.setText(places.get(i).getLocation() + ", " + places.get(i).getPC());
+//        placeViewHolder.total_unit.setText(String.format("Total unit: %s", places.get(i).getTotalUnit()));
         //context.getSupportFragmentManager().beginTransaction().detach(f).attach(f).commitAllowingStateLoss();
         //set the on clilk listener to the cardView
         placeViewHolder.cardView.setOnClickListener(new View.OnClickListener() {

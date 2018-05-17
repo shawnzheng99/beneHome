@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
@@ -556,6 +557,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         TextView t = findViewById(R.id.name);
+        t.setTypeface(t.getTypeface(), Typeface.BOLD);
         t.setText("House Detail");
         Bundle data = new Bundle();
         data.putSerializable("house",house);

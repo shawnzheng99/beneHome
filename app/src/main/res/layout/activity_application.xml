@@ -6,95 +6,121 @@
     android:layout_height="match_parent"
     tools:context="zhengc.bcit.ca.benehome.Application">
 
-    <TextView
-        android:id="@+id/onlineApply"
-        android:layout_width="300dp"
-        android:layout_height="23dp"
-        android:layout_marginBottom="413dp"
-        android:layout_marginEnd="288dp"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/apply_online"
-        android:textSize="16sp"
-
-        android:textStyle="bold"
+    <ScrollView
+        android:id="@+id/scrollView2"
+        style="@android:style/Widget.DeviceDefault.Light.ScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:fillViewport="true"
+        android:scrollbarStyle="insideOverlay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.054"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/onlineApply1"
-        android:layout_width="333dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="364dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/apply_online1"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/onlineApply"
-        app:layout_constraintVertical_bias="0.0" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/online_Apply_button"
-        android:layout_width="wrap_content"
-        android:layout_height="34dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/Apply_Online"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/onlineApply1" />
+            <TextView
+                android:id="@+id/onlineApply"
+                android:layout_width="300dp"
+                android:layout_height="23dp"
+                android:layout_marginBottom="413dp"
+                android:layout_marginEnd="288dp"
+                android:layout_marginStart="38dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/apply_online"
+                android:textColor="@color/textBlack"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.054"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+            <TextView
+                android:id="@+id/onlineApply1"
+                android:layout_width="333dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="364dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/apply_online1"
+                android:textColor="@color/textBlack"
+                android:textSize="14sp"
 
-    <TextView
-        android:id="@+id/otherApply"
-        android:layout_width="300dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="164dp"
-        android:text="@string/other_apply"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/online_Apply_button" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/onlineApply"
+                app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/otherApply1"
-        android:layout_width="333dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/other_apply1"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.258"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/otherApply" />
+            <Button
+                android:id="@+id/online_Apply_button"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="12dp"
+                android:text="Apply Online"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/onlineApply1" />
 
-    <TextView
-        android:id="@+id/checklist"
-        android:layout_width="333dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/checklist"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/online_Apply_button" />
+            <TextView
+                android:id="@+id/otherApply"
+                android:layout_width="300dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="164dp"
+                android:text="@string/other_apply"
+                android:textColor="@color/textBlack"
+                android:textSize="16sp"
+                android:textStyle="bold"
 
-    <Button
-        android:id="@+id/other_Apply_button"
-        android:layout_width="wrap_content"
-        android:layout_height="34dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="12dp"
-        android:text="@string/Documnet_Checklist"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checklist" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/online_Apply_button" />
 
+            <TextView
+                android:id="@+id/otherApply1"
+                android:layout_width="333dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/other_apply1"
+                android:textColor="@color/textBlack"
+                android:textSize="14sp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.258"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/otherApply" />
+
+            <TextView
+                android:id="@+id/checklist"
+                android:layout_width="333dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/checklist"
+                android:textColor="@color/textBlack"
+                android:textSize="14sp"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/online_Apply_button" />
+
+            <Button
+                android:id="@+id/other_Apply_button"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="12dp"
+                android:text="documnet checklist"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/checklist" />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>
