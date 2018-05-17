@@ -235,7 +235,12 @@ public class MainActivity extends AppCompatActivity
         }
         if(f instanceof House_detail){
             super.onBackPressed();
-            set_title(f);
+            set_title(get_current_fragment());
+            return;
+        }
+        if(f instanceof Document){
+            super.onBackPressed();
+            set_title(get_current_fragment());
             return;
         }
         if(drawer.isDrawerOpen(GravityCompat.START)){
@@ -259,7 +264,7 @@ public class MainActivity extends AppCompatActivity
         }
         if(frag instanceof House_list){
             set_item_check(1);
-            this.setTitle("House list");
+            this.setTitle("House List");
             return;
         }
         if(frag instanceof About){
@@ -269,12 +274,12 @@ public class MainActivity extends AppCompatActivity
         }
         if(frag instanceof Eligible){
             set_item_check(4);
-            this.setTitle("Eligible");
+            this.setTitle("Eligibility");
             return;
         }
         if(frag instanceof Application){
             set_item_check(5);
-            this.setTitle("Application");
+            this.setTitle("Application Guide");
             return;
         }
         if(frag instanceof FAQ){
@@ -288,7 +293,10 @@ public class MainActivity extends AppCompatActivity
             this.setTitle("Filter");
             return;
         }
-
+        if(frag instanceof Document){
+            this.setTitle("Document Checklist");
+            return;
+        }
         this.setTitle("BeneHome");
     }
     @Override
