@@ -1,16 +1,12 @@
 package zhengc.bcit.ca.benehome;
 
-import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,12 +16,13 @@ public class Document extends Fragment {
 
     private List<String> listDataHeader;
     private HashMap<String, List<String>> listHash;
-    View view;
+    private View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+    @SuppressLint("InflateParams")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.activity_document,null);
 
@@ -52,47 +49,36 @@ public class Document extends Fragment {
         listDataHeader = new ArrayList<>();
         listHash = new HashMap<>();
 
-        listDataHeader.add("Identification and proof of status in Canada for all household members");
-        listDataHeader.add("Proof of current address and rent:");
-        listDataHeader.add("Proof of income and assets:");
-        listDataHeader.add("Proof of full-time student status for dependent children aged 19-24:");
-        listDataHeader.add("Copy of repayment agreement (if money is owed to previous subsidized housing):");
-        listDataHeader.add("Copy of Notice to End Tenancy:");
+        listDataHeader.add(getString(R.string.check_list_1));
+        listDataHeader.add(getString(R.string.check_list_2));
+        listDataHeader.add(getString(R.string.check_list_3));
+        listDataHeader.add(getString(R.string.check_list_4));
+        listDataHeader.add(getString(R.string.check_list_5));
+        listDataHeader.add(getString(R.string.check_list_6));
 
         List<String> faq1 = new ArrayList<>();
-        faq1.add("For each family member born in Canada: a copy of Canadian birth certificate");
-        faq1.add("For each family member not born in Canada: a copy of citizenship or immigration document." +
-                "\nAcceptable documents include:" +
-                "\n\nCanadian Citizenship Card (if date issued is more than 8 years ago); or\n\n" +
-                "Permanent Resident Card (both sides); or\n" +
-                "Record of Landing (IMM1000); or\n\n" +
-                "Sponsorship Undertaking: Confirmation of Permanent Residence (IMM5292); or\n\n" +
-                "IMM5617 - Verification of Landing (if landing date is more than 10 years ago).");
+        faq1.add(getString(R.string.check_list_1_1));
+        faq1.add(getString(R.string.check_list_1_2));
 
         List<String> faq2 = new ArrayList<>();
-        faq2.add("Copy of current rent receipt or recent rent increase notice; or");
-        faq2.add("Copy of lease or tenancy agreement showing current rent amount.");
+        faq2.add(getString(R.string.check_list_2_1));
+        faq2.add(getString(R.string.check_list_2_2));
 
         List<String> faq3 = new ArrayList<>();
-        faq3.add("If receiving income assistance from the Ministry of Social Development and Social Innovation:" +
-                "\n\nCopy of income assistance cheque stub; or"+
-                "\n\nLetter from your MSDSI worker confirming monthly income assistance amount");
-        faq3.add("If employed:" +
-                "\n\nLast three consecutive pay stubs showing gross monthly income; or"+
-                "\n\nLetter from employer confirming gross monthly income");
-        faq3.add("If other income source(s): Copies of cheque stubs, banks statements showing direct deposit of pensions, or other confirmation of income");
-        faq3.add("If you own property: Property tax assessments for value of property owned and proof of outstanding mortgage(s)");
-        faq3.add("If you have assets other than property: Copies of bank statements or letter from financial institution stating total asset value.");
+        faq3.add(getString(R.string.check_list_3_1));
+        faq3.add(getString(R.string.check_list_3_2));
+        faq3.add(getString(R.string.check_list_3_3));
+        faq3.add(getString(R.string.check_list_3_4));
+        faq3.add(getString(R.string.check_list_3_5));
 
         List<String> faq4 = new ArrayList<>();
-        faq4.add("Proof of full-time attendance or enrollment at a school, university or vocational institution which provides a recognized diploma, certificate or degree"
-                + "\n\n\n\nNote: Must be under age 25. Full-time attendance means enrolment in the minimum of credit courses specified by the institution to be considered full-time, or if not specified by the institution, enrolment in a minimum of 15 hours of classroom instruction per week in each school term.");
+        faq4.add(getString(R.string.check_list_4_1));
 
         List<String> faq5 = new ArrayList<>();
-        faq5.add("Repayment agreement(s) you have with your past landlord(s).");
+        faq5.add(getString(R.string.check_list_5_1));
 
         List<String> faq6 = new ArrayList<>();
-        faq6.add("If you have received a legal Notice to End Tenancy, a copy of all pages of the Notice to End Tenancy. This must be the official form from the Residential Tenancy Branch (RTB). To get a copy of this form, call the RTB at 604 660-3456 or download it from www.rto.gov.bc.ca.");
+        faq6.add(getString(R.string.check_list_6_1));
 
         listHash.put(listDataHeader.get(0), faq1);
         listHash.put(listDataHeader.get(1), faq2);

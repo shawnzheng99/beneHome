@@ -29,7 +29,7 @@ public class Place implements Serializable {
     private String Middle;
     private String Secondary;
 
-    public Place() {
+    Place() {
 
     }
     public Place(String name, HashMap<String,String> url, String description, String category, String hours, String location, String PC, String email, String phone, String y, String x, String apply, String totalUnit, String typeUnits, String eligible, String pets, String boundaries, String elementary, String middle, String secondary) {

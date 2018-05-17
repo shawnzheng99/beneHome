@@ -1,5 +1,6 @@
 package zhengc.bcit.ca.benehome;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
@@ -12,10 +13,9 @@ import android.widget.ImageView;
 public class ViewPagerAdpter extends PagerAdapter {
 
     private Context context;
-    private LayoutInflater layoutInflater;
     private Integer [] images = {R.drawable.benehome1, R.drawable.benehome2, R.drawable.benehome3};
 
-    public ViewPagerAdpter (Context context) {
+    public ViewPagerAdpter(Context context) {
         this.context = context;
     }
 
@@ -31,9 +31,10 @@ public class ViewPagerAdpter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.image, null);
-        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        assert layoutInflater != null;
+        @SuppressLint("InflateParams") View view = layoutInflater.inflate(R.layout.image, null);
+        ImageView imageView = view.findViewById(R.id.imageView);
         imageView.setImageResource(images[position]);
 
         ViewPager vp = (ViewPager) container;

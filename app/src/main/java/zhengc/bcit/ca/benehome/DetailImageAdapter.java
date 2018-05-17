@@ -1,5 +1,6 @@
 package zhengc.bcit.ca.benehome;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
@@ -16,10 +17,9 @@ import java.util.ArrayList;
 public class DetailImageAdapter extends PagerAdapter {
 
     private Context context;
-    private LayoutInflater layoutInflater;
     private ArrayList<String> images;
 
-    public DetailImageAdapter(Context context, ArrayList<String> al) {
+    DetailImageAdapter(Context context, ArrayList<String> al) {
         this.context = context;
         this.images = al;
     }
@@ -36,9 +36,11 @@ public class DetailImageAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        assert layoutInflater != null;
+        @SuppressLint("InflateParams")
         View view = layoutInflater.inflate(R.layout.detailimage, null);
-        ImageView imageView = (ImageView) view.findViewById(R.id.img_house);
+        ImageView imageView = view.findViewById(R.id.img_house);
         Picasso.get().load((images.get(position))).fit().centerCrop().into(imageView);
 
         ViewPager vp = (ViewPager) container;
