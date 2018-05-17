@@ -282,6 +282,7 @@ public class House_detail extends Fragment {
 
 
 
+
 //        fillin.add(selectedHouse.getName());
 //
 //            int idx = selectedHouse.getDescription().indexOf(".");
@@ -320,10 +321,13 @@ public class House_detail extends Fragment {
 //        lv.setAdapter(new DetailAdapter(mainActivity, fillin, ii));
 
 
+
         /*contact*/
         callHouse();
         sendEmail();
-//        setApply();
+
+        setApply();
+
 
         return view;
     }
@@ -331,17 +335,19 @@ public class House_detail extends Fragment {
 
 
 
-//    private void setApply() {
-//        Button apply = view.findViewById(R.id.btn_applyNow);
-//        final Uri uri = Uri.parse(selectedHouse.getWebsite());
-//        apply.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//                startActivity(intent);
-//            }
-//        });
-//    }
+
+    private void setApply() {
+        Button apply = view.findViewById(R.id.btn_applyNow);
+        final Uri uri = Uri.parse("https://housingapplication.bchousing.org");
+        apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
+    }
+
 
 
     private void sendEmail() {

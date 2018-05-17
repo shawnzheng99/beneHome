@@ -230,12 +230,12 @@ public class MainActivity extends AppCompatActivity
         }
         if(mapFragment.getUserVisibleHint()){
             hidemap();
-            set_title();
+            set_title(f);
             return;
         }
         if(f instanceof House_detail){
             super.onBackPressed();
-            set_title();
+            set_title(f);
             return;
         }
         if(drawer.isDrawerOpen(GravityCompat.START)){
@@ -251,8 +251,7 @@ public class MainActivity extends AppCompatActivity
             drawer.openDrawer(GravityCompat.START);
         }
     }
-    public void set_title(){
-        Fragment frag = getSupportFragmentManager ().findFragmentById(R.id.container);
+    public void set_title(Fragment frag){
         if(mapFragment.getUserVisibleHint()){
             set_item_check(2);
             this.setTitle("Map");
@@ -289,7 +288,7 @@ public class MainActivity extends AppCompatActivity
             return;
         }
         if(frag instanceof HomeActivity){
-            set_item_check(7);
+            set_item_check(0);
             this.setTitle("Home");
             return;
         }
@@ -331,19 +330,19 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_houselist) {
             show_pass(new House_list(),filtered_house,null);
             hidemap();
-            setTitle("House List");
+            //setTitle("House List");
         } else if (id == R.id.nav_eligibility) {
             show_pass(new Eligible(), null,null);
             hidemap();
-            setTitle("Eligibility");
+            //setTitle("Eligibility");
         } else if (id == R.id.nav_faq) {
             show_pass(new FAQ(),null,null);
             hidemap();
-            setTitle("FAQ");
+            //setTitle("FAQ");
         } else if (id == R.id.nav_about) {
             show_pass(new About(),null,null);
             hidemap();
-            setTitle("About");
+            //setTitle("About");
         } else if (id == R.id.nav_map) {
             //mapFragment.getMapAsync(this);
             /*------------------markers---------------------------*/
@@ -354,11 +353,11 @@ public class MainActivity extends AppCompatActivity
             }
         } else if(id == R.id.nav_Application_guide){
            show_pass(new Application(),null,null);
-           setTitle("Application Guide");
+           //setTitle("Application Guide");
            hidemap();
         } else if (id == R.id.nav_Application_home) {
             show_pass(new HomeActivity(),null,null);
-            this.setTitle("Home");
+            //this.setTitle("Home");
             hidemap();
         }
         hide_slide();
@@ -506,6 +505,7 @@ public class MainActivity extends AppCompatActivity
         return filtered_house;
     }
     public void show_pass(Fragment fragment, ArrayList list, Place house){
+        set_title(fragment);
         if(!check_internet() && (fragment instanceof House_list || fragment instanceof House_detail)){
             getSupportFragmentManager().beginTransaction().
                     setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
@@ -705,13 +705,17 @@ public class MainActivity extends AppCompatActivity
                             e.printStackTrace();
                         }
                     }
-                    show_pass(new HomeActivity(),formlist,null);
+                    getSupportFragmentManager().beginTransaction().
+                            setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
+                            replace(R.id.container, new HomeActivity()).
+                            addToBackStack(null).
+                            commitAllowingStateLoss();
                 }
 
             }).start();
             set_item_check(0);
         }
-        set_title();
+        setTitle("Home");
     }
 
     public boolean check_internet(){

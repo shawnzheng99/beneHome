@@ -21,6 +21,7 @@
             android:layout_marginTop="20dp"
             android:text="Application type(s)"
             android:textSize="18sp"
+            android:textColor="@color/textBlack"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt-title-eligi" />
@@ -99,6 +100,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Unit type(s)"
+            android:textColor="@color/textBlack"
+
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -168,6 +171,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Location area"
+            android:textColor="@color/textBlack"
+
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
