@@ -1,5 +1,6 @@
 package zhengc.bcit.ca.benehome;
 
+import android.annotation.SuppressLint;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ public class No_result_Activity extends Fragment {
         super.onCreate(savedInstanceState);
         mainActivity = (MainActivity)getActivity();
     }
+    @SuppressLint("InflateParams")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
         /*--images retrieved from
             https://dribbble.com/shots/2936116-No-Result-Found

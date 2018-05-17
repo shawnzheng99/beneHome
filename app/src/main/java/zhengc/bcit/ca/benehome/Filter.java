@@ -1,5 +1,6 @@
 package zhengc.bcit.ca.benehome;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -17,21 +18,19 @@ public class Filter extends Fragment implements View.OnClickListener {
     private Button btn_1_1, btn_1_2, btn_1_3, btn_1_4, btn_1_5;
     private Button btn_2_1, btn_2_2, btn_2_3, btn_2_4;
     private Button btn_3_1, btn_3_2, btn_3_3, btn_3_4;
-    private Button btn_next;
     private boolean filter1_flag[] = {false, false, false, false, false};
     private String filter1_keyword[] = {"Families", "Seniors", "disabilities", "Single", "Couples"};
     private boolean filter2_flag[] = {false, false, false, false};
     private String filter2_keyword[] = {"Studio", "1 bedroom", "2 bedrooms", "3 bedrooms", "4 bedrooms"};
     private boolean filter3_flag[] = {false, false, false, false};
     private String filter3_keyword[] = {"Westside", "Eastside", "Downtown", "Queen"};
-    final private int color_unselected = 0xFF72C5CA;
-    final private int color_selected = 0xFFAABD58;
 
     View view;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+    @SuppressLint("InflateParams")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.activity_filter,null);
         mainActivity = (MainActivity)getActivity();
@@ -54,7 +53,7 @@ public class Filter extends Fragment implements View.OnClickListener {
         btn_3_2 = view.findViewById(R.id.btn_3_2);
         btn_3_3 = view.findViewById(R.id.btn_3_3);
         btn_3_4 = view.findViewById(R.id.btn_3_4);
-        btn_next = view.findViewById(R.id.btn_next);
+        Button btn_next = view.findViewById(R.id.btn_next);
         btn_1_1.setOnClickListener(this);
         btn_1_2.setOnClickListener(this);
         btn_1_3.setOnClickListener(this);
@@ -72,6 +71,8 @@ public class Filter extends Fragment implements View.OnClickListener {
     }
 
     public void onClick(View v) {
+        int color_unselected = 0xFF72C5CA;
+        int color_selected = 0xFFAABD58;
         switch (v.getId()) {
             case R.id.btn_1_1:
                 if (filter1_flag[0]) {

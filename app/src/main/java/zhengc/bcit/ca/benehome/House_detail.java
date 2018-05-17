@@ -8,17 +8,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 import java.util.ArrayList;
 
@@ -29,11 +25,11 @@ public class House_detail extends Fragment {
 
 //    ImageSwitcher switcher;
     ImageView imageView;
-    float initialX;
-    private Cursor cursor;
-    private  int columnIndex, position = 0;
-    private int currentPosition = 0;
-    private float downX;
+//    float initialX;
+//    private Cursor cursor;
+//    private  int columnIndex, position = 0;
+//    private int currentPosition = 0;
+//    private float downX;
 
     private boolean isLastPage = false;
     private boolean isDragPage = false;
@@ -43,7 +39,7 @@ public class House_detail extends Fragment {
 
 //    int [] images = {R.drawable.slide1,R.drawable.slide2,R.drawable.slide3};
 
-    ArrayList<String> fillin = new ArrayList<String>();
+    ArrayList<String> fillin = new ArrayList<>();
 
     ListView lv;
 
@@ -54,7 +50,7 @@ public class House_detail extends Fragment {
         super.onCreate(savedInstanceState);
         mainActivity = (MainActivity) getActivity();
     }
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint({"ClickableViewAccessibility", "InflateParams"})
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.activity_hose_detail,null);
         // set up
@@ -66,13 +62,11 @@ public class House_detail extends Fragment {
 
 //        switcher = view.findViewById(R.id.imageSwitcher);
 
-        sliderLayout = (ViewPager) view.findViewById(R.id.mygallery);
+        sliderLayout = view.findViewById(R.id.mygallery);
 
-        al = new ArrayList<String>();
+        al = new ArrayList<>();
 
-        for (String x : selectedHouse.getUrl().values()) {
-            al.add(x);
-        }
+        al.addAll(selectedHouse.getUrl().values());
 
         DetailImageAdapter dia = new DetailImageAdapter(mainActivity, al);
 
@@ -82,7 +76,7 @@ public class House_detail extends Fragment {
 
             /**
              * swipe
-             * @param position
+             * @param position position
              * @param positionOffset   move offset, 0/1
              * @param positionOffsetPixels   image move offset
              */
