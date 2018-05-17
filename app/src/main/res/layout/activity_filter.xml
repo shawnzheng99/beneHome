@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -46,6 +46,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/family_with_dependent_children"
+                android:textSize="16dp"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -56,6 +57,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/senior_age_55_or_older"
+                android:textSize="16dp"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -66,36 +68,41 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="people with disabilities"
+                android:textSize="16dp"
                 android:textColor="#FFFFFF" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn-1-4"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/single_people"
+                android:textSize="16dp"
                 android:textColor="#FFFFFF" />
 
             <Button
                 android:id="@+id/btn-1-5"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/couples"
+                android:textSize="16dp"
                 android:textColor="#FFFFFF" />
 
-            </LinearLayout>
+            <Button
+                android:id="@+id/btn-1-6"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="#72C5CA"
+                android:text="@string/show_all"
+                android:textSize="16dp"
+                android:textColor="#FFFFFF" />
 
         </LinearLayout>
 
@@ -126,6 +133,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/studio"
+                android:textSize="16dp"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -136,6 +144,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/_1_bedroom"
+                android:textSize="16dp"
                 android:textColor="#FFFFFF" />
 
         </LinearLayout>
@@ -155,6 +164,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/_2_bedrooms"
+                android:textSize="16dp"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -165,9 +175,21 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/_3_or_more_bds"
+                android:textSize="16dp"
                 android:textColor="#FFFFFF" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btn-2-5"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="#72C5CA"
+            android:text="@string/show_all"
+            android:textSize="16dp"
+            android:textColor="#FFFFFF" />
 
         <TextView
             android:id="@+id/txt-f3"
@@ -196,6 +218,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/eastside"
+                android:textSize="16dp"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -206,6 +229,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/westside"
+                android:textSize="16dp"
                 android:textColor="#FFFFFF" />
 
         </LinearLayout>
@@ -225,6 +249,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/downtown"
+                android:textSize="16dp"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -235,30 +260,37 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/queensborough"
+                android:textSize="16dp"
                 android:textColor="#FFFFFF" />
 
         </LinearLayout>
 
-        <android.support.constraint.ConstraintLayout
+        <Button
+            android:id="@+id/btn-3-5"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="#72C5CA"
+            android:text="@string/show_all"
+            android:textSize="16dp"
+            android:textColor="#FFFFFF" />
 
-            <Button
-                android:id="@+id/btn-next"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:background="#CAAB72"
-                android:text="@string/next"
-                android:textColor="#000000" />
-
-        </android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/btn-next"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:background="#CAAB72"
+            android:text="@string/next"
+            android:textSize="16dp"
+            android:textColor="#000000" />
 
     </LinearLayout>
 
 </ScrollView>
-</LinearLayout>
+
+</RelativeLayout>
