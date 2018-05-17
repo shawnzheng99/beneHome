@@ -44,8 +44,8 @@ public class HomeActivity extends Fragment implements View.OnClickListener{
         ImageButton btn_about = view.findViewById(R.id.btn_about);
         ImageButton btn_eligible = view.findViewById(R.id.btn_eligible);
         ImageButton btn_find_house = view.findViewById(R.id.btn_find_house);
-        Button btn_application = view.findViewById(R.id.btn_application);
-        Button btn_faq = view.findViewById(R.id.btn_faq);
+        ImageButton btn_application = view.findViewById(R.id.btn_application);
+        ImageButton btn_faq = view.findViewById(R.id.btn_faq);
         btn_about.setOnClickListener(this);
         btn_eligible.setOnClickListener(this);
         btn_find_house.setOnClickListener(this);
