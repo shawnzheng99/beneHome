@@ -16,8 +16,6 @@ public class UserGuide extends AppCompatActivity {
     ImageView circle2;
     ImageView circle3;
 
-    private ImageView[] tips;
-
     private boolean isLastPage = false;
     private boolean isDragPage = false;
     private boolean canJumpPage = true;
@@ -31,7 +29,7 @@ public class UserGuide extends AppCompatActivity {
         circle2 = findViewById(R.id.circle2);
         circle3 = findViewById(R.id.circle3);
 
-        viewPager = (ViewPager) findViewById(R.id.ViewPager);
+        viewPager = findViewById(R.id.ViewPager);
         ViewPagerAdpter viewPagerAdpter = new ViewPagerAdpter(this);
 
         viewPager.setAdapter(viewPagerAdpter);
@@ -42,7 +40,7 @@ public class UserGuide extends AppCompatActivity {
 
             /**
              * swipe
-             * @param position
+             * @param position position
              * @param positionOffset   move offset, 0/1
              * @param positionOffsetPixels   image move offset
              */

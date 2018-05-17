@@ -1,5 +1,6 @@
 package zhengc.bcit.ca.benehome;
 
+import android.annotation.SuppressLint;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,9 +15,6 @@ public class House_list extends Fragment{
 
     ArrayList<Place> formlist;
     ArrayList<Place> filtered_house = new ArrayList<>();
-    private static final String TAG = House_list.class.getName();
-    private String[] keywords;
-    private int keywords_size = 0;
     View view;
     private MainActivity mainActivity;
 
@@ -29,6 +27,7 @@ public class House_list extends Fragment{
         mainActivity = (MainActivity) getActivity();
     }
 
+    @SuppressLint("InflateParams")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         RecyclerView recyclerView;
         RVAdapter adapter;

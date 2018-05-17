@@ -19,7 +19,6 @@ public class Place implements Serializable {
     private String Phone;
     private String Y;
     private String X;
-    private String Website;
     private String Apply;
     private String TotalUnit;
     private String TypeUnits;
@@ -30,10 +29,10 @@ public class Place implements Serializable {
     private String Middle;
     private String Secondary;
 
-    public Place() {
+    Place() {
 
     }
-    public Place(String name, HashMap<String,String> url, String description, String category, String hours, String location, String PC, String email, String phone, String y, String x, String website, String apply, String totalUnit, String typeUnits, String eligible, String pets, String boundaries, String elementary, String middle, String secondary) {
+    public Place(String name, HashMap<String,String> url, String description, String category, String hours, String location, String PC, String email, String phone, String y, String x, String apply, String totalUnit, String typeUnits, String eligible, String pets, String boundaries, String elementary, String middle, String secondary) {
         Name = name;
         Url = url;
         Description = description;
@@ -45,7 +44,6 @@ public class Place implements Serializable {
         Phone = phone;
         Y = y;
         X = x;
-        Website = website;
         Apply = apply;
         TotalUnit = totalUnit;
         TypeUnits = typeUnits;
@@ -173,9 +171,6 @@ public class Place implements Serializable {
         X = x;
     }
 
-    public void setWebsite(String website) {
-        Website = website;
-    }
 
     public String getName() {
         return Name;
@@ -221,9 +216,6 @@ public class Place implements Serializable {
         return X;
     }
 
-    public String getWebsite() {
-        return Website;
-    }
 
 
 }

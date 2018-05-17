@@ -1,5 +1,6 @@
 package zhengc.bcit.ca.benehome;
 
+import android.annotation.SuppressLint;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ public class No_internet_Activity extends Fragment {
         super.onCreate(savedInstanceState);
         mainActivity = (MainActivity)getActivity();
     }
+    @SuppressLint("InflateParams")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
         /*--images retrieved from
             https://www.pinterest.ca/timoa/mobile-ui-errors

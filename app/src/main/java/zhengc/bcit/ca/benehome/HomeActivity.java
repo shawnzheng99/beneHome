@@ -1,20 +1,14 @@
 package zhengc.bcit.ca.benehome;
 
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -37,19 +31,21 @@ public class HomeActivity extends Fragment implements View.OnClickListener{
     private ImageButton btn_application;
     private ImageButton btn_faq;
     View view;
+  
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+    @SuppressLint("InflateParams")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.activity_home,null);
         mainActivity = (MainActivity)getActivity();
-        image_logo = view.findViewById(R.id.imageView_logo);
-        btn_about = view.findViewById(R.id.btn_about);
-        btn_eligible = view.findViewById(R.id.btn_eligible);
-        btn_find_house = view.findViewById(R.id.btn_find_house);
-        btn_application = view.findViewById(R.id.btn_application);
-        btn_faq = view.findViewById(R.id.btn_faq);
+        ImageView image_logo = view.findViewById(R.id.imageView_logo);
+        ImageButton btn_about = view.findViewById(R.id.btn_about);
+        ImageButton btn_eligible = view.findViewById(R.id.btn_eligible);
+        ImageButton btn_find_house = view.findViewById(R.id.btn_find_house);
+        Button btn_application = view.findViewById(R.id.btn_application);
+        Button btn_faq = view.findViewById(R.id.btn_faq);
         btn_about.setOnClickListener(this);
         btn_eligible.setOnClickListener(this);
         btn_find_house.setOnClickListener(this);

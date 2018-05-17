@@ -90,5 +90,27 @@
     <string name="application_guide1">Please know that not all subsidized houses use The Hosuing Registry as their application database.
         You apply directly to some subsidized houses with housing provider. Please check the how to apply at the house detail page regarding house application.
   </string>
+    <string name="Apply_Online">Apply Online</string>
+    <string name="Documnet_Checklist">Documnet Checklist</string>
+    <string name="application_type_s">Application Type(s)</string>
+    <string name="family_with_dependent_children">Family with dependent children</string>
+    <string name="next">next</string>
+    <string name="queensborough">queensborough</string>
+    <string name="downtown">downtown</string>
+    <string name="westside">westside</string>
+    <string name="eastside">eastside</string>
+    <string name="location_area">Location Area</string>
+    <string name="_3_or_more_bds">3 or more bds</string>
+    <string name="_2_bedrooms">2 bedrooms</string>
+    <string name="_1_bedroom">1 bedroom</string>
+    <string name="studio">studio</string>
+    <string name="unit_type_s">Unit Type(s)</string>
+    <string name="couples">couples</string>
+    <string name="single_people">single people</string>
+    <string name="senior_age_55_or_older">senior age 55 or older</string>
+    <string name="home">Home</string>
+    <string name="house_list">House List</string>
+    <string name="map">Map</string>
+    <string name="application_guide">Application Guide</string>
 
 </resources>
