@@ -97,27 +97,18 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btn_about:
                 mainActivity.show_pass(new About(), null, null);
-                mainActivity.setTitle("About");
-                mainActivity.set_item_check(5);
                 break;
             case R.id.btn_eligible:
                 mainActivity.show_pass(new Eligible(), null, null);
-                mainActivity.setTitle("Eligibility");
-                mainActivity.set_item_check(3);
                 break;
             case R.id.btn_find_house:
                 mainActivity.show_pass(new Filter(), null, null);
-                mainActivity.setTitle("Filter");
                 break;
             case R.id.btn_application:
                 mainActivity.show_pass(new Application(), null, null);
-                mainActivity.setTitle("Application Guide");
-                mainActivity.set_item_check(6);
                 break;
             case R.id.btn_faq:
                 mainActivity.show_pass(new FAQ(), null, null);
-                mainActivity.setTitle("FAQ");
-                mainActivity.set_item_check(4);
                 break;
             default:
                 break;

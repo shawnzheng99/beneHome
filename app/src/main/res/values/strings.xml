@@ -1,97 +1,23 @@
 <resources>
     <string name="app_name">BeneHome</string>
-    <string name="get_started">Get Started</string>
-    <string name="background_img_of_the_home_page">background img of the home page</string>
-    <string name="title_activity_house_list">house_list</string>
-    <string name="eligible_clients">Eligible Clients</string>
-    <string name="eligible_type1">Families</string>
     <string name="email">Email</string>
     <string name="location">Location</string>
     <string name="apply_now">Apply Now</string>
     <string name="call">Call</string>
-    <string name="icon_1">icon 1</string>
     <string name="house_image">house image</string>
-    <string name="icon_2">icon 2</string>
-    <string name="icon_3">icon 3</string>
-    <string name="benehome">BeneHome</string>
-    <string name="search">Search</string>
-    <string name="background_of_the_main_menu_string_background_img_of_the_home_page">background of the main menu @string/background_img_of_the_home_page</string>
     <string name="eligibility">Eligibility</string>
-    <string name="back_string_icon_1">back @string/icon_1</string>
     <string name="house_detail">House Detail</string>
-    <string name="backbutton">backbutton</string>
-    <string name="question_1">Question 1</string>
-    <string name="question_2">Question 2</string>
-    <string name="check">Check</string>
-    <string name="clear">Clear</string>
-    <string name="house_listing">House Listing</string>
-    <string name="back_button_of_house_string_house_listing">back button of house @string/house_listing</string>
-    <string name="checked">All checked!</string>
-    <string name="fire">OK</string>
     <string name="Filter">Filter</string>
-    <string name="house_type_content1">Subsidized housing (rent geared to income)</string>
-    <string name="question1">Do you have children or dependents that live with you?</string>
-    <string name="question2">What age is the oldest person in your household?</string>
-    <string name="question3">Do you have spouse?</string>
-    <string name="question4">Do you disabilities or have people with disabilities that live with you?</string>
-    <string name="question5">Do your household income over $50,000 last year, before taxes?</string>
-    <string-array name="yesNo">
-        <item> </item>
-        <item>Yes</item>
-        <item>No</item>
-    </string-array>
-    <string-array name="age">
-        <item> </item>
-        <item>Under 55</item>
-        <item>Between 55 and 65 years old</item>
-        <item>Over 65 years old</item>
-    </string-array>
-    <string name="title_activity_map_view">Map</string>
-    <string name="hello_blank_fragment">google map view</string>
-    <string name="title_activity_maps">Map</string>
     <string name="faq">FAQ</string>
-    <string name="back_button_for_faq_string_background_img_of_the_home_page">back button for faq @string/background_img_of_the_home_page</string>
-    <string name="back_button_for_about_page">back button for about page</string>
     <string name="about">About</string>
-    <string name="subsidized_housing_is_long_term_housing_for_people_who_permanently_reside_in_british_columbia_rental_fees_are_calculated_on_a_rent_geared_to_income_basis_30_of_household_total_gross_income_subject_to_minimum_rent_based_on_of_people">Subsidized housing is long-term housing for people who permanently reside in British Columbia. Rental fees are calculated on a rent geared to income basis
-        (30% of household total gross income, subject to minimum rent based on # of people).You may be eligible for subsidized housing if you can live independently and meet the household, residency, income and assets criteria. Please read through Am I Eligible section in the FAQ to confirm your eligibility or check your
-        eligibility through eligibility section in the main menu.</string>
-    <string name="map_view">Map View</string>
-    <string name="title_activity_nav">NavActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="title_activity_home">HomeActivity</string>
-
+    <string name="apply_online">Apply to The Housing Registry</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_main2">Main2Activity</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">beneHome@gmail.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="apply_online">Apply to The Housing Registry</string>
-    <string name="apply_online1">The Housing Registry is a centralized database, managed by BC Housing,
-        of applicants in search of subsidized housing. The Registry allows your single application form to be
-        considered for available units managed by BC Housing and a number of non-profit and co-operative housing
-        providers that have chosen to use The Housing Registry database. You can apply online using the button below.
-    </string>
+    <string name="apply_online1">The Housing Registry is a centralized database, managed by BC Housing, of applicants in search of subsidized housing. The Registry allows your single application form to be considered for available units managed by BC Housing and a number of non-profit and co-operative housing providers that have chosen to use The Housing Registry database. You can apply online using the button below. </string>
     <string name="other_apply">Apply to Non-profit and Co-op Housing Providers</string>
-    <string name="other_apply1">Not all non-profit societies and co-operatives use The Housing Registry as their
-        applicant database, so to increase your chances of securing subsidized housing, we recommend that you apply
-        directly to these non-profit societies and co-operatives.
-    </string>
-
-    <string name="checklist">Please note that you are required to submit copies of supporting documents with your Declaration.
-    You can check the document list using the button below</string>
-
-
-    <string name="application_guide1">Please know that not all subsidized houses use The Hosuing Registry as their application database.
-        You apply directly to some subsidized houses with housing provider. Please check the how to apply at the house detail page regarding house application.
-  </string>
+    <string name="other_apply1">Not all non-profit societies and co-operatives use The Housing Registry as their applicant database, so to increase your chances of securing subsidized housing, we recommend that you apply directly to these non-profit societies and co-operatives. </string>
+    <string name="checklist">Please note that you are required to submit copies of supporting documents with your Declaration. You can check the document list using the button below</string>
     <string name="Apply_Online">Apply Online</string>
-    <string name="Documnet_Checklist">Documnet Checklist</string>
     <string name="application_type_s">Application Type(s)</string>
     <string name="family_with_dependent_children">Family with dependent children</string>
     <string name="next">next</string>
@@ -112,5 +38,39 @@
     <string name="house_list">House List</string>
     <string name="map">Map</string>
     <string name="application_guide">Application Guide</string>
+    <string name="check_list_1">Identification and proof of status in Canada for all household members</string>
+    <string name="check_list_2">Proof of current address and rent:</string>
+    <string name="check_list_3">Proof of income and assets:</string>
+    <string name="check_list_4">Proof of full–time student status for dependent children aged 19–24:</string>
+    <string name="check_list_5">Copy of repayment agreement (if money is owed to previous subsidized housing):</string>
+    <string name="check_list_6">Copy of Notice to End Tenancy:</string>
+    <string name="check_list_1_1">For each family member born in Canada: a copy of Canadian birth certificate</string>
+    <string name="check_list_1_2">For each family member not born in Canada: a copy of citizenship or immigration document. Acceptable documents include:  Canadian Citizenship Card (if date issued is more than 8 years ago); or  Permanent Resident Card (both sides); or Record of Landing (IMM1000); or  Sponsorship Undertaking: Confirmation of Permanent Residence (IMM5292); or  IMM5617 - Verification of Landing (if landing date is more than 10 years ago).</string>
+    <string name="check_list_2_1">Copy of current rent receipt or recent rent increase notice; or</string>
+    <string name="check_list_2_2">Copy of lease or tenancy agreement showing current rent amount.</string>
+    <string name="check_list_3_1">If receiving income assistance from the Ministry of Social Development and Social Innovation:  Copy of income assistance cheque stub; or  Letter from your MSDSI worker confirming monthly income assistance amount</string>
+    <string name="check_list_3_2">If employed:  Last three consecutive pay stubs showing gross monthly income; or  Letter from employer confirming gross monthly income</string>
+    <string name="check_list_3_3">If other income source(s): Copies of cheque stubs, banks statements showing direct deposit of pensions, or other confirmation of income</string>
+    <string name="check_list_3_4">If you own property: Property tax assessments for value of property owned and proof of outstanding mortgage(s)</string>
+    <string name="check_list_3_5">If you have assets other than property: Copies of bank statements or letter from financial institution stating total asset value.</string>
+    <string name="check_list_4_1">Proof of full-time attendance or enrollment at a school, university or vocational institution which provides a recognized diploma, certificate or degree    Note: Must be under age 25. Full-time attendance means enrolment in the minimum of credit courses specified by the institution to be considered full-time, or if not specified by the institution, enrolment in a minimum of 15 hours of classroom instruction per week in each school term.</string>
+    <string name="check_list_5_1">Repayment agreement(s) you have with your past landlord(s).</string>
+    <string name="check_list_6_1">If you have received a legal Notice to End Tenancy, a copy of all pages of the Notice to End Tenancy. This must be the official form from the Residential Tenancy Branch (RTB). To get a copy of this form, call the RTB at 604 660–3456 or download it from www.rto.gov.bc.ca.</string>
+    <string name="btn_documnet_checklist">documnet checklist</string>
+    <string name="btn_apply_online">Apply Online</string>
+    <string name="faq_list_1">1.Who is considered a dependent child?</string>
+    <string name="faq_list_2">2.When will I receive an offer for subsidized housing?</string>
+    <string name="faq_list_3">3.What are the residency requirements?</string>
+    <string name="faq_list_4">4.How will I be contacted?</string>
+    <string name="faq_list_5">5.How much will I pay</string>
+    <string name="faq_list_6">6.Do I need to provide a landlord reference?</string>
+    <string name="faq_list_7">7.Can I have a pet?</string>
+    <string name="faq_list_1_1">An unmarried child, stepchild, adopted child or legal ward, mainly supported by the applicant, who is:  Under 19 years of age; or Under 25 years of age and registered in full-time school, university or vocational institute which provides a recognized diploma, certificate, or degree; or Of any age who, because of mental or physical infirmity, is accepted as a dependent for income tax purposes.</string>
+    <string name="faq_list_2_1">The demand for subsidized housing far exceeds the available supply. As a result,it is not possible to predict when a unit may come available. Wait times depend on the number of unit turnovers and the needs of other households applying for housing. To increase your chances of obtaining a unit, select a range of developments with The Housing Registry and apply directly to developments that are not part of the registry.</string>
+    <string name="faq_list_3_1">Applicants must permanently reside in British Columbia when applying, and each member of the household must be one of the following:  Canadian citizen  Individual lawfully admitted into Canada for permanent residence  Refugee sponsored by the Government of Canada  Individual who has applied for refugee status</string>
+    <string name="faq_list_4_1">When you are being considered for a vacant unit, the housing provider will call you for more information.At this time, the housing provider will perform additional validations and checks to determine if they will offer you an available unit. Each housing provider will have their own process for reviewing and evaluating applications for possible tenancies.</string>
+    <string name="faq_list_5_1">If you are offered a rent-geared-to-income unit, the amount you will pay depends on the size of your family and your gross household income. If you are offered a low-end of market unit, you will pay an amount set at, or slightly below, private market rents. View information on rent-geared-to-income and market housing. Some housing developments may have other charges. View the Housing Listings for notes about other charges or expenses.</string>
+    <string name="faq_list_6_1">Most housing providers perform landlord reference checks when they are reviewing applicants for future available units. Applicants, who have been identified as potentially not eligible due to an unsatisfactory tenancy history, will be asked to provide a current and verifiable landlord reference(s) demonstrating that they have maintained a successful tenancy with no reoccurrence of the behaviours demonstrated in past tenancies.</string>
+    <string name="faq_list_7_1">Each housing provider has its own pet policy and if they allow pets, there may be restrictions on both the types and number of pets you can have.</string>
 
 </resources>
