@@ -40,27 +40,28 @@
 
             <TextView
                 android:id="@+id/location_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/news_header"
-                android:layout_margin="5dp"
-                android:maxLines="1" />
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:maxLines="1"
+                android:textSize="80px"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/location_location"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/location_name"
                 android:layout_margin="5dp"
                 android:maxLines="2" />
 
-            <TextView
-                android:id="@+id/location_total_unit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/location_location"
-                android:layout_margin="5dp"
-                android:maxLines="2" />
+
 
 
 
