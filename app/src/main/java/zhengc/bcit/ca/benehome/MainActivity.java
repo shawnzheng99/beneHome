@@ -243,6 +243,36 @@ public class MainActivity extends AppCompatActivity
             set_title(get_current_fragment());
             return;
         }
+        if(f instanceof No_internet_Activity || f instanceof No_result_Activity){
+            show_pass(new HomeActivity(), formlist,null);
+            set_title(get_current_fragment());
+            return;
+        }
+        if(f instanceof Filter){
+            super.onBackPressed();
+            set_title(get_current_fragment());
+            return;
+        }
+        if(f instanceof About){
+            super.onBackPressed();
+            set_title(get_current_fragment());
+            return;
+        }
+        if(f instanceof Eligible){
+            super.onBackPressed();
+            set_title(get_current_fragment());
+            return;
+        }
+        if(f instanceof Application){
+            super.onBackPressed();
+            set_title(get_current_fragment());
+            return;
+        }
+        if(f instanceof FAQ){
+            super.onBackPressed();
+            set_title(get_current_fragment());
+            return;
+        }
         if(drawer.isDrawerOpen(GravityCompat.START)){
             on_back_press_twice_to_exit++;
             if(on_back_press_twice_to_exit == 2){
