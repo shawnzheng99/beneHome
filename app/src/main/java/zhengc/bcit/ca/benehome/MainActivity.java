@@ -558,7 +558,6 @@ public class MainActivity extends AppCompatActivity
         }
         TextView t = findViewById(R.id.name);
         t.setTypeface(t.getTypeface(), Typeface.BOLD);
-        t.setText("House Detail");
         Bundle data = new Bundle();
         data.putSerializable("house",house);
         fragment.setArguments(data);
