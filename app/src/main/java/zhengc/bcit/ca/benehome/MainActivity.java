@@ -454,7 +454,7 @@ public class MainActivity extends AppCompatActivity
             mMap.animateCamera(location);
         }else{
             LatLng temp = new LatLng(Double.parseDouble(markers.get(0).getY()),Double.parseDouble(markers.get(0).getX()));
-            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(temp, 20);
+            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(temp, 17);
             mMap.animateCamera(location);
         }
 
@@ -491,6 +491,7 @@ public class MainActivity extends AppCompatActivity
     }
     public void pass_to_map(Place house){
        // mapFragment.getMapAsync(this);
+        hide_slide();
         ArrayList<Place> temp = new ArrayList<>();
         temp.add(house);
         displaymap(temp);
