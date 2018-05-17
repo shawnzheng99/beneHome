@@ -258,10 +258,9 @@ public class MainActivity extends AppCompatActivity
             if(on_back_press_twice_to_exit == 2){
                 on_back_press_twice_to_exit = 0;
                 moveTaskToBack(true);
-                android.os.Process.killProcess(android.os.Process.myPid());
-                System.exit(1);
             }
             Toast.makeText(this,"Press again to exit",Toast.LENGTH_LONG).show();
+            return;
         }
         if(f instanceof Filter){
             if(filter_on_map){
@@ -280,8 +279,6 @@ public class MainActivity extends AppCompatActivity
             if(on_back_press_twice_to_exit == 2){
                 on_back_press_twice_to_exit = 0;
                 moveTaskToBack(true);
-                android.os.Process.killProcess(android.os.Process.myPid());
-                System.exit(1);
             }
             Toast.makeText(this,"Press again to exit",Toast.LENGTH_LONG).show();
         }else{
