@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         if(frag instanceof Filter){
-            set_item_check(0);
+            set_all_item_uncheck();
             this.setTitle("Filter");
             return;
         }
