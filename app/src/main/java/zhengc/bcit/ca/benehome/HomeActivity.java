@@ -30,8 +30,8 @@ public class HomeActivity extends Fragment implements View.OnClickListener{
     private ImageButton btn_find_house;
     private ImageButton btn_application;
     private ImageButton btn_faq;
-
     View view;
+  
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
