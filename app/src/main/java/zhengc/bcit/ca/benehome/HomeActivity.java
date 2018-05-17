@@ -15,37 +15,28 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-public class HomeActivity extends Fragment implements View.OnClickListener{
+public class HomeActivity extends Fragment implements View.OnClickListener {
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_home);
-//    }
     private MainActivity mainActivity;
     private static final String TAG = House_detail.class.getName();
-    private ImageView image_logo;
-    private ImageButton btn_about;
-    private ImageButton btn_eligible;
-    private ImageButton btn_find_house;
-    private ImageButton btn_application;
-    private ImageButton btn_faq;
+
     View view;
-  
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
     @SuppressLint("InflateParams")
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        view = inflater.inflate(R.layout.activity_home,null);
-        mainActivity = (MainActivity)getActivity();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.activity_home, null);
+        mainActivity = (MainActivity) getActivity();
         ImageView image_logo = view.findViewById(R.id.imageView_logo);
         ImageButton btn_about = view.findViewById(R.id.btn_about);
         ImageButton btn_eligible = view.findViewById(R.id.btn_eligible);
         ImageButton btn_find_house = view.findViewById(R.id.btn_find_house);
-        Button btn_application = view.findViewById(R.id.btn_application);
-        Button btn_faq = view.findViewById(R.id.btn_faq);
+        ImageButton btn_application = view.findViewById(R.id.btn_application);
+        ImageButton btn_faq = view.findViewById(R.id.btn_faq);
         btn_about.setOnClickListener(this);
         btn_eligible.setOnClickListener(this);
         btn_find_house.setOnClickListener(this);
@@ -76,18 +67,11 @@ public class HomeActivity extends Fragment implements View.OnClickListener{
             image_logo.setLayoutParams(lp);
         }
 
-//        image_logo.setLayoutParams(new LinearLayout.LayoutParams(width, height - width / 6 * 5 - (int)px));
-
-
-//        btn_about.setLayoutParams(new LinearLayout.LayoutParams(width / 3, width / 3));
-//        btn_eligible.setLayoutParams(new LinearLayout.LayoutParams(width / 3, width / 3));
-//        btn_find_house.setLayoutParams(new LinearLayout.LayoutParams(width / 3 * 2, width / 3 * 2));
-//        btn_application.setLayoutParams(new LinearLayout.LayoutParams(width / 2, width / 2));
-//        btn_faq.setLayoutParams(new LinearLayout.LayoutParams(width / 2, width / 2));
 
         LinearLayout.LayoutParams lp1;
         LinearLayout.LayoutParams lp2;
         LinearLayout.LayoutParams lp3;
+        LinearLayout.LayoutParams lp4;
 
         lp1 = new LinearLayout.LayoutParams(width / 3 - 30, width / 3 - 20);
         lp1.setMargins(20, 10, 10, 10);
@@ -101,35 +85,30 @@ public class HomeActivity extends Fragment implements View.OnClickListener{
         lp3 = new LinearLayout.LayoutParams(width / 2 - 30, width / 2 - 30);
         lp3.setMargins(20, 10, 10, 20);
         btn_application.setLayoutParams(lp3);
-        btn_faq.setLayoutParams(lp3);
+
+        lp4 = new LinearLayout.LayoutParams(width / 2 - 30, width / 2 - 30);
+        lp4.setMargins(10, 10, 20, 20);
+        btn_faq.setLayoutParams(lp4);
 
         return view;
     }
+
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_about:
-                mainActivity.show_pass(new About(),null,null);
-                mainActivity.setTitle("About");
-                mainActivity.set_item_check(5);
+                mainActivity.show_pass(new About(), null, null);
                 break;
             case R.id.btn_eligible:
-                mainActivity.show_pass(new Eligible(),null,null);
-                mainActivity.setTitle("Eligibility");
-                mainActivity.set_item_check(3);
+                mainActivity.show_pass(new Eligible(), null, null);
                 break;
             case R.id.btn_find_house:
-                mainActivity.show_pass(new Filter(),null,null);
-                mainActivity.setTitle("Filter");
+                mainActivity.show_pass(new Filter(), null, null);
                 break;
             case R.id.btn_application:
-                mainActivity.show_pass(new Application(),null,null);
-                mainActivity.setTitle("Application Guide");
-                mainActivity.set_item_check(6);
+                mainActivity.show_pass(new Application(), null, null);
                 break;
             case R.id.btn_faq:
-                mainActivity.show_pass(new FAQ(),null,null);
-                mainActivity.setTitle("FAQ");
-                mainActivity.set_item_check(4);
+                mainActivity.show_pass(new FAQ(), null, null);
                 break;
             default:
                 break;

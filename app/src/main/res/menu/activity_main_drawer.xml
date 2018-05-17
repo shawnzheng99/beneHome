@@ -10,7 +10,7 @@
             android:title="@string/home" />
         <item
             android:id="@+id/nav_houselist"
-            android:icon="@drawable/ic_home_black_24dp"
+            android:icon="@drawable/ic_view_house_list_24dp"
             android:title="@string/house_list" />
         <item
             android:id="@+id/nav_map"

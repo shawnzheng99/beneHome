@@ -235,16 +235,50 @@ public class MainActivity extends AppCompatActivity
         }
         if(f instanceof House_detail){
             super.onBackPressed();
-            set_title(f);
+            set_title(get_current_fragment());
             return;
         }
+        if(f instanceof Document){
+            super.onBackPressed();
+            set_title(get_current_fragment());
+            return;
+        }
+        if(f instanceof No_internet_Activity
+                || f instanceof No_result_Activity
+                || f instanceof About
+                || f instanceof Eligible
+                || f instanceof Application
+                || f instanceof FAQ){
+            show_pass(new HomeActivity(), formlist,null);
+            set_title(get_current_fragment());
+            return;
+        }
+        if (f instanceof HomeActivity){
+            on_back_press_twice_to_exit++;
+            if(on_back_press_twice_to_exit == 2){
+                on_back_press_twice_to_exit = 0;
+                moveTaskToBack(true);
+            }
+            Toast.makeText(this,"Press again to exit",Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(f instanceof Filter){
+            if(filter_on_map){
+                displaymap(filtered_house);
+                show_pass(new HomeActivity(), formlist,null);
+                return;
+            }
+            super.onBackPressed();
+            set_title(get_current_fragment());
+            return;
+        }
+
+
         if(drawer.isDrawerOpen(GravityCompat.START)){
             on_back_press_twice_to_exit++;
             if(on_back_press_twice_to_exit == 2){
                 on_back_press_twice_to_exit = 0;
                 moveTaskToBack(true);
-                android.os.Process.killProcess(android.os.Process.myPid());
-                System.exit(1);
             }
             Toast.makeText(this,"Press again to exit",Toast.LENGTH_LONG).show();
         }else{
@@ -259,7 +293,7 @@ public class MainActivity extends AppCompatActivity
         }
         if(frag instanceof House_list){
             set_item_check(1);
-            this.setTitle("House list");
+            this.setTitle("House List");
             return;
         }
         if(frag instanceof About){
@@ -269,12 +303,12 @@ public class MainActivity extends AppCompatActivity
         }
         if(frag instanceof Eligible){
             set_item_check(4);
-            this.setTitle("Eligible");
+            this.setTitle("Eligibility");
             return;
         }
         if(frag instanceof Application){
             set_item_check(5);
-            this.setTitle("Application");
+            this.setTitle("Application Guide");
             return;
         }
         if(frag instanceof FAQ){
@@ -284,11 +318,14 @@ public class MainActivity extends AppCompatActivity
         }
 
         if(frag instanceof Filter){
-            set_item_check(0);
+            set_all_item_uncheck();
             this.setTitle("Filter");
             return;
         }
-
+        if(frag instanceof Document){
+            this.setTitle("Document Checklist");
+            return;
+        }
         this.setTitle("BeneHome");
     }
     @Override
@@ -454,7 +491,7 @@ public class MainActivity extends AppCompatActivity
             mMap.animateCamera(location);
         }else{
             LatLng temp = new LatLng(Double.parseDouble(markers.get(0).getY()),Double.parseDouble(markers.get(0).getX()));
-            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(temp, 20);
+            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(temp, 17);
             mMap.animateCamera(location);
         }
 
@@ -472,6 +509,7 @@ public class MainActivity extends AppCompatActivity
                 hide(mapFragment).commit();
     }
     public void displaymap(ArrayList<Place> list){
+        on_back_press_twice_to_exit = 0;
         if(!check_internet()){
             getSupportFragmentManager().beginTransaction().
                     setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
@@ -491,6 +529,7 @@ public class MainActivity extends AppCompatActivity
     }
     public void pass_to_map(Place house){
        // mapFragment.getMapAsync(this);
+        hide_slide();
         ArrayList<Place> temp = new ArrayList<>();
         temp.add(house);
         displaymap(temp);
@@ -504,6 +543,7 @@ public class MainActivity extends AppCompatActivity
         return filtered_house;
     }
     public void show_pass(Fragment fragment, ArrayList list, Place house){
+        on_back_press_twice_to_exit = 0;
         set_title(fragment);
         if(!check_internet() && (fragment instanceof House_list || fragment instanceof House_detail)){
             getSupportFragmentManager().beginTransaction().
