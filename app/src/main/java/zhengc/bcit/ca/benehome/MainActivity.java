@@ -681,17 +681,7 @@ public class MainActivity extends AppCompatActivity
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
         if(!isConnected){
-//            AlertDialog.Builder alertChk = new AlertDialog.Builder(this);
-//            alertChk.setTitle("No internet connections")
-//                    .setMessage("Please check your internet connections")
-//                    .setCancelable(false)
-//                    .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-//                public void onClick(DialogInterface dialog, int id) {
-//                    // do nothing
-//                }
-//            });
-//            AlertDialog alertDialog = alertChk.create();
-//            alertDialog.show();
+
             show_pass(new No_internet_Activity(),null,null);
 
         }else{
