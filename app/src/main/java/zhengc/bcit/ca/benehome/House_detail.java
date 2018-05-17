@@ -184,6 +184,8 @@ public class House_detail extends Fragment {
                 "<br></P>"));
 
         tv.setMovementMethod(LinkMovementMethod.getInstance());
+
+        
 //        switcher.setFactory(new ViewSwitcher.ViewFactory() {
 //            @Override
 //            public View makeView() {
