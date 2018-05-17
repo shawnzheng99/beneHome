@@ -121,10 +121,21 @@ public class House_detail extends Fragment {
             as = "Apply to housing provider.";
         }
 
-        tv.setText(Html.fromHtml("<h1>" + selectedHouse.getName() + "</h1>\n" +
-                "<P><h2>Address</h2>\n" +
-                selectedHouse.getLocation() +
-                "<br>New Westerminster, BC   \n" +
+        TextView houseName = view.findViewById(R.id.house_name);
+        houseName.setText(Html.fromHtml("<h1>" + selectedHouse.getName() + "</h1>" ));
+
+        TextView add = view.findViewById(R.id.address);
+        add.setText(Html.fromHtml("<P><h2>Address</h2>\n" +
+                selectedHouse.getLocation()+"\n" +
+                "<br>New Westminster, BC"));
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainActivity.pass_to_map(selectedHouse);
+            }
+        });
+
+        tv.setText(Html.fromHtml(
                 selectedHouse.getPC() +
                 "<br><br><h2>Phone</h2>" +
                 selectedHouse.getPhone() +
