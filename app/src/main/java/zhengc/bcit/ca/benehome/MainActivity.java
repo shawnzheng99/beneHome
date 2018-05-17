@@ -243,36 +243,38 @@ public class MainActivity extends AppCompatActivity
             set_title(get_current_fragment());
             return;
         }
-        if(f instanceof No_internet_Activity || f instanceof No_result_Activity){
+        if(f instanceof No_internet_Activity
+                || f instanceof No_result_Activity
+                || f instanceof About
+                || f instanceof Eligible
+                || f instanceof Application
+                || f instanceof FAQ){
             show_pass(new HomeActivity(), formlist,null);
             set_title(get_current_fragment());
             return;
         }
+        if (f instanceof HomeActivity){
+            on_back_press_twice_to_exit++;
+            if(on_back_press_twice_to_exit == 2){
+                on_back_press_twice_to_exit = 0;
+                moveTaskToBack(true);
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
+            }
+            Toast.makeText(this,"Press again to exit",Toast.LENGTH_LONG).show();
+        }
         if(f instanceof Filter){
+            if(filter_on_map){
+                displaymap(filtered_house);
+                show_pass(new HomeActivity(), formlist,null);
+                return;
+            }
             super.onBackPressed();
             set_title(get_current_fragment());
             return;
         }
-        if(f instanceof About){
-            super.onBackPressed();
-            set_title(get_current_fragment());
-            return;
-        }
-        if(f instanceof Eligible){
-            super.onBackPressed();
-            set_title(get_current_fragment());
-            return;
-        }
-        if(f instanceof Application){
-            super.onBackPressed();
-            set_title(get_current_fragment());
-            return;
-        }
-        if(f instanceof FAQ){
-            super.onBackPressed();
-            set_title(get_current_fragment());
-            return;
-        }
+
+
         if(drawer.isDrawerOpen(GravityCompat.START)){
             on_back_press_twice_to_exit++;
             if(on_back_press_twice_to_exit == 2){
@@ -510,6 +512,7 @@ public class MainActivity extends AppCompatActivity
                 hide(mapFragment).commit();
     }
     public void displaymap(ArrayList<Place> list){
+        on_back_press_twice_to_exit = 0;
         if(!check_internet()){
             getSupportFragmentManager().beginTransaction().
                     setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
@@ -543,6 +546,7 @@ public class MainActivity extends AppCompatActivity
         return filtered_house;
     }
     public void show_pass(Fragment fragment, ArrayList list, Place house){
+        on_back_press_twice_to_exit = 0;
         set_title(fragment);
         if(!check_internet() && (fragment instanceof House_list || fragment instanceof House_detail)){
             getSupportFragmentManager().beginTransaction().
