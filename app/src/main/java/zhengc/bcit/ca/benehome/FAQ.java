@@ -16,7 +16,7 @@ public class FAQ extends Fragment {
 
     private List<String> listDataHeader;
     private HashMap<String, List<String>> listHash;
-    View view;
+    private View view;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

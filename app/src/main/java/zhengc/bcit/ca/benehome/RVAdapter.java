@@ -1,29 +1,16 @@
 package zhengc.bcit.ca.benehome;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-import static java.lang.Thread.sleep;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
 

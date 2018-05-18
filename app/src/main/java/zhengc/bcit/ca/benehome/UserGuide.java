@@ -11,10 +11,10 @@ import android.widget.ImageView;
  */
 public class UserGuide extends AppCompatActivity {
 
-    ViewPager viewPager;
-    ImageView circle1;
-    ImageView circle2;
-    ImageView circle3;
+    private ViewPager viewPager;
+    private ImageView circle1;
+    private ImageView circle2;
+    private ImageView circle3;
 
     private boolean isLastPage = false;
     private boolean isDragPage = false;

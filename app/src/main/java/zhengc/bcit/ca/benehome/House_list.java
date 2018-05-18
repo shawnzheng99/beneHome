@@ -13,9 +13,9 @@ import java.util.ArrayList;
 
 public class House_list extends Fragment{
 
-    ArrayList<Place> formlist;
-    ArrayList<Place> filtered_house = new ArrayList<>();
-    View view;
+    private ArrayList<Place> formlist;
+    private ArrayList<Place> filtered_house = new ArrayList<>();
+    private View view;
     private MainActivity mainActivity;
 
     // recycleView

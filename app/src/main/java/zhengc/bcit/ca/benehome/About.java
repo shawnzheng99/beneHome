@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 
 public class About extends Fragment {
-    View view;
+    private View view;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

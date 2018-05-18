@@ -13,8 +13,8 @@ import java.util.Random;
 
 public class No_internet_Activity extends Fragment {
 
-    View view;
-    MainActivity mainActivity;
+    private View view;
+    private MainActivity mainActivity;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

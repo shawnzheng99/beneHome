@@ -54,7 +54,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = MainActivity.class.getName();
     private GoogleMap mMap;
     private ArrayList<Place> markers;
-    SupportMapFragment mapFragment;
+    private SupportMapFragment mapFragment;
     private SlidingUpPanelLayout mLayout;
     private NavigationView navigationView;
     private ArrayList<Place> filtered_house;
@@ -72,12 +71,12 @@ public class MainActivity extends AppCompatActivity
     private DatabaseReference databaseReference;
     private ImageButton imageButton;
     //auth
-    FirebaseAuth mAuth;
-    FirebaseUser user;
-    DrawerLayout drawer;
-    Fragment f;
-    boolean filter_on_map = false;
-    int on_back_press_twice_to_exit = 0;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    private DrawerLayout drawer;
+    private Fragment f;
+    private boolean filter_on_map = false;
+    private int on_back_press_twice_to_exit = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

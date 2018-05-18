@@ -32,10 +32,10 @@ public class House_detail extends Fragment {
     private LinearLayout linearLayout;
     private ArrayList<ImageView> pointList = new ArrayList<>();
 
-    ViewPager sliderLayout;
+    private ViewPager sliderLayout;
 
-    TextView tv;
-    ArrayList<String> al;
+    private TextView tv;
+    private ArrayList<String> al;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -161,12 +161,11 @@ public class House_detail extends Fragment {
 
         tv.setMovementMethod(LinkMovementMethod.getInstance());
 
+
         /*contact*/
         callHouse();
         sendEmail();
-
         setApply();
-
 
         return view;
     }
@@ -255,66 +254,7 @@ public class House_detail extends Fragment {
         });
 
     }
-//    private ViewGroup.LayoutParams getListViewParams() {
-//        ListView listView = view.findViewById(R.id.androidList);
-//        ListAdapter listAdapter = listView.getAdapter();
-//        int totalHeight = 0;
-//        for (int i = 0; i < listAdapter.getCount(); i++) {
-//            View item = listAdapter.getView(i, null, listView);
-//            item.measure(0, 0);
-//            totalHeight += item.getMeasuredHeight();
-//        }
-//        ViewGroup.LayoutParams lp = listView.getLayoutParams();
-//        lp.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-//        return lp;
-//    }
 
-
-
-//    @Override
-//    public boolean onTouch(View v, MotionEvent event) {
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_DOWN:{
-//                //手指按下的X坐标
-//                downX = event.getX();
-//                break;
-//            }
-//            case MotionEvent.ACTION_UP:{
-//                float lastX = event.getX();
-//                //抬起的时候的X坐标大于按下的时候就显示上一张图片
-//                if(lastX > downX){
-//                    if(currentPosition > 0){
-//                        //设置动画，这里的动画比较简单，不明白的去网上看看相关内容
-//                        currentPosition --;
-//                        imageView.setImageResource(images[currentPosition % images.length]);
-//
-//                    }else{
-//                        Toast.makeText(mainActivity, "first page", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//
-//                if(lastX < downX){
-//                    if(currentPosition < images.length - 1){
-//
-//                        currentPosition ++ ;
-//                        imageView.setImageResource(images[currentPosition]);
-//                    }else{
-//                        Toast.makeText(mainActivity, "last page", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            }
-//
-//            break;
-//        }
-//
-//        return true;
-//
-//    }
-//
-//    @Override
-//    public View makeView() {
-//        return imageView;
-//    }
 
     private void switchPoint(int position) {
         ImageView iv;

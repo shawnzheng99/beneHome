@@ -12,9 +12,9 @@ import android.widget.Button;
 
 
 public class Application extends Fragment {
-    Button btnOnlineApply;
-    Button btnOtherApply;
-    View view;
+    private Button btnOnlineApply;
+    private Button btnOtherApply;
+    private View view;
     private MainActivity mainActivity;
     @Override
     public void onCreate(Bundle savedInstanceState) {
