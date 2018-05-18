@@ -57,7 +57,7 @@ import java.util.Map;
 import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback, Serializable {
+        implements NavigationView.OnNavigationItemSelectedListener, Serializable {
 
     private static final String TAG = MainActivity.class.getName();
     private GoogleMap mMap;
@@ -171,11 +171,11 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 //-------------------------------map load and hide it----------------------------------------------------------
-        mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+//        mapFragment = (SupportMapFragment) getSupportFragmentManager()
+//                .findFragmentById(R.id.map);
 
         //  getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
-        hidemap();
+        //hidemap();
         start_creat();
 
     }
@@ -227,11 +227,11 @@ public class MainActivity extends AppCompatActivity
             mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
             return;
         }
-        if(mapFragment.getUserVisibleHint()){
-            hidemap();
-            set_title(f);
-            return;
-        }
+//        if(mapFragment.getUserVisibleHint()){
+//            //hidemap();
+//            set_title(f);
+//            return;
+//        }
         if(f instanceof House_detail){
             super.onBackPressed();
             set_title(get_current_fragment());
@@ -361,22 +361,22 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.nav_Application_home) {
             show_pass(new HomeActivity(),filtered_house,null);
-            hidemap();
+            //hidemap();
         } else if (id == R.id.nav_houselist) {
             show_pass(new House_list(),filtered_house,null);
-            hidemap();
+            //hidemap();
             //setTitle("House List");
         } else if (id == R.id.nav_eligibility) {
             show_pass(new Eligible(), null,null);
-            hidemap();
+            //hidemap();
             //setTitle("Eligibility");
         } else if (id == R.id.nav_faq) {
             show_pass(new FAQ(),null,null);
-            hidemap();
+            //hidemap();
             //setTitle("FAQ");
         } else if (id == R.id.nav_about) {
             show_pass(new About(),null,null);
-            hidemap();
+            //hidemap();
             //setTitle("About");
         } else if (id == R.id.nav_map) {
             //mapFragment.getMapAsync(this);
@@ -389,7 +389,7 @@ public class MainActivity extends AppCompatActivity
         } else if(id == R.id.nav_Application_guide){
            show_pass(new Application(),null,null);
            //setTitle("Application Guide");
-           hidemap();
+           //hidemap();
         }
         hide_slide();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -413,97 +413,97 @@ public class MainActivity extends AppCompatActivity
         return formlist;
     }
 //------------------------------map method---------------------------------------------------
-    @Override
-    public void onMapReady(final GoogleMap googleMap) {
-        mMap = googleMap;
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.clear();
-        show_neighborhood(mMap);
-
-        /*------------Marker-------------------*/
-        for (int i = 0; i < markers.size(); ++i) {
-            LatLng temp = new LatLng(Double.parseDouble(markers.get(i).getY()),Double.parseDouble(markers.get(i).getX()));
-            mMap.addMarker(new MarkerOptions()
-                    .position(temp)
-                    .title(markers.get(i).getName())
-
-            );
-
-        }
-        /*---------------marker listener---------*/
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                Place selectHouse = new Place();
-
-                // get selected house
-                for (int j = 0; j < formlist.size(); ++j) {
-                    if (formlist.get(j).getName().equals(marker.getTitle())) {
-                        selectHouse = formlist.get(j);
-                    }
-                }
-                show_slide(new House_detail(),selectHouse);
-            }
-        });
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                if(!check_internet()){
-                    getSupportFragmentManager().beginTransaction().
-                            setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
-                            replace(R.id.container, new No_internet_Activity()).
-                            addToBackStack(null).
-                            commitAllowingStateLoss();
-                    hidemap();
-                    return false;
-                }
-                Place selectHouse = new Place();
-                // get selected house
-                for (int j = 0; j < formlist.size(); ++j) {
-                    if (formlist.get(j).getName().equals(marker.getTitle())) {
-                        selectHouse = formlist.get(j);
-                    }
-                }
-                show_slide(new House_detail(),selectHouse);
-                return false;
-            }
-        });
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) { 
-                hide_slide();
-            }
-        });
-        mMap.getUiSettings().setZoomGesturesEnabled(true);
-        zoomToMarker(markers);
-
-
-
-    }
-    public void zoomToMarker(ArrayList<Place> markers) {
-        if(markers.size() > 1 || markers.size()==0){
-            LatLng newWest = new LatLng(49.21073429331534, -122.92282036503556);
-            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest, 13);
-            mMap.animateCamera(location);
-        }else{
-            LatLng temp = new LatLng(Double.parseDouble(markers.get(0).getY()),Double.parseDouble(markers.get(0).getX()));
-            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(temp, 17);
-            mMap.animateCamera(location);
-        }
-
-    }
+//    @Override
+//    public void onMapReady(final GoogleMap googleMap) {
+//        mMap = googleMap;
+//        mMap.getUiSettings().setZoomControlsEnabled(true);
+//        mMap.clear();
+//        show_neighborhood(mMap);
+//
+//        /*------------Marker-------------------*/
+//        for (int i = 0; i < markers.size(); ++i) {
+//            LatLng temp = new LatLng(Double.parseDouble(markers.get(i).getY()),Double.parseDouble(markers.get(i).getX()));
+//            mMap.addMarker(new MarkerOptions()
+//                    .position(temp)
+//                    .title(markers.get(i).getName())
+//
+//            );
+//
+//        }
+//        /*---------------marker listener---------*/
+//        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+//            @Override
+//            public void onInfoWindowClick(Marker marker) {
+//                Place selectHouse = new Place();
+//
+//                // get selected house
+//                for (int j = 0; j < formlist.size(); ++j) {
+//                    if (formlist.get(j).getName().equals(marker.getTitle())) {
+//                        selectHouse = formlist.get(j);
+//                    }
+//                }
+//                show_slide(new House_detail(),selectHouse);
+//            }
+//        });
+//        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//            @Override
+//            public boolean onMarkerClick(Marker marker) {
+//                if(!check_internet()){
+//                    getSupportFragmentManager().beginTransaction().
+//                            setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
+//                            replace(R.id.container, new No_internet_Activity()).
+//                            addToBackStack(null).
+//                            commitAllowingStateLoss();
+//                    hidemap();
+//                    return false;
+//                }
+//                Place selectHouse = new Place();
+//                // get selected house
+//                for (int j = 0; j < formlist.size(); ++j) {
+//                    if (formlist.get(j).getName().equals(marker.getTitle())) {
+//                        selectHouse = formlist.get(j);
+//                    }
+//                }
+//                show_slide(new House_detail(),selectHouse);
+//                return false;
+//            }
+//        });
+//        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//            @Override
+//            public void onMapClick(LatLng latLng) {
+//                hide_slide();
+//            }
+//        });
+//        mMap.getUiSettings().setZoomGesturesEnabled(true);
+//        zoomToMarker(markers);
+//
+//
+//
+//    }
+//    public void zoomToMarker(ArrayList<Place> markers) {
+//        if(markers.size() > 1 || markers.size()==0){
+//            LatLng newWest = new LatLng(49.21073429331534, -122.92282036503556);
+//            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest, 13);
+//            mMap.animateCamera(location);
+//        }else{
+//            LatLng temp = new LatLng(Double.parseDouble(markers.get(0).getY()),Double.parseDouble(markers.get(0).getX()));
+//            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(temp, 17);
+//            mMap.animateCamera(location);
+//        }
+//
+//    }
     /*change formlist to filtered_house later*/
     public void setMarkers(ArrayList<Place> list) {
         markers = new ArrayList<>();
         markers = list;
     }
 
-    public void hidemap(){
-        mapFragment.setUserVisibleHint(false);
-        getSupportFragmentManager().beginTransaction().
-                setCustomAnimations(R.anim.slide_in_up,R.anim.pop_out,R.anim.pop_in,R.anim.pop_out).
-                hide(mapFragment).commit();
-    }
+//    public void hidemap(){
+//        mapFragment.setUserVisibleHint(false);
+//        getSupportFragmentManager().beginTransaction().
+//                setCustomAnimations(R.anim.slide_in_up,R.anim.pop_out,R.anim.pop_in,R.anim.pop_out).
+//                hide(mapFragment).commit();
+//    }
     public void displaymap(ArrayList<Place> list){
         on_back_press_twice_to_exit = 0;
         if(!check_internet()){
@@ -514,12 +514,13 @@ public class MainActivity extends AppCompatActivity
                     commitAllowingStateLoss();
             return;
         }
-        mapFragment.getMapAsync(this);
+        //mapFragment.getMapAsync(this);
         setMarkers(list);
-        mapFragment.setUserVisibleHint(true);
-        getSupportFragmentManager().beginTransaction().
-                setCustomAnimations(R.anim.slide_in_up,R.anim.pop_out,R.anim.pop_in,R.anim.pop_out).
-                show(mapFragment).commit();
+//        mapFragment.setUserVisibleHint(true);
+//        getSupportFragmentManager().beginTransaction().
+//                setCustomAnimations(R.anim.slide_in_up,R.anim.pop_out,R.anim.pop_in,R.anim.pop_out).
+//                replace(R.id.container,new MapsActivity()).commit();
+        show_pass(new MapsActivity(),markers,null);
         set_item_check(2);
         this.setTitle("Map");
     }
@@ -554,7 +555,7 @@ public class MainActivity extends AppCompatActivity
         data.putSerializable("all_house",formlist);
         data.putSerializable("house", house);
         fragment.setArguments(data);
-        if(mapFragment.getUserVisibleHint()){
+        if(true/*mapFragment.getUserVisibleHint()*/){
             getSupportFragmentManager().beginTransaction().
                     replace(R.id.container, fragment).
                     addToBackStack(null).
@@ -569,7 +570,7 @@ public class MainActivity extends AppCompatActivity
     }
     public void hide_slide(){
         if(mapFragment!=null){
-            if(mapFragment.getUserVisibleHint() && mMap != null){
+            if(/*mapFragment.getUserVisibleHint() &&*/ mMap != null){
                 mMap.setPadding(0,0,0,0);
             }
         }
@@ -588,7 +589,7 @@ public class MainActivity extends AppCompatActivity
     }
     public void show_slide(Fragment fragment, Place house){
         if(mapFragment!=null){
-            if(mapFragment.getUserVisibleHint() && mMap != null){
+            if(/*mapFragment.getUserVisibleHint() &&*/ mMap != null){
                 mMap.setPadding(0,0,0,200);
             }
         }
@@ -615,19 +616,19 @@ public class MainActivity extends AppCompatActivity
     public void go_filter_by_check_list_map(){
         f = get_current_fragment();
         if(f instanceof Filter){
-            if(mapFragment.getUserVisibleHint()){
-                hidemap();
+            if(/*mapFragment.getUserVisibleHint()*/true){
+                //hidemap();
                 filter_on_map = true;
             }
         }else{
-            if(!mapFragment.getUserVisibleHint()){
+            if(true/*!mapFragment.getUserVisibleHint()*/){
                 filter_on_map = false;
                 this.setTitle("Filter");
                 show_pass(new Filter(),null,null);
             }else{
                 show_pass(new Filter(),null,null);
                 this.setTitle("Filter");
-                hidemap();
+                //hidemap();
                 filter_on_map = true;
             }
         }
@@ -742,5 +743,9 @@ public class MainActivity extends AppCompatActivity
 
     public Fragment get_current_fragment(){
         return getSupportFragmentManager().findFragmentById(R.id.container);
+    }
+
+    public ArrayList<Place> getMarkers(){
+        return markers;
     }
 }
