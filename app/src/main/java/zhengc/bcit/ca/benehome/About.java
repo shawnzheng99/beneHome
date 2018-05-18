@@ -16,7 +16,7 @@ public class About extends Fragment {
     }
     @SuppressLint("InflateParams")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        view = inflater.inflate(R.layout.activity_about,null);
+        view = inflater.inflate(R.layout.activity_about,container,false);
 
         WebView webview = view.findViewById(R.id.textView2);
         webview.loadUrl("file:///android_asset/about.html");

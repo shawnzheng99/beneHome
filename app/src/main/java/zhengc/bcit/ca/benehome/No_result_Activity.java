@@ -25,7 +25,7 @@ public class No_result_Activity extends Fragment {
             https://dribbble.com/shots/2936116-No-Result-Found
             https://www.illustrationui.com/portfolio/items/dropbox-empty-state/
         */
-        view = inflater.inflate(R.layout.activity_no_result_, null);
+        view = inflater.inflate(R.layout.activity_no_result_, container,false);
         mainActivity.set_all_item_uncheck();
         ImageView imageView = view.findViewById(R.id.no_result_image);
         final int random = new Random().nextInt(2);

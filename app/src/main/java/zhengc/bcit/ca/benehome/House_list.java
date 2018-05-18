@@ -31,7 +31,7 @@ public class House_list extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         RecyclerView recyclerView;
         RVAdapter adapter;
-        view = inflater.inflate(R.layout.activity_house_list,null);
+        view = inflater.inflate(R.layout.activity_house_list,container,false);
         // set house list
         filtered_house = (ArrayList<Place>)getArguments().getSerializable("data");
         formlist = (ArrayList<Place>)getArguments().getSerializable("all_house");

@@ -23,7 +23,7 @@ public class FAQ extends Fragment {
     }
     @SuppressLint("InflateParams")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        view = inflater.inflate(R.layout.activity_faq,null);
+        view = inflater.inflate(R.layout.activity_faq,container,false);
 
         final ExpandableListView listView = view.findViewById(R.id.lvExp);
         initData();

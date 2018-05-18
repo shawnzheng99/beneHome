@@ -24,7 +24,7 @@ public class Document extends Fragment {
     }
     @SuppressLint("InflateParams")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        view = inflater.inflate(R.layout.activity_document,null);
+        view = inflater.inflate(R.layout.activity_document,container,false);
 
         final ExpandableListView listView = view.findViewById(R.id.listExp);
         initData();

@@ -27,7 +27,7 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
 
     @SuppressLint("InflateParams")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.activity_home, null);
+        view = inflater.inflate(R.layout.activity_home, container,false);
         mainActivity = (MainActivity) getActivity();
         ImageView image_logo = view.findViewById(R.id.imageView_logo);
         ImageButton btn_about = view.findViewById(R.id.btn_about);
