@@ -47,7 +47,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/family_with_dependent_children"
-                android:textSize="16sp"
+                android:textSize="15dp"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -58,7 +58,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/senior_age_55_or_older"
-                android:textSize="16sp"
+                android:textSize="15dp"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -69,7 +69,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/people_with_disabilities"
-                android:textSize="16sp"
+                android:textSize="15dp"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -80,7 +80,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/single_people"
-                android:textSize="16sp"
+                android:textSize="15dp"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -91,7 +91,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/couples"
-                android:textSize="16sp"
+                android:textSize="15dp"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -102,7 +102,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/show_all"
-                android:textSize="16sp"
+                android:textSize="15dp"
                 android:textColor="#FFFFFF" />
 
         </LinearLayout>
@@ -134,7 +134,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/studio"
-                android:textSize="16sp"
+                android:textSize="15dp"
                 android:textColor="#FFFFFF"
                 tools:ignore="ButtonStyle" />
 
@@ -146,7 +146,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/_1_bedroom"
-                android:textSize="16sp"
+                android:textSize="15dp"
                 android:textColor="#FFFFFF"
                 tools:ignore="ButtonStyle" />
 
@@ -167,7 +167,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/_2_bedrooms"
-                android:textSize="16sp"
+                android:textSize="15dp"
                 android:textColor="#FFFFFF"
                 tools:ignore="ButtonStyle" />
 
@@ -179,7 +179,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/_3_or_more_bds"
-                android:textSize="16sp"
+                android:textSize="15dp"
                 android:textColor="#FFFFFF"
                 tools:ignore="ButtonStyle" />
 
@@ -193,7 +193,7 @@
             android:layout_weight="1"
             android:background="#72C5CA"
             android:text="@string/show_all"
-            android:textSize="16sp"
+            android:textSize="15dp"
             android:textColor="#FFFFFF" />
 
         <TextView
@@ -223,7 +223,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/westside"
-                android:textSize="16sp"
+                android:textSize="15dp"
                 android:textColor="#FFFFFF"
                 tools:ignore="ButtonStyle" />
 
@@ -235,7 +235,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/eastside"
-                android:textSize="16sp"
+                android:textSize="15dp"
                 android:textColor="#FFFFFF"
                 tools:ignore="ButtonStyle" />
 
@@ -256,7 +256,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/downtown"
-                android:textSize="16sp"
+                android:textSize="15dp"
                 android:textColor="#FFFFFF"
                 tools:ignore="ButtonStyle" />
 
@@ -268,7 +268,7 @@
                 android:layout_weight="1"
                 android:background="#72C5CA"
                 android:text="@string/queensborough"
-                android:textSize="16sp"
+                android:textSize="15dp"
                 android:textColor="#FFFFFF"
                 tools:ignore="ButtonStyle" />
 
@@ -282,7 +282,7 @@
             android:layout_weight="1"
             android:background="#72C5CA"
             android:text="@string/show_all"
-            android:textSize="16sp"
+            android:textSize="15dp"
             android:textColor="#FFFFFF" />
 
         <Button
