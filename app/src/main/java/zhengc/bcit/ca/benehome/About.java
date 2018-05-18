@@ -22,7 +22,7 @@ public class About extends Fragment {
         view = inflater.inflate(R.layout.activity_about,null);
 
         TextView about = view.findViewById(R.id.textView_about);
-        about.setText(Html.fromHtml("<p>Subsidized housing is long-term housing for people who permanently reside in British Columbia. Rental fees are calculated on a rent geared to income basis (30% of household total gross income, subject to minimum rent based on # of people).</p>\n" +
+        about.setText(Html.fromHtml("<p>Subsidized housing is long-term housing for people who permanently reside in British Columbia. Rental fees are calculated on a rent geared to income basis (30% of household total gross income, subject to minimum rent based on number of people).</p>\n" +
                 "        <p><strong>You may be eligible</strong> for subsidized housing if you can live independently and meet the household, residency, income and assets criteria.&nbsp;</p>\n" +
                 "        <p>See our Glossary for help with definitions.</p>\n" +
                 "        <p><strong>Downloads</strong></p>\n" +
