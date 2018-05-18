@@ -347,6 +347,7 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        hide_slide();
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_filter) {
             go_filter_by_check_list_map();
@@ -390,10 +391,6 @@ public class MainActivity extends AppCompatActivity
            show_pass(new Application(),null,null);
            //setTitle("Application Guide");
            hidemap();
-        } else if (id == R.id.nav_Application_home) {
-            show_pass(new HomeActivity(),null,null);
-            //this.setTitle("Home");
-            hidemap();
         }
         hide_slide();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

@@ -73,5 +73,6 @@
     <string name="faq_list_5_1">If you are offered a rent-geared-to-income unit, the amount you will pay depends on the size of your family and your gross household income. If you are offered a low-end of market unit, you will pay an amount set at, or slightly below, private market rents. View information on rent-geared-to-income and market housing. Some housing developments may have other charges. View the Housing Listings for notes about other charges or expenses.</string>
     <string name="faq_list_6_1">Most housing providers perform landlord reference checks when they are reviewing applicants for future available units. Applicants, who have been identified as potentially not eligible due to an unsatisfactory tenancy history, will be asked to provide a current and verifiable landlord reference(s) demonstrating that they have maintained a successful tenancy with no reoccurrence of the behaviours demonstrated in past tenancies.</string>
     <string name="faq_list_7_1">Each housing provider has its own pet policy and if they allow pets, there may be restrictions on both the types and number of pets you can have.</string>
+    <string name="people_with_disabilities">people with disabilities</string>
 
 </resources>
