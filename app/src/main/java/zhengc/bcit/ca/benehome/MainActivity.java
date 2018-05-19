@@ -93,17 +93,12 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-
         //firebase auth
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         if (user == null) {
             signInAnonymously();
         }
-//        } else {
-//            Toast.makeText(this,"Loading",Toast.LENGTH_LONG).show();
-//        }
-
 
         filtered_house = new ArrayList<>();
         formlist = new ArrayList<>();
@@ -166,19 +161,11 @@ public class MainActivity extends AppCompatActivity
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//-------------------------------map load and hide it----------------------------------------------------------
-//        mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map);
-
-        //  getSupportFragmentManager().beginTransaction().show(mapFragment).commit();
-        //hidemap();
         start_creat();
 
     }
 
 
-
-    /*-------------------------------------------------oncreate end-----------------------------------------------*/
     private void signInAnonymously() {
         mAuth.signInAnonymously().addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
             @Override public void onSuccess(AuthResult authResult) {
@@ -191,7 +178,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    //-------------------------lording Firebase data------------------------------------
+
     public void loadFirebase() {
         databaseReference.keepSynced(true);
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -214,7 +201,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    //--------------------------nav method overload-----------------------------------
 
     @Override
     public void onBackPressed() {
@@ -226,6 +212,13 @@ public class MainActivity extends AppCompatActivity
         if(drawer.isDrawerOpen(GravityCompat.START)){
             drawer.closeDrawer(GravityCompat.START);
             return;
+        }
+        if(f instanceof House_list || f instanceof MapsActivity){
+            if(drawer.isDrawerOpen(GravityCompat.START)){
+                drawer.closeDrawer(GravityCompat.START);
+            }else{
+                drawer.openDrawer(GravityCompat.START);
+            }
         }
         if(!(f instanceof HomeActivity)){
             super.onBackPressed();
@@ -239,6 +232,7 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this,"Press again to exit",Toast.LENGTH_LONG).show();
         }
     }
+
     public void set_title(Fragment frag){
         if(frag instanceof HomeActivity){
             set_item_check(0);
@@ -347,7 +341,7 @@ public class MainActivity extends AppCompatActivity
             navigationView.getMenu().getItem(i).setChecked(false);
         }
     }
-    //-------------------------------nav end----------------------------------
+
     public ArrayList<Place> getList() {
         return formlist;
     }
@@ -359,12 +353,14 @@ public class MainActivity extends AppCompatActivity
         set_filtered_house(temp);
         show_fragment(new MapsActivity());
     }
+
     public void set_filtered_house(ArrayList<Place> list){
         filtered_house = list;
     }
     public ArrayList<Place> get_filtered_house(){
         return filtered_house;
     }
+
     public void show_fragment(Fragment fragment){
         on_back_press_twice_to_exit = 0;
         set_title(fragment);
@@ -385,13 +381,13 @@ public class MainActivity extends AppCompatActivity
                 commitAllowingStateLoss();    
         
     }
+
     public void hide_slide(){
         if( mMap != null){
             mMap.setPadding(0,0,0,0);
         }
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
     }
-
     public void show_slide(Fragment fragment){
         if(mMap != null){
             mMap.setPadding(0,0,0,200);
@@ -401,6 +397,7 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().replace(R.id.house_detail_container, fragment).addToBackStack(null).commitAllowingStateLoss();
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }
+
     public void up_down_button_click(View view){
         if(mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED){
             mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
@@ -410,6 +407,7 @@ public class MainActivity extends AppCompatActivity
             imageButton.setBackground(getResources().getDrawable(R.drawable.ic_keyboard_arrow_up_black_24dp));
         }
     }
+
     public boolean check_map_is_display_background(){
            return filter_on_map;
     }
@@ -422,10 +420,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
     
-    public Fragment getF() {
-        f = getSupportFragmentManager().findFragmentById(R.id.container);
-        return f;
-    }
+//    public Fragment getF() {
+//        f = getSupportFragmentManager().findFragmentById(R.id.container);
+//        return f;
+//    }
 
     public void start_creat(){
         loadFirebase();
@@ -531,6 +529,7 @@ public class MainActivity extends AppCompatActivity
         }
         return json;
     }
+
     public Place getSelectHouse() {
         return selectHouse;
     }
