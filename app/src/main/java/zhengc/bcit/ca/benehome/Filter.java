@@ -1,8 +1,8 @@
 package zhengc.bcit.ca.benehome;
 
 import android.annotation.SuppressLint;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +16,6 @@ public class Filter extends Fragment implements View.OnClickListener {
     private Button btn_1_1, btn_1_2, btn_1_3, btn_1_4, btn_1_5, btn_1_6;
     private Button btn_2_1, btn_2_2, btn_2_3, btn_2_4, btn_2_5;
     private Button btn_3_1, btn_3_2, btn_3_3, btn_3_4, btn_3_5;
-    private Button btn_next;
     private boolean show_all_flag[] = {false, false, false};
     private boolean filter1_flag[] = {false, false, false, false, false};
     private String filter1_keyword[] = {"Families", "Seniors", "disabilities", "Single", "Couples"};
@@ -56,7 +55,7 @@ public class Filter extends Fragment implements View.OnClickListener {
         btn_3_3 = view.findViewById(R.id.btn_3_3);
         btn_3_4 = view.findViewById(R.id.btn_3_4);
         btn_3_5 = view.findViewById(R.id.btn_3_5);
-        btn_next = view.findViewById(R.id.btn_next);
+        Button btn_next = view.findViewById(R.id.btn_next);
         btn_1_1.setOnClickListener(this);
         btn_1_2.setOnClickListener(this);
         btn_1_3.setOnClickListener(this);
@@ -330,7 +329,7 @@ public class Filter extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btn_next:
                 ArrayList<Place> alllist = mainActivity.getList();
-                ArrayList<Place> list = new ArrayList<Place>();
+                ArrayList<Place> list = new ArrayList<>();
                 for (Place place : alllist) {
                     boolean suitable1 = false;
                     boolean suitable2 = false;
@@ -342,7 +341,6 @@ public class Filter extends Fragment implements View.OnClickListener {
                             if (filter1_flag[i]) {
                                 if (place.getEligible().contains(filter1_keyword[i])) {
                                     suitable1 = true;
-                                    continue;
                                 }
                             }
                         }
@@ -354,7 +352,6 @@ public class Filter extends Fragment implements View.OnClickListener {
                             if (filter2_flag[i]) {
                                 if (place.getTypeUnits().contains(filter2_keyword[i])) {
                                     suitable2 = true;
-                                    continue;
                                 }
                             }
                         }
@@ -366,7 +363,6 @@ public class Filter extends Fragment implements View.OnClickListener {
                             if (filter3_flag[i]) {
                                 if (place.getBoundaries().contains(filter3_keyword[i])) {
                                     suitable3 = true;
-                                    continue;
                                 }
                             }
                         }

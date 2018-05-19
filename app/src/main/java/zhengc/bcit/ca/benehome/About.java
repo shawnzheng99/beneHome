@@ -1,25 +1,23 @@
 package zhengc.bcit.ca.benehome;
 
 import android.annotation.SuppressLint;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.TextView;
 
 public class About extends Fragment {
-    private View view;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
     @SuppressLint("InflateParams")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        view = inflater.inflate(R.layout.activity_about,container,false);
+        View view = inflater.inflate(R.layout.activity_about, container, false);
 
         TextView about = view.findViewById(R.id.textView_about);
         about.setText(Html.fromHtml("<p>Subsidized housing is long-term housing for people who permanently reside in British Columbia. Rental fees are calculated on a rent geared to income basis (30% of household total gross income, subject to minimum rent based on number of people).</p>\n" +

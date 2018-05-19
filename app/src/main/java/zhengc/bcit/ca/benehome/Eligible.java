@@ -16,14 +16,14 @@ public class Eligible extends Fragment {
 
     private List<String> listDataHeader;
     private HashMap<String, List<String>> listHash;
-    private View view;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
     @SuppressLint("InflateParams")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        view = inflater.inflate(R.layout.activity_eligible,container,false);
+        View view = inflater.inflate(R.layout.activity_eligible, container, false);
 
         final ExpandableListView listView = view.findViewById(R.id.lvExp_eligible);
         initData();

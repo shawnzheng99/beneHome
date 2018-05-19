@@ -11,7 +11,6 @@ import android.widget.ImageView;
  */
 public class UserGuide extends AppCompatActivity {
 
-    private ViewPager viewPager;
     private ImageView circle1;
     private ImageView circle2;
     private ImageView circle3;
@@ -29,7 +28,7 @@ public class UserGuide extends AppCompatActivity {
         circle2 = findViewById(R.id.circle2);
         circle3 = findViewById(R.id.circle3);
 
-        viewPager = findViewById(R.id.ViewPager);
+        ViewPager viewPager = findViewById(R.id.ViewPager);
         ViewPagerAdpter viewPagerAdpter = new ViewPagerAdpter(this);
 
         viewPager.setAdapter(viewPagerAdpter);

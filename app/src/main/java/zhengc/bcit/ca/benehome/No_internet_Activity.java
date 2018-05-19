@@ -13,7 +13,6 @@ import java.util.Random;
 
 public class No_internet_Activity extends Fragment {
 
-    private View view;
     private MainActivity mainActivity;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,7 +26,7 @@ public class No_internet_Activity extends Fragment {
             https://dribbble.com/shots/2758771-No-Internet-Connection
             https://www.picmog.com/user/pavle_svilicic/1424227787/1246651768250274165_1424227787
         */
-        view = inflater.inflate(R.layout.activity_no_internet, container,false);
+        View view = inflater.inflate(R.layout.activity_no_internet, container, false);
         mainActivity.setTitle("No Internet");
         mainActivity.set_all_item_uncheck();
         Button button = view.findViewById(R.id.reload);

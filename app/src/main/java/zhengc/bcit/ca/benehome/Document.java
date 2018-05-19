@@ -16,7 +16,6 @@ public class Document extends Fragment {
 
     private List<String> listDataHeader;
     private HashMap<String, List<String>> listHash;
-    private View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,7 +23,7 @@ public class Document extends Fragment {
     }
     @SuppressLint("InflateParams")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        view = inflater.inflate(R.layout.activity_document,container,false);
+        View view = inflater.inflate(R.layout.activity_document, container, false);
 
         final ExpandableListView listView = view.findViewById(R.id.listExp);
         initData();

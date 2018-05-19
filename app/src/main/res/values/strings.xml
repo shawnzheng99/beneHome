@@ -75,5 +75,9 @@
     <string name="faq_list_7_1">Each housing provider has its own pet policy and if they allow pets, there may be restrictions on both the types and number of pets you can have.</string>
     <string name="people_with_disabilities">people with disabilities</string>
     <string name="douhao">,</string>
+    <string name="application">Application</string>
+    <string name="oops">Oops</string>
+    <string name="reload">Reload</string>
+    <string name="no_result">No Result</string>
 
 </resources>

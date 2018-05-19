@@ -15,7 +15,7 @@ public class ViewPagerAdpter extends PagerAdapter {
     private Context context;
     private Integer [] images = {R.drawable.benehome1, R.drawable.benehome2, R.drawable.benehome3};
 
-    public ViewPagerAdpter(Context context) {
+    ViewPagerAdpter(Context context) {
         this.context = context;
     }
 

@@ -9,7 +9,7 @@
         android:id="@+id/no_result_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="No Result"
+        android:contentDescription="@string/no_result"
         android:scaleType="centerCrop"
         android:src="@drawable/noresult1"
         app:layout_constraintBottom_toBottomOf="parent"
