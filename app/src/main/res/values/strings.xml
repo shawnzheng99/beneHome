@@ -74,5 +74,6 @@
     <string name="faq_list_6_1">Most housing providers perform landlord reference checks when they are reviewing applicants for future available units. Applicants, who have been identified as potentially not eligible due to an unsatisfactory tenancy history, will be asked to provide a current and verifiable landlord reference(s) demonstrating that they have maintained a successful tenancy with no reoccurrence of the behaviours demonstrated in past tenancies.</string>
     <string name="faq_list_7_1">Each housing provider has its own pet policy and if they allow pets, there may be restrictions on both the types and number of pets you can have.</string>
     <string name="people_with_disabilities">people with disabilities</string>
+    <string name="douhao">,</string>
 
 </resources>

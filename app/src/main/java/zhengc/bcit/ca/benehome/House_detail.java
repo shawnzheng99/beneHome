@@ -19,6 +19,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.ArrayList;
 
 public class House_detail extends Fragment {
@@ -28,13 +32,9 @@ public class House_detail extends Fragment {
     private boolean isLastPage = false;
     private boolean isDragPage = false;
     private boolean canJumpPage = true;
-
+    private GoogleMap mMap;
     private LinearLayout linearLayout;
     private ArrayList<ImageView> pointList = new ArrayList<>();
-
-    private ViewPager sliderLayout;
-
-    private TextView tv;
     private ArrayList<String> al;
 
     @Override
@@ -45,20 +45,18 @@ public class House_detail extends Fragment {
     @SuppressLint({"ClickableViewAccessibility", "InflateParams"})
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.activity_hose_detail,null);
+        mMap = mainActivity.getmMap();
         String as;
-        selectedHouse = (Place) getArguments().getSerializable("house");
+        selectedHouse = mainActivity.getSelectHouse();
         linearLayout = view.findViewById(R.id.linearLayout_points);
-        sliderLayout = view.findViewById(R.id.mygallery);
-        tv = view.findViewById(R.id.house_detail);
+        ViewPager sliderLayout = view.findViewById(R.id.mygallery);
+        TextView tv = view.findViewById(R.id.house_detail);
         al = new ArrayList<>();
         al.addAll(selectedHouse.getUrl().values());
 
         DetailImageAdapter dia = new DetailImageAdapter(mainActivity, al);
-
         sliderLayout.setAdapter(dia);
-
         sliderLayout.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
             /**
              * swipe
              * @param position position
@@ -84,19 +82,14 @@ public class House_detail extends Fragment {
             public void onPageSelected(int position) {
                 isLastPage = position == al.size() -1 ;
                 switchPoint(position);
-
-
             }
-
             /**
              * screen
              * @param state   0（END）,1(PRESS) , 2(UP) 。
              */
             @Override
             public void onPageScrollStateChanged(int state) {
-
                 isDragPage = state == 1;
-
             }
         });
 
@@ -104,17 +97,13 @@ public class House_detail extends Fragment {
             ImageView imageView = new ImageView(mainActivity);
             LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(35,35);
             llp.leftMargin = 20;
-//            imageView.setLayoutParams(new ViewGroup.LayoutParams(35, 35));
             imageView.setLayoutParams(llp);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            // imageView.setImageResource(R.drawable.dot_1);
             imageView.setImageResource(R.drawable.circle_unselected);
             pointList.add(imageView);
             linearLayout.addView(imageView);
         }
-
         switchPoint(0);
-
         if (selectedHouse.getApply().equalsIgnoreCase("Apply to The Housing Registry")) {
             as = "<a href=\"https://housingapplication.bchousing.org\">Apply to the housing registry</a><br><br>\n";
         } else {
@@ -131,7 +120,18 @@ public class House_detail extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainActivity.pass_to_map(selectedHouse);
+                if(mainActivity.get_current_fragment() instanceof MapsActivity){
+                    mMap.clear();
+                    mainActivity.show_neighborhood(mMap);
+                    mainActivity.hide_slide();
+                    LatLng temp = new LatLng(Double.parseDouble(selectedHouse.getY()), Double.parseDouble(selectedHouse.getX()));
+                    mMap.addMarker(new MarkerOptions()
+                            .position(temp)
+                            .title(selectedHouse.getName())
+                    );
+                }else{
+                    mainActivity.pass_to_map(selectedHouse);
+                }
             }
         });
 
@@ -170,10 +170,6 @@ public class House_detail extends Fragment {
         return view;
     }
 
-
-
-
-
     private void setApply() {
         Button apply = view.findViewById(R.id.btn_applyNow);
         final Uri uri = Uri.parse("https://housingapplication.bchousing.org");
@@ -201,8 +197,6 @@ public class House_detail extends Fragment {
             }
         });
     }
-
-
 
     private void sendEmail() {
         Button email = view.findViewById(R.id.btn_email);
@@ -254,7 +248,6 @@ public class House_detail extends Fragment {
         });
 
     }
-
 
     private void switchPoint(int position) {
         ImageView iv;

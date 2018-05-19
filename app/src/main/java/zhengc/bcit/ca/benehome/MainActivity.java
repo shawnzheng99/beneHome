@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -14,7 +15,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -23,14 +23,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
+
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -39,21 +34,24 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 import static java.lang.Thread.sleep;
 
 public class MainActivity extends AppCompatActivity
@@ -61,18 +59,16 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = MainActivity.class.getName();
     private GoogleMap mMap;
-    private ArrayList<Place> markers;
-    private SupportMapFragment mapFragment;
     private SlidingUpPanelLayout mLayout;
     private NavigationView navigationView;
     private ArrayList<Place> filtered_house;
     private ArrayList<Place> formlist;
+    Place selectHouse;
     /*firebase*/
     private DatabaseReference databaseReference;
     private ImageButton imageButton;
     //auth
     private FirebaseAuth mAuth;
-    private FirebaseUser user;
     private DrawerLayout drawer;
     private Fragment f;
     private boolean filter_on_map = false;
@@ -92,7 +88,7 @@ public class MainActivity extends AppCompatActivity
             SharedPreferences.Editor ed = settings.edit();
 
             ed.putBoolean("first", false);
-            ed.commit();
+            ed.apply();
             //ed.apply();   Compared to commit(), apply() won't change the file synchronously.
 
         }
@@ -100,7 +96,7 @@ public class MainActivity extends AppCompatActivity
 
         //firebase auth
         mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
+        FirebaseUser user = mAuth.getCurrentUser();
         if (user == null) {
             signInAnonymously();
         }
@@ -161,7 +157,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                on_back_press_twice_to_exit = 0;
+//                on_back_press_twice_to_exit = 0;
             }
         };
         drawer.addDrawerListener(toggle);
@@ -227,61 +223,20 @@ public class MainActivity extends AppCompatActivity
             mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
             return;
         }
-//        if(mapFragment.getUserVisibleHint()){
-//            //hidemap();
-//            set_title(f);
-//            return;
-//        }
-        if(f instanceof House_detail){
-            super.onBackPressed();
-            set_title(get_current_fragment());
-            return;
-        }
-        if(f instanceof Document){
-            super.onBackPressed();
-            set_title(get_current_fragment());
-            return;
-        }
-        if(f instanceof No_internet_Activity
-                || f instanceof No_result_Activity
-                || f instanceof About
-                || f instanceof Eligible
-                || f instanceof Application
-                || f instanceof FAQ){
-            show_pass(new HomeActivity(), formlist,null);
-            set_title(get_current_fragment());
-            return;
-        }
-        if (f instanceof HomeActivity){
-            on_back_press_twice_to_exit++;
-            if(on_back_press_twice_to_exit == 2){
-                on_back_press_twice_to_exit = 0;
-                moveTaskToBack(true);
-            }
-            Toast.makeText(this,"Press again to exit",Toast.LENGTH_LONG).show();
-            return;
-        }
-        if(f instanceof Filter){
-            if(filter_on_map){
-                displaymap(filtered_house);
-                show_pass(new HomeActivity(), formlist,null);
-                return;
-            }
-            super.onBackPressed();
-            set_title(get_current_fragment());
-            return;
-        }
-
-
         if(drawer.isDrawerOpen(GravityCompat.START)){
+            drawer.closeDrawer(GravityCompat.START);
+            return;
+        }
+        if(!(f instanceof HomeActivity)){
+            super.onBackPressed();
+            set_title(get_current_fragment());
+        }else{
             on_back_press_twice_to_exit++;
             if(on_back_press_twice_to_exit == 2){
                 on_back_press_twice_to_exit = 0;
                 moveTaskToBack(true);
             }
             Toast.makeText(this,"Press again to exit",Toast.LENGTH_LONG).show();
-        }else{
-            drawer.openDrawer(GravityCompat.START);
         }
     }
     public void set_title(Fragment frag){
@@ -293,6 +248,11 @@ public class MainActivity extends AppCompatActivity
         if(frag instanceof House_list){
             set_item_check(1);
             this.setTitle("House List");
+            return;
+        }
+        if(frag instanceof MapsActivity){
+            set_item_check(2);
+            this.setTitle("Map");
             return;
         }
         if(frag instanceof About){
@@ -360,47 +320,26 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_Application_home) {
-            show_pass(new HomeActivity(),filtered_house,null);
-            //hidemap();
+            show_fragment(new HomeActivity());
         } else if (id == R.id.nav_houselist) {
-            show_pass(new House_list(),filtered_house,null);
-            //hidemap();
-            //setTitle("House List");
+            show_fragment(new House_list());
         } else if (id == R.id.nav_eligibility) {
-            show_pass(new Eligible(), null,null);
-            //hidemap();
-            //setTitle("Eligibility");
+            show_fragment(new Eligible());
         } else if (id == R.id.nav_faq) {
-            show_pass(new FAQ(),null,null);
-            //hidemap();
-            //setTitle("FAQ");
+            show_fragment(new FAQ());
         } else if (id == R.id.nav_about) {
-            show_pass(new About(),null,null);
-            //hidemap();
-            //setTitle("About");
+            show_fragment(new About());
         } else if (id == R.id.nav_map) {
-            //mapFragment.getMapAsync(this);
-            /*------------------markers---------------------------*/
-            f = getSupportFragmentManager().findFragmentById(R.id.container);
-            displaymap(filtered_house);
-            if(f instanceof No_internet_Activity){
-                start_creat();
-            }
+           show_fragment(new MapsActivity());
         } else if(id == R.id.nav_Application_guide){
-           show_pass(new Application(),null,null);
-           //setTitle("Application Guide");
-           //hidemap();
+           show_fragment(new Application());
         }
-        hide_slide();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
     public void set_item_check(int i){
         navigationView.getMenu().getItem(i).setChecked(true);
-    }
-    public void set_item_uncheck(int i){
-        navigationView.getMenu().getItem(i).setChecked(false);
     }
     public void set_all_item_uncheck(){
         int size = navigationView.getMenu().size();
@@ -412,137 +351,24 @@ public class MainActivity extends AppCompatActivity
     public ArrayList<Place> getList() {
         return formlist;
     }
-//------------------------------map method---------------------------------------------------
-//    @Override
-//    public void onMapReady(final GoogleMap googleMap) {
-//        mMap = googleMap;
-//        mMap.getUiSettings().setZoomControlsEnabled(true);
-//        mMap.clear();
-//        show_neighborhood(mMap);
-//
-//        /*------------Marker-------------------*/
-//        for (int i = 0; i < markers.size(); ++i) {
-//            LatLng temp = new LatLng(Double.parseDouble(markers.get(i).getY()),Double.parseDouble(markers.get(i).getX()));
-//            mMap.addMarker(new MarkerOptions()
-//                    .position(temp)
-//                    .title(markers.get(i).getName())
-//
-//            );
-//
-//        }
-//        /*---------------marker listener---------*/
-//        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-//            @Override
-//            public void onInfoWindowClick(Marker marker) {
-//                Place selectHouse = new Place();
-//
-//                // get selected house
-//                for (int j = 0; j < formlist.size(); ++j) {
-//                    if (formlist.get(j).getName().equals(marker.getTitle())) {
-//                        selectHouse = formlist.get(j);
-//                    }
-//                }
-//                show_slide(new House_detail(),selectHouse);
-//            }
-//        });
-//        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-//            @Override
-//            public boolean onMarkerClick(Marker marker) {
-//                if(!check_internet()){
-//                    getSupportFragmentManager().beginTransaction().
-//                            setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
-//                            replace(R.id.container, new No_internet_Activity()).
-//                            addToBackStack(null).
-//                            commitAllowingStateLoss();
-//                    hidemap();
-//                    return false;
-//                }
-//                Place selectHouse = new Place();
-//                // get selected house
-//                for (int j = 0; j < formlist.size(); ++j) {
-//                    if (formlist.get(j).getName().equals(marker.getTitle())) {
-//                        selectHouse = formlist.get(j);
-//                    }
-//                }
-//                show_slide(new House_detail(),selectHouse);
-//                return false;
-//            }
-//        });
-//        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-//            @Override
-//            public void onMapClick(LatLng latLng) {
-//                hide_slide();
-//            }
-//        });
-//        mMap.getUiSettings().setZoomGesturesEnabled(true);
-//        zoomToMarker(markers);
-//
-//
-//
-//    }
-//    public void zoomToMarker(ArrayList<Place> markers) {
-//        if(markers.size() > 1 || markers.size()==0){
-//            LatLng newWest = new LatLng(49.21073429331534, -122.92282036503556);
-//            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(newWest, 13);
-//            mMap.animateCamera(location);
-//        }else{
-//            LatLng temp = new LatLng(Double.parseDouble(markers.get(0).getY()),Double.parseDouble(markers.get(0).getX()));
-//            CameraUpdate location = CameraUpdateFactory.newLatLngZoom(temp, 17);
-//            mMap.animateCamera(location);
-//        }
-//
-//    }
-    /*change formlist to filtered_house later*/
-    public void setMarkers(ArrayList<Place> list) {
-        markers = new ArrayList<>();
-        markers = list;
-    }
 
-//    public void hidemap(){
-//        mapFragment.setUserVisibleHint(false);
-//        getSupportFragmentManager().beginTransaction().
-//                setCustomAnimations(R.anim.slide_in_up,R.anim.pop_out,R.anim.pop_in,R.anim.pop_out).
-//                hide(mapFragment).commit();
-//    }
-    public void displaymap(ArrayList<Place> list){
-        on_back_press_twice_to_exit = 0;
-        if(!check_internet()){
-            getSupportFragmentManager().beginTransaction().
-                    setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
-                    replace(R.id.container, new No_internet_Activity()).
-                    addToBackStack(null).
-                    commitAllowingStateLoss();
-            return;
-        }
-        //mapFragment.getMapAsync(this);
-        setMarkers(list);
-//        mapFragment.setUserVisibleHint(true);
-//        getSupportFragmentManager().beginTransaction().
-//                setCustomAnimations(R.anim.slide_in_up,R.anim.pop_out,R.anim.pop_in,R.anim.pop_out).
-//                replace(R.id.container,new MapsActivity()).commit();
-        show_pass(new MapsActivity(),markers,null);
-        set_item_check(2);
-        this.setTitle("Map");
-    }
     public void pass_to_map(Place house){
-       // mapFragment.getMapAsync(this);
         hide_slide();
         ArrayList<Place> temp = new ArrayList<>();
         temp.add(house);
-        displaymap(temp);
+        set_filtered_house(temp);
+        show_fragment(new MapsActivity());
     }
-//-------------------------------map method end---------------------------------------------------
-
     public void set_filtered_house(ArrayList<Place> list){
         filtered_house = list;
     }
     public ArrayList<Place> get_filtered_house(){
         return filtered_house;
     }
-    public void show_pass(Fragment fragment, ArrayList list, Place house){
+    public void show_fragment(Fragment fragment){
         on_back_press_twice_to_exit = 0;
         set_title(fragment);
-        if(!check_internet() && (fragment instanceof House_list || fragment instanceof House_detail)){
+        if(check_internet() && (fragment instanceof House_list || fragment instanceof House_detail)){
             getSupportFragmentManager().beginTransaction().
                     setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
                     replace(R.id.container, new No_internet_Activity()).
@@ -550,54 +376,28 @@ public class MainActivity extends AppCompatActivity
                     commitAllowingStateLoss();
             return;
         }
-        Bundle data = new Bundle();
-        data.putSerializable("data",list);
-        data.putSerializable("all_house",formlist);
-        data.putSerializable("house", house);
-        fragment.setArguments(data);
-        if(true/*mapFragment.getUserVisibleHint()*/){
-            getSupportFragmentManager().beginTransaction().
-                    replace(R.id.container, fragment).
-                    addToBackStack(null).
-                    commitAllowingStateLoss();
-        }else{
-            getSupportFragmentManager().beginTransaction().
-                    setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
-                    replace(R.id.container, fragment).
-                    addToBackStack(null).
-                    commitAllowingStateLoss();
-        }
+
+        filter_on_map = fragment instanceof MapsActivity;
+        getSupportFragmentManager().beginTransaction().
+                setCustomAnimations(R.anim.slide_in_up,R.anim.slide_out_up,R.anim.pop_in,R.anim.pop_out).
+                replace(R.id.container, fragment).
+                addToBackStack(null).
+                commitAllowingStateLoss();    
+        
     }
     public void hide_slide(){
-        if(mapFragment!=null){
-            if(/*mapFragment.getUserVisibleHint() &&*/ mMap != null){
-                mMap.setPadding(0,0,0,0);
-            }
+        if( mMap != null){
+            mMap.setPadding(0,0,0,0);
         }
-
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
     }
 
-    public void slide_expanded(Fragment fragment,Place house){
-        TextView t =  findViewById(R.id.name);
-        t.setText(house.getName());
-        Bundle data = new Bundle();
-        data.putSerializable("house",house);
-        fragment.setArguments(data);
-        getSupportFragmentManager().beginTransaction().replace(R.id.house_detail_container, fragment).addToBackStack(null).commitAllowingStateLoss();
-        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-    }
-    public void show_slide(Fragment fragment, Place house){
-        if(mapFragment!=null){
-            if(/*mapFragment.getUserVisibleHint() &&*/ mMap != null){
-                mMap.setPadding(0,0,0,200);
-            }
+    public void show_slide(Fragment fragment){
+        if(mMap != null){
+            mMap.setPadding(0,0,0,200);
         }
         TextView t = findViewById(R.id.name);
         t.setTypeface(t.getTypeface(), Typeface.BOLD);
-        Bundle data = new Bundle();
-        data.putSerializable("house",house);
-        fragment.setArguments(data);
         getSupportFragmentManager().beginTransaction().replace(R.id.house_detail_container, fragment).addToBackStack(null).commitAllowingStateLoss();
         mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }
@@ -615,80 +415,13 @@ public class MainActivity extends AppCompatActivity
     }
     public void go_filter_by_check_list_map(){
         f = get_current_fragment();
-        if(f instanceof Filter){
-            if(/*mapFragment.getUserVisibleHint()*/true){
-                //hidemap();
-                filter_on_map = true;
-            }
-        }else{
-            if(true/*!mapFragment.getUserVisibleHint()*/){
-                filter_on_map = false;
-                this.setTitle("Filter");
-                show_pass(new Filter(),null,null);
-            }else{
-                show_pass(new Filter(),null,null);
-                this.setTitle("Filter");
-                //hidemap();
-                filter_on_map = true;
-            }
-        }
-        this.setTitle("Filter");
-    }
-
-    public void show_neighborhood(GoogleMap googleMap){
-        HashMap<String,ArrayList<LatLng>> area = new HashMap<>();
-        try {
-            JSONObject obj = new JSONObject(loadJSONFromAsset(this));
-            JSONArray jsonarray = obj.getJSONArray("features");
-            Log.e(TAG,"json array"+jsonarray.length());
-            for(int i = 0; i <jsonarray.length();i++){
-                JSONObject obj_inside = jsonarray.getJSONObject(i);
-
-                ArrayList<LatLng> x_y = new ArrayList<>();
-                String Name = obj_inside.getJSONObject("properties").getString("NEIGH_NAME");
-
-                JSONObject obj_area = obj_inside.getJSONObject("geometry");
-                JSONArray coordinate_array = obj_area.getJSONArray("coordinates").getJSONArray(0);
-                for(int n = 0; n<coordinate_array.length();n++){
-                    double x = coordinate_array.getJSONArray(n).getDouble(1);
-                    double y = coordinate_array.getJSONArray(n).getDouble(0);
-                   x_y.add(new LatLng(y,x));
-
-                }
-                area.put(Name,x_y);
-            }
-
-        }catch(JSONException e){
-            e.printStackTrace();
-        }
-        PolylineOptions myoption = new PolylineOptions();
-        myoption.clickable(true);
-        for(Map.Entry<String,ArrayList<LatLng>> entry: area.entrySet()){
-
-            PolygonOptions polygonOptions = new PolygonOptions();
-           for(LatLng coordinate : entry.getValue()){
-               polygonOptions.add(coordinate);
-           }
-           Polygon polyline = googleMap.addPolygon(polygonOptions);
-           polyline.setStrokeColor(Color.rgb(244, 65, 128));
+        if (!(f instanceof Filter)) {
+            this.setTitle("Filter");
+            show_fragment(new Filter());
+            filter_on_map = f instanceof MapsActivity;
         }
     }
-
-    public String loadJSONFromAsset(Context context) {
-        String json;
-        try {
-            InputStream is = context.getAssets().open("NEIGHBOURHOOD_BOUNDARIES.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
+    
     public Fragment getF() {
         f = getSupportFragmentManager().findFragmentById(R.id.container);
         return f;
@@ -706,7 +439,7 @@ public class MainActivity extends AppCompatActivity
         boolean isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
         if(!isConnected){
-            show_pass(new No_internet_Activity(),null,null);
+            show_fragment(new No_internet_Activity());
         }else{
             new Thread(new Runnable(){
                 @Override
@@ -737,15 +470,80 @@ public class MainActivity extends AppCompatActivity
 
         assert cm != null;
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
+        return activeNetwork == null ||
+                !activeNetwork.isConnectedOrConnecting();
     }
 
     public Fragment get_current_fragment(){
         return getSupportFragmentManager().findFragmentById(R.id.container);
     }
 
-    public ArrayList<Place> getMarkers(){
-        return markers;
+    public void show_neighborhood(GoogleMap googleMap){
+        HashMap<String,ArrayList<LatLng>> area = new HashMap<>();
+        try {
+            JSONObject obj = new JSONObject(loadJSONFromAsset(this));
+            JSONArray jsonarray = obj.getJSONArray("features");
+            for(int i = 0; i <jsonarray.length();i++){
+                JSONObject obj_inside = jsonarray.getJSONObject(i);
+
+                ArrayList<LatLng> x_y = new ArrayList<>();
+                String Name = obj_inside.getJSONObject("properties").getString("NEIGH_NAME");
+
+                JSONObject obj_area = obj_inside.getJSONObject("geometry");
+                JSONArray coordinate_array = obj_area.getJSONArray("coordinates").getJSONArray(0);
+                for(int n = 0; n<coordinate_array.length();n++){
+                    double x = coordinate_array.getJSONArray(n).getDouble(1);
+                    double y = coordinate_array.getJSONArray(n).getDouble(0);
+                    x_y.add(new LatLng(y,x));
+
+                }
+                area.put(Name,x_y);
+            }
+
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+        PolylineOptions myoption = new PolylineOptions();
+        myoption.clickable(true);
+        for(Map.Entry<String,ArrayList<LatLng>> entry: area.entrySet()){
+
+            PolygonOptions polygonOptions = new PolygonOptions();
+            for(LatLng coordinate : entry.getValue()){
+                polygonOptions.add(coordinate);
+            }
+            Polygon polyline = googleMap.addPolygon(polygonOptions);
+            polyline.setStrokeColor(Color.rgb(244, 65, 128));
+        }
+    }
+    public String loadJSONFromAsset(Context context) {
+        String json;
+        try {
+            InputStream is = context.getAssets().open("NEIGHBOURHOOD_BOUNDARIES.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            if(is.read(buffer)==-1){
+                is.close();
+            }
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+    public Place getSelectHouse() {
+        return selectHouse;
+    }
+
+    public void setSelectHouse(Place selectHouse) {
+        this.selectHouse = selectHouse;
+    }
+
+    public GoogleMap getmMap() {
+        return mMap;
+    }
+
+    public void setmMap(GoogleMap mMap) {
+        this.mMap = mMap;
     }
 }

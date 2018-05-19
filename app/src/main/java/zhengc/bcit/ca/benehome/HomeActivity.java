@@ -16,8 +16,6 @@ import android.widget.RelativeLayout;
 public class HomeActivity extends Fragment implements View.OnClickListener {
 
     private MainActivity mainActivity;
-    private static final String TAG = House_detail.class.getName();
-
     View view;
 
     @Override
@@ -94,19 +92,19 @@ public class HomeActivity extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_about:
-                mainActivity.show_pass(new About(), null, null);
+                mainActivity.show_fragment(new About());
                 break;
             case R.id.btn_eligible:
-                mainActivity.show_pass(new Eligible(), null, null);
+                mainActivity.show_fragment(new Eligible());
                 break;
             case R.id.btn_find_house:
-                mainActivity.show_pass(new Filter(), null, null);
+                mainActivity.show_fragment(new Filter());
                 break;
             case R.id.btn_application:
-                mainActivity.show_pass(new Application(), null, null);
+                mainActivity.show_fragment(new Application());
                 break;
             case R.id.btn_faq:
-                mainActivity.show_pass(new FAQ(), null, null);
+                mainActivity.show_fragment(new FAQ());
                 break;
             default:
                 break;

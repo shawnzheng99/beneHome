@@ -29,8 +29,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-
-        RecyclerView mRecyclerView = recyclerView;
+//        RecyclerView mRecyclerView = recyclerView;
     }
 
     static class PlaceViewHolder extends RecyclerView.ViewHolder {
@@ -38,7 +37,6 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
         ImageView news_photo;
         TextView news_title;
         TextView news_desc;
-        TextView total_unit;
         Button map;
 
         PlaceViewHolder(final View itemView) {
@@ -59,11 +57,12 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
     public void onBindViewHolder(final RVAdapter.PlaceViewHolder placeViewHolder, int i) {
         Picasso.get().load(places.get(i).getUrl().get("a")).placeholder(R.drawable.animated_rotate_drawable).fit().centerCrop().into(placeViewHolder.news_photo);
         placeViewHolder.news_title.setText(places.get(i).getName());
-        placeViewHolder.news_desc.setText(places.get(i).getLocation() + ", " + places.get(i).getPC());
+        placeViewHolder.news_desc.setText(String.format("%s%s%s", places.get(i).getLocation(), context.getString(R.string.douhao), places.get(i).getPC()));
         placeViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.show_pass(new House_detail(), null, places.get(placeViewHolder.getAdapterPosition()));
+                context.setSelectHouse(places.get(placeViewHolder.getAdapterPosition()));
+                context.show_fragment(new House_detail());
                 context.setTitle("House Detail");
             }
         });

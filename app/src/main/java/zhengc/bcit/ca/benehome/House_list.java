@@ -12,14 +12,7 @@ import java.util.ArrayList;
 
 
 public class House_list extends Fragment{
-
-    private ArrayList<Place> formlist;
-    private ArrayList<Place> filtered_house = new ArrayList<>();
-    private View view;
     private MainActivity mainActivity;
-
-    // recycleView
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,14 +24,12 @@ public class House_list extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         RecyclerView recyclerView;
         RVAdapter adapter;
-        view = inflater.inflate(R.layout.activity_house_list,container,false);
+        View view = inflater.inflate(R.layout.activity_house_list, container, false);
         // set house list
-        filtered_house = (ArrayList<Place>)getArguments().getSerializable("data");
-        formlist = (ArrayList<Place>)getArguments().getSerializable("all_house");
-
+        ArrayList<Place> filtered_house = mainActivity.get_filtered_house();
         recyclerView = view.findViewById(R.id.recyclerView);
 
-        adapter = new RVAdapter(mainActivity,filtered_house);
+        adapter = new RVAdapter(mainActivity, filtered_house);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mainActivity);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);

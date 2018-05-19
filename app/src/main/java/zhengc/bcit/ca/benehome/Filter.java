@@ -383,17 +383,12 @@ public class Filter extends Fragment implements View.OnClickListener {
                 }
                 mainActivity.set_filtered_house(list);
                 if(mainActivity.check_map_is_display_background()){
-                    mainActivity.displaymap(list);
-                    mainActivity.set_item_check(2);
+                    mainActivity.show_fragment(new MapsActivity());
                 }else{
                     if(list.size() == 0){
-                        mainActivity.show_pass(new No_result_Activity(),null,null);
-                        mainActivity.setTitle("House list");
-                        mainActivity.set_item_check(1);
+                        mainActivity.show_fragment(new No_result_Activity());
                     }else{
-                        mainActivity.show_pass(new House_list(),list,null);
-                        mainActivity.setTitle("House list");
-                        mainActivity.set_item_check(1);
+                        mainActivity.show_fragment(new House_list());
                     }
                 }
                 break;
