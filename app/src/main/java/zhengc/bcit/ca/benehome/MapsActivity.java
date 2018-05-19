@@ -56,6 +56,7 @@ public class MapsActivity extends Fragment {
                 mainActivity.setmMap(googleMap);
                 mMap = googleMap;
                 mMap.getUiSettings().setZoomControlsEnabled(true);
+                mMap.getUiSettings().setAllGesturesEnabled(true);
                 mMap.clear();
                 mainActivity.show_neighborhood(mMap);
 

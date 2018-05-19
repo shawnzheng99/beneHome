@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -386,6 +387,12 @@ public class Filter extends Fragment implements View.OnClickListener {
                     }else{
                         mainActivity.show_fragment(new House_list());
                     }
+                    if(list.size() == 1){
+                        Toast.makeText(mainActivity,"Found: "+ list.size()+" House",Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(mainActivity,"Found: "+ list.size()+" Houses",Toast.LENGTH_LONG).show();
+                    }
+
                 }
                 break;
             default:

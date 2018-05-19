@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -129,6 +131,9 @@ public class House_detail extends Fragment {
                             .position(temp)
                             .title(selectedHouse.getName())
                     );
+                    LatLng temp_location = new LatLng(Double.parseDouble(selectedHouse.getY()),Double.parseDouble(selectedHouse.getX()));
+                    CameraUpdate location = CameraUpdateFactory.newLatLngZoom(temp_location, 15);
+                    mMap.animateCamera(location);
                 }else{
                     mainActivity.pass_to_map(selectedHouse);
                 }
@@ -254,9 +259,9 @@ public class House_detail extends Fragment {
         for (int i = 0; i < selectedHouse.getUrl().size(); i++) {
             iv = (ImageView) linearLayout.getChildAt(i);
             if (i == position) {
-                iv.setImageResource(R.drawable.circle_unselected);
-            } else {
                 iv.setImageResource(R.drawable.circle_selected);
+            } else {
+                iv.setImageResource(R.drawable.circle_unselected);
             }
         }
 

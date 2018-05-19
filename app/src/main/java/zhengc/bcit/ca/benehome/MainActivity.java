@@ -51,6 +51,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static java.lang.Thread.sleep;
 
@@ -137,8 +138,8 @@ public class MainActivity extends AppCompatActivity
         //------------------------nav oncreate-----------------------------------
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -152,7 +153,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-//                on_back_press_twice_to_exit = 0;
             }
         };
         drawer.addDrawerListener(toggle);
@@ -162,7 +162,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         start_creat();
-
     }
 
 
@@ -206,7 +205,7 @@ public class MainActivity extends AppCompatActivity
     public void onBackPressed() {
         f = get_current_fragment();
         if(mLayout.getPanelState() != SlidingUpPanelLayout.PanelState.HIDDEN){
-            mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+            hide_slide();
             return;
         }
         if(drawer.isDrawerOpen(GravityCompat.START)){
