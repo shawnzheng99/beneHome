@@ -316,7 +316,12 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_Application_home) {
             show_fragment(new HomeActivity());
         } else if (id == R.id.nav_houselist) {
-            show_fragment(new House_list());
+            if(filtered_house.size() == 0){
+                show_fragment(new No_result_Activity());
+            }else{
+                show_fragment(new House_list());
+            }
+
         } else if (id == R.id.nav_eligibility) {
             show_fragment(new Eligible());
         } else if (id == R.id.nav_faq) {
