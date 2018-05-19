@@ -219,6 +219,7 @@ public class MainActivity extends AppCompatActivity
             }else{
                 drawer.openDrawer(GravityCompat.START);
             }
+            return;
         }
         if(!(f instanceof HomeActivity)){
             super.onBackPressed();
