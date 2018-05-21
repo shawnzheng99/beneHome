@@ -24,12 +24,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PlaceViewHolder>{
     }
 
 
-
-
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-//        RecyclerView mRecyclerView = recyclerView;
     }
 
     static class PlaceViewHolder extends RecyclerView.ViewHolder {
