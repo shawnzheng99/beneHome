@@ -31,13 +31,8 @@ public class House_detail extends Fragment {
     private Place selectedHouse;
     private View view;
     private MainActivity mainActivity;
-    private boolean isLastPage = false;
-    private boolean isDragPage = false;
-    private boolean canJumpPage = true;
     private GoogleMap mMap;
     private LinearLayout linearLayout;
-    private ArrayList<ImageView> pointList = new ArrayList<>();
-    private ArrayList<String> al;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,27 +48,16 @@ public class House_detail extends Fragment {
         linearLayout = view.findViewById(R.id.linearLayout_points);
         ViewPager sliderLayout = view.findViewById(R.id.mygallery);
         TextView tv = view.findViewById(R.id.house_detail);
-        al = new ArrayList<>();
-        al.addAll(selectedHouse.getUrl().values());
+        ArrayList<String> al = new ArrayList<>(selectedHouse.getUrl().values());
 
         DetailImageAdapter dia = new DetailImageAdapter(mainActivity, al);
         sliderLayout.setAdapter(dia);
         sliderLayout.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            /**
-             * swipe
-             * @param position position
-             * @param positionOffset   move offset, 0/1
-             * @param positionOffsetPixels   image move offset
-             */
+
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-                if (isLastPage && isDragPage && positionOffsetPixels == 0){
-                    if (canJumpPage){
-                        canJumpPage = false;
-                        Toast.makeText(mainActivity, "last page", Toast.LENGTH_SHORT).show();
-                    }
-                }
             }
 
             /**
@@ -82,7 +66,6 @@ public class House_detail extends Fragment {
              */
             @Override
             public void onPageSelected(int position) {
-                isLastPage = position == al.size() -1 ;
                 switchPoint(position);
             }
             /**
@@ -91,7 +74,7 @@ public class House_detail extends Fragment {
              */
             @Override
             public void onPageScrollStateChanged(int state) {
-                isDragPage = state == 1;
+
             }
         });
 
@@ -102,7 +85,6 @@ public class House_detail extends Fragment {
             imageView.setLayoutParams(llp);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setImageResource(R.drawable.circle_unselected);
-            pointList.add(imageView);
             linearLayout.addView(imageView);
         }
         switchPoint(0);
