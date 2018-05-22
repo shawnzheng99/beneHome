@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView-about"
+            android:id="@+id/textView_about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
