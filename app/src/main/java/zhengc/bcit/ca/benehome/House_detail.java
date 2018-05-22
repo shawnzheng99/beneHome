@@ -33,7 +33,6 @@ public class House_detail extends Fragment {
     private MainActivity mainActivity;
     private GoogleMap mMap;
     private LinearLayout linearLayout;
-    private ArrayList<String> al;
 
 
     @Override
