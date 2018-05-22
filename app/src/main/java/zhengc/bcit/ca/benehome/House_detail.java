@@ -46,7 +46,7 @@ public class House_detail extends Fragment {
     }
     @SuppressLint({"ClickableViewAccessibility", "InflateParams"})
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        view = inflater.inflate(R.layout.activity_hose_detail,null);
+        view = inflater.inflate(R.layout.activity_hose_detail,container,false);
         mMap = mainActivity.getmMap();
         String as;
         selectedHouse = mainActivity.getSelectHouse();
