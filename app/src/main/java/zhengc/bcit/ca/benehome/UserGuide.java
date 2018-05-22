@@ -33,7 +33,7 @@ public class UserGuide extends AppCompatActivity {
 
         viewPager.setAdapter(viewPagerAdpter);
 
-        //        **********************************************************************************************************
+        //**********************************************************************************************************
         //when swipe left on the last page, execute JumpToNext()
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
