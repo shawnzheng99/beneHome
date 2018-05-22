@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 /**
- * A place refers to a subsidized house, which has name, description contact info and so on.
+ * A place place object to store each house in the firebase.
  */
 public class Place implements Serializable {
 

@@ -39,7 +39,7 @@ public class DetailImageAdapter extends PagerAdapter {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         assert layoutInflater != null;
         @SuppressLint("InflateParams")
-        View view = layoutInflater.inflate(R.layout.detailimage, null);
+        View view = layoutInflater.inflate(R.layout.detailimage, container,false);
         ImageView imageView = view.findViewById(R.id.img_house);
         Picasso.get().load((images.get(position))).fit().centerCrop().into(imageView);
 

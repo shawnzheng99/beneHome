@@ -79,5 +79,7 @@
     <string name="oops">Oops</string>
     <string name="reload">Reload</string>
     <string name="no_result">No Result</string>
+    <string name="points">points</string>
+    <string name="user_guide">User Guide</string>
 
 </resources>

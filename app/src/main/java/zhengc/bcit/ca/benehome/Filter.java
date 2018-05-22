@@ -76,6 +76,7 @@ public class Filter extends Fragment implements View.OnClickListener {
         btn_next.setOnClickListener(this);
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void onClick(View v) {
         int color_unselected = 0xFF72C5CA;
         int color_selected = 0xFFAABD58;

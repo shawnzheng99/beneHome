@@ -51,7 +51,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import static java.lang.Thread.sleep;
 
@@ -108,7 +107,6 @@ public class MainActivity extends AppCompatActivity
         f = get_current_fragment();
         /*--------initilazing firebase-----------*/
 
-        //"https://benehome-f1049.firebaseio.com/"
         FirebaseDatabase db = FirebaseDatabase.getInstance("https://benehome-f1049.firebaseio.com/");
         databaseReference = db.getReference();
 
@@ -301,7 +299,7 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         hide_slide();
-        //noinspection SimplifiableIfStatement
+
         if (id == R.id.menu_filter) {
             go_filter_by_check_list_map();
             return true;
@@ -424,11 +422,6 @@ public class MainActivity extends AppCompatActivity
             filter_on_map = f instanceof MapsActivity;
         }
     }
-    
-//    public Fragment getF() {
-//        f = getSupportFragmentManager().findFragmentById(R.id.container);
-//        return f;
-//    }
 
     public void start_creat(){
         loadFirebase();

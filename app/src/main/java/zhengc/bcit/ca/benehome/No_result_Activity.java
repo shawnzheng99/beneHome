@@ -20,10 +20,7 @@ public class No_result_Activity extends Fragment {
     }
     @SuppressLint("InflateParams")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
-        /*--images retrieved from
-            https://dribbble.com/shots/2936116-No-Result-Found
-            https://www.illustrationui.com/portfolio/items/dropbox-empty-state/
-        */
+
         View view = inflater.inflate(R.layout.activity_no_result_, container, false);
         mainActivity.set_all_item_uncheck();
         ImageView imageView = view.findViewById(R.id.no_result_image);

@@ -35,6 +35,7 @@ public class House_detail extends Fragment {
     private LinearLayout linearLayout;
     private ArrayList<String> al;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,25 +43,20 @@ public class House_detail extends Fragment {
     }
     @SuppressLint({"ClickableViewAccessibility", "InflateParams"})
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        view = inflater.inflate(R.layout.activity_hose_detail,null);
+        view = inflater.inflate(R.layout.activity_hose_detail,container,false);
         mMap = mainActivity.getmMap();
         String as;
         selectedHouse = mainActivity.getSelectHouse();
         linearLayout = view.findViewById(R.id.linearLayout_points);
         ViewPager sliderLayout = view.findViewById(R.id.mygallery);
         TextView tv = view.findViewById(R.id.house_detail);
-        al = new ArrayList<>();
-        al.addAll(selectedHouse.getUrl().values());
+        ArrayList<String> al = new ArrayList<>(selectedHouse.getUrl().values());
 
         DetailImageAdapter dia = new DetailImageAdapter(mainActivity, al);
         sliderLayout.setAdapter(dia);
         sliderLayout.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            /**
-             * swipe
-             * @param position position
-             * @param positionOffset   move offset, 0/1
-             * @param positionOffsetPixels   image move offset
-             */
+
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
